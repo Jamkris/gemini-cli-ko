@@ -1,42 +1,39 @@
-# Web search tool (`google_web_search`)
+# 웹 검색 도구 (`google_web_search`)
 
-This document describes the `google_web_search` tool.
+이 문서는 `google_web_search` 도구에 대해 설명합니다.
 
-## Description
+## 설명
 
-Use `google_web_search` to perform a web search using Google Search via the
-Gemini API. The `google_web_search` tool returns a summary of web results with
-sources.
+`google_web_search`를 사용하여 Gemini API를 통해 Google 검색으로 웹 검색을 수행합니다.
+`google_web_search` 도구는 출처와 함께 웹 결과의 요약을 반환합니다.
 
-### Arguments
+### 인수
 
-`google_web_search` takes one argument:
+`google_web_search`는 하나의 인수를 받습니다:
 
-- `query` (string, required): The search query.
+- `query` (string, 필수): 검색어입니다.
 
-## How to use `google_web_search` with the Gemini CLI
+## Gemini CLI에서 `google_web_search`를 사용하는 방법
 
-The `google_web_search` tool sends a query to the Gemini API, which then
-performs a web search. `google_web_search` will return a generated response
-based on the search results, including citations and sources.
+`google_web_search` 도구는 쿼리를 Gemini API로 전송하고, Gemini API는 웹 검색을 수행합니다.
+`google_web_search`는 인용과 출처를 포함하여 검색 결과를 기반으로 생성된 응답을 반환합니다.
 
-Usage:
+사용법:
 
 ```
-google_web_search(query="Your query goes here.")
+google_web_search(query="여기에 쿼리 입력.")
 ```
 
-## `google_web_search` examples
+## `google_web_search` 예제
 
-Get information on a topic:
+주제에 대한 정보 얻기:
 
 ```
-google_web_search(query="latest advancements in AI-powered code generation")
+google_web_search(query="AI 기반 코드 생성의 최신 발전")
 ```
 
-## Important notes
+## 중요 참고 사항
 
-- **Response returned:** The `google_web_search` tool returns a processed
-  summary, not a raw list of search results.
-- **Citations:** The response includes citations to the sources used to generate
-  the summary.
+- **반환된 응답:** `google_web_search` 도구는 원시 검색 결과 목록이 아닌
+  처리된 요약을 반환합니다.
+- **인용:** 응답에는 요약을 생성하는 데 사용된 출처에 대한 인용이 포함됩니다.

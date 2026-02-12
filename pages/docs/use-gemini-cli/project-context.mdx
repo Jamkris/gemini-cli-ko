@@ -1,80 +1,72 @@
-# Provide context with GEMINI.md files
+# GEMINI.md 파일로 컨텍스트 제공하기
 
-Context files, which use the default name `GEMINI.md`, are a powerful feature
-for providing instructional context to the Gemini model. You can use these files
-to give project-specific instructions, define a persona, or provide coding style
-guides to make the AI's responses more accurate and tailored to your needs.
+기본 이름 `GEMINI.md`를 사용하는 컨텍스트 파일은 Gemini 모델에 지침 컨텍스트를
+제공하는 강력한 기능입니다. 이 파일을 사용하여 프로젝트별 지침을 제공하거나,
+페르소나를 정의하거나, 코딩 스타일 가이드를 제공하여 AI의 응답을 더 정확하고
+필요에 맞게 조정할 수 있습니다.
 
-Instead of repeating instructions in every prompt, you can define them once in a
-context file.
+모든 프롬프트에서 지침을 반복하는 대신 컨텍스트 파일에서 한 번 정의할 수 있습니다.
 
-## Understand the context hierarchy
+## 컨텍스트 계층 구조 이해하기
 
-The CLI uses a hierarchical system to source context. It loads various context
-files from several locations, concatenates the contents of all found files, and
-sends them to the model with every prompt. The CLI loads files in the following
-order:
+CLI는 계층적 시스템을 사용하여 컨텍스트를 소싱합니다. 여러 위치에서 다양한 컨텍스트
+파일을 로드하고, 찾은 모든 파일의 내용을 연결하여 모든 프롬프트와 함께 모델로 보냅니다.
+CLI는 다음 순서로 파일을 로드합니다:
 
-1.  **Global context file:**
-    - **Location:** `~/.gemini/GEMINI.md` (in your user home directory).
-    - **Scope:** Provides default instructions for all your projects.
+1.  **전역 컨텍스트 파일:**
+    - **위치:** `~/.gemini/GEMINI.md` (사용자 홈 디렉토리).
+    - **범위:** 모든 프로젝트에 대한 기본 지침을 제공합니다.
 
-2.  **Project root and ancestor context files:**
-    - **Location:** The CLI searches for a `GEMINI.md` file in your current
-      working directory and then in each parent directory up to the project root
-      (identified by a `.git` folder).
-    - **Scope:** Provides context relevant to the entire project.
+2.  **프로젝트 루트 및 상위 컨텍스트 파일:**
+    - **위치:** CLI는 현재 작업 디렉토리에서 `GEMINI.md` 파일을 검색한 다음
+      프로젝트 루트(`.git` 폴더로 식별)까지 각 상위 디렉토리에서 검색합니다.
+    - **범위:** 전체 프로젝트와 관련된 컨텍스트를 제공합니다.
 
-3.  **Sub-directory context files:**
-    - **Location:** The CLI also scans for `GEMINI.md` files in subdirectories
-      below your current working directory. It respects rules in `.gitignore`
-      and `.geminiignore`.
-    - **Scope:** Lets you write highly specific instructions for a particular
-      component or module.
+3.  **하위 디렉토리 컨텍스트 파일:**
+    - **위치:** CLI는 현재 작업 디렉토리 아래의 하위 디렉토리에서도 `GEMINI.md`
+      파일을 검색합니다. `.gitignore` 및 `.geminiignore`의 규칙을 준수합니다.
+    - **범위:** 특정 구성 요소 또는 모듈에 대해 매우 구체적인 지침을 작성할 수 있습니다.
 
-The CLI footer displays the number of loaded context files, which gives you a
-quick visual cue of the active instructional context.
+CLI 바닥글에는 로드된 컨텍스트 파일의 수가 표시되어 활성 지침 컨텍스트를 시각적으로 빠르게 확인할 수 있습니다.
 
-### Example `GEMINI.md` file
+### `GEMINI.md` 파일 예시
 
-Here is an example of what you can include in a `GEMINI.md` file at the root of
-a TypeScript project:
+다음은 TypeScript 프로젝트의 루트에 포함할 수 있는 `GEMINI.md` 파일의 예입니다:
 
 ```markdown
-# Project: My TypeScript Library
+# 프로젝트: 내 TypeScript 라이브러리
 
-## General Instructions
+## 일반 지침
 
-- When you generate new TypeScript code, follow the existing coding style.
-- Ensure all new functions and classes have JSDoc comments.
-- Prefer functional programming paradigms where appropriate.
+- 새 TypeScript 코드를 생성할 때 기존 코딩 스타일을 따르세요.
+- 모든 새 함수와 클래스에 JSDoc 주석이 있는지 확인하세요.
+- 적절한 경우 함수형 프로그래밍 패러다임을 선호하세요.
 
-## Coding Style
+## 코딩 스타일
 
-- Use 2 spaces for indentation.
-- Prefix interface names with `I` (for example, `IUserService`).
-- Always use strict equality (`===` and `!==`).
+- 들여쓰기에 2칸 공백을 사용하세요.
+- 인터페이스 이름 앞에 `I`를 붙이세요 (예: `IUserService`).
+- 항상 엄격한 동등성(`===` 및 `!==`)을 사용하세요.
 ```
 
-## Manage context with the `/memory` command
+## `/memory` 명령으로 컨텍스트 관리하기
 
-You can interact with the loaded context files by using the `/memory` command.
+`/memory` 명령을 사용하여 로드된 컨텍스트 파일과 상호 작용할 수 있습니다.
 
-- **`/memory show`**: Displays the full, concatenated content of the current
-  hierarchical memory. This lets you inspect the exact instructional context
-  being provided to the model.
-- **`/memory refresh`**: Forces a re-scan and reload of all `GEMINI.md` files
-  from all configured locations.
-- **`/memory add <text>`**: Appends your text to your global
-  `~/.gemini/GEMINI.md` file. This lets you add persistent memories on the fly.
+- **`/memory show`**: 현재 계층적 메모리의 전체 연결된 내용을 표시합니다.
+  이것을 사용하여 모델에 제공되는 정확한 지침 컨텍스트를 검사할 수 있습니다.
+- **`/memory refresh`**: 구성된 모든 위치에서 모든 `GEMINI.md` 파일을 다시 검색하고
+  로드하도록 강제합니다.
+- **`/memory add <text>`**: 텍스트를 전역 `~/.gemini/GEMINI.md` 파일에
+  추가합니다. 이를 통해 즉석에서 영구적인 기억을 추가할 수 있습니다.
 
-## Modularize context with imports
+## 가져오기를 통한 컨텍스트 모듈화
 
-You can break down large `GEMINI.md` files into smaller, more manageable
-components by importing content from other files using the `@file.md` syntax.
-This feature supports both relative and absolute paths.
+`@file.md` 구문을 사용하여 다른 파일의 콘텐츠를 가져와 큰 `GEMINI.md` 파일을
+더 작고 관리하기 쉬운 구성 요소로 나눌 수 있습니다. 이 기능은 상대 경로와 절대 경로를
+모두 지원합니다.
 
-**Example `GEMINI.md` with imports:**
+**가져오기가 포함된 `GEMINI.md` 예시:**
 
 ```markdown
 # Main GEMINI.md file
@@ -88,16 +80,14 @@ More content here.
 @../shared/style-guide.md
 ```
 
-For more details, see the [Memory Import Processor](/docs/core/memport)
-documentation.
+자세한 내용은 [메모리 가져오기 프로세서](/docs/core/memport) 설명서를 참조하세요.
 
-## Customize the context file name
+## 컨텍스트 파일 이름 사용자 지정하기
 
-While `GEMINI.md` is the default filename, you can configure this in your
-`settings.json` file. To specify a different name or a list of names, use the
-`context.fileName` property.
+`GEMINI.md`가 기본 파일 이름이지만 `settings.json` 파일에서 이를 구성할 수 있습니다.
+다른 이름이나 이름 목록을 지정하려면 `context.fileName` 속성을 사용하세요.
 
-**Example `settings.json`:**
+**`settings.json` 예시:**
 
 ```json
 {

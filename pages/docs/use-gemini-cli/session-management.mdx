@@ -1,83 +1,77 @@
-# Session Management
+# 세션 관리
 
-Gemini CLI includes robust session management features that automatically save
-your conversation history. This allows you to interrupt your work and resume
-exactly where you left off, review past interactions, and manage your
-conversation history effectively.
+Gemini CLI에는 대화 내역을 자동으로 저장하는 강력한 세션 관리 기능이 포함되어 있습니다.
+이를 통해 작업을 중단하고 정확히 중단한 지점에서 다시 시작하거나, 과거 상호 작용을 검토하거나,
+대화 기록을 효과적으로 관리할 수 있습니다.
 
-## Automatic Saving
+## 자동 저장
 
-Every time you interact with Gemini CLI, your session is automatically saved.
-This happens in the background without any manual intervention.
+Gemini CLI와 상호 작용할 때마다 세션이 자동으로 저장됩니다.
+이것은 수동 개입 없이 백그라운드에서 발생합니다.
 
-- **What is saved:** The complete conversation history, including:
-  - Your prompts and the model's responses.
-  - All tool executions (inputs and outputs).
-  - Token usage statistics (input/output/cached, etc.).
-  - Assistant thoughts/reasoning summaries (when available).
-- **Location:** Sessions are stored in `~/.gemini/tmp/<project_hash>/chats/`.
-- **Scope:** Sessions are project-specific. Switching directories to a different
-  project will switch to that project's session history.
+- **저장되는 내용:** 다음을 포함한 전체 대화 내역:
+  - 프롬프트와 모델의 응답.
+  - 모든 도구 실행(입력 및 출력).
+  - 토큰 사용 통계(입력/출력/캐시 등).
+  - 에이전트 생각/추론 요약(사용 가능한 경우).
+- **위치:** 세션은 `~/.gemini/tmp/<project_hash>/chats/`에 저장됩니다.
+- **범위:** 세션은 프로젝트별로 저장됩니다. 다른 프로젝트로 디렉토리를 전환하면
+  해당 프로젝트의 세션 기록으로 전환됩니다.
 
-## Resuming Sessions
+## 세션 재개
 
-You can resume a previous session to continue the conversation with all prior
-context restored.
+이전 세션을 재개하여 이전 컨텍스트가 복원된 상태로 대화를 계속할 수 있습니다.
 
-### From the Command Line
+### 명령줄에서
 
-When starting the CLI, you can use the `--resume` (or `-r`) flag:
+CLI를 시작할 때 `--resume` (또는 `-r`) 플래그를 사용할 수 있습니다:
 
-- **Resume latest:**
+- **최신 세션 재개:**
 
   ```bash
   gemini --resume
   ```
 
-  This immediately loads the most recent session.
+  가장 최근 세션을 즉시 로드합니다.
 
-- **Resume by index:** First, list available sessions (see
-  [Listing Sessions](#listing-sessions)), then use the index number:
+- **인덱스로 재개:** 먼저 사용 가능한 세션을 나열한 다음 ([세션 나열](#listing-sessions) 참조), 인덱스 번호를 사용하세요:
 
   ```bash
   gemini --resume 1
   ```
 
-- **Resume by ID:** You can also provide the full session UUID:
+- **ID로 재개:** 전체 세션 UUID를 제공할 수도 있습니다:
   ```bash
   gemini --resume a1b2c3d4-e5f6-7890-abcd-ef1234567890
   ```
 
-### From the Interactive Interface
+### 대화형 인터페이스에서
 
-While the CLI is running, you can use the `/resume` slash command to open the
-**Session Browser**:
+CLI가 실행되는 동안 `/resume` 슬래시 명령을 사용하여 **세션 브라우저**를
+열 수 있습니다:
 
 ```text
 /resume
 ```
 
-This opens an interactive interface where you can:
+그러면 다음과 같은 대화형 인터페이스가 열립니다:
 
-- **Browse:** Scroll through a list of your past sessions.
-- **Preview:** See details like the session date, message count, and the first
-  user prompt.
-- **Search:** Press `/` to enter search mode, then type to filter sessions by ID
-  or content.
-- **Select:** Press `Enter` to resume the selected session.
+- **탐색:** 과거 세션 목록을 스크롤합니다.
+- **미리보기:** 세션 날짜, 메시지 수, 첫 번째 사용자 프롬프트와 같은 세부 정보를 봅니다.
+- **검색:** `/`를 눌러 검색 모드로 들어가서 ID나 내용으로 세션을 필터링합니다.
+- **선택:** `Enter`를 눌러 선택한 세션을 재개합니다.
 
-## Managing Sessions
+## 세션 관리
 
-### Listing Sessions
+### 세션 나열
 
-To see a list of all available sessions for the current project from the command
-line:
+명령줄에서 현재 프로젝트에 대해 사용 가능한 모든 세션 목록을 보려면:
 
 ```bash
 gemini --list-sessions
 ```
 
-Output example:
+출력 예시:
 
 ```text
 Available sessions for this project (3):
@@ -87,12 +81,11 @@ Available sessions for this project (3):
   3. Update documentation (Just now) [abcd1234]
 ```
 
-### Deleting Sessions
+### 세션 삭제
 
-You can remove old or unwanted sessions to free up space or declutter your
-history.
+오래되거나 원치 않는 세션을 제거하여 공간을 확보하거나 기록을 정리할 수 있습니다.
 
-**From the Command Line:** Use the `--delete-session` flag with an index or ID:
+**명령줄:** 인덱스 또는 ID와 함께 `--delete-session` 플래그를 사용하세요:
 
 ```bash
 gemini --delete-session 2

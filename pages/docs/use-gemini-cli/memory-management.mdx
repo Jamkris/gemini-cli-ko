@@ -1,54 +1,51 @@
-# Memory tool (`save_memory`)
+# 메모리 도구 (`save_memory`)
 
-This document describes the `save_memory` tool for the Gemini CLI.
+이 문서는 Gemini CLI의 `save_memory` 도구에 대해 설명합니다.
 
-## Description
+## 설명
 
-Use `save_memory` to save and recall information across your Gemini CLI
-sessions. With `save_memory`, you can direct the CLI to remember key details
-across sessions, providing personalized and directed assistance.
+`save_memory`를 사용하여 Gemini CLI 세션 간에 정보를 저장하고 기억합니다.
+`save_memory`를 사용하면 CLI가 세션 간에 주요 세부 정보를 기억하도록 지시하여
+개인화되고 직접적인 지원을 제공할 수 있습니다.
 
-### Arguments
+### 인수
 
-`save_memory` takes one argument:
+`save_memory`는 하나의 인수를 받습니다:
 
-- `fact` (string, required): The specific fact or piece of information to
-  remember. This should be a clear, self-contained statement written in natural
-  language.
+- `fact` (string, 필수): 기억해야 할 특정 사실 또는 정보입니다.
+  이는 자연어로 작성된 명확하고 독립적인 진술이어야 합니다.
 
-## How to use `save_memory` with the Gemini CLI
+## Gemini CLI에서 `save_memory`를 사용하는 방법
 
-The tool appends the provided `fact` to a special `GEMINI.md` file located in
-the user's home directory (`~/.gemini/GEMINI.md`). This file can be configured
-to have a different name.
+이 도구는 제공된 `fact`를 사용자 홈 디렉토리(`~/.gemini/GEMINI.md`)에 위치한
+특수 `GEMINI.md` 파일에 추가합니다. 이 파일은 다른 이름을 갖도록 구성할 수 있습니다.
 
-Once added, the facts are stored under a `## Gemini Added Memories` section.
-This file is loaded as context in subsequent sessions, allowing the CLI to
-recall the saved information.
+추가된 사실은 `## Gemini Added Memories` 섹션 아래에 저장됩니다.
+이 파일은 후속 세션에서 컨텍스트로 로드되어 CLI가 저장된 정보를 기억할 수 있게 합니다.
 
-Usage:
+사용법:
 
 ```
-save_memory(fact="Your fact here.")
+save_memory(fact="여기에 사실 입력.")
 ```
 
-### `save_memory` examples
+### `save_memory` 예제
 
-Remember a user preference:
-
-```
-save_memory(fact="My preferred programming language is Python.")
-```
-
-Store a project-specific detail:
+사용자 선호도 기억하기:
 
 ```
-save_memory(fact="The project I'm currently working on is called 'gemini-cli'.")
+save_memory(fact="내가 선호하는 프로그래밍 언어는 파이썬이다.")
 ```
 
-## Important notes
+프로젝트 관련 세부 정보 저장하기:
 
-- **General usage:** This tool should be used for concise, important facts. It
-  is not intended for storing large amounts of data or conversational history.
-- **Memory file:** The memory file is a plain text Markdown file, so you can
-  view and edit it manually if needed.
+```
+save_memory(fact="현재 작업 중인 프로젝트의 이름은 'gemini-cli'이다.")
+```
+
+## 중요 참고 사항
+
+- **일반적인 사용:** 이 도구는 간결하고 중요한 사실을 위해 사용해야 합니다.
+  대량의 데이터나 대화 기록을 저장하기 위한 것이 아닙니다.
+- **메모리 파일:** 메모리 파일은 일반 텍스트 Markdown 파일이므로
+  필요한 경우 수동으로 보고 편집할 수 있습니다.

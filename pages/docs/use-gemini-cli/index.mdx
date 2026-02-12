@@ -1,67 +1,63 @@
 # Gemini CLI
 
-Within Gemini CLI, `packages/cli` is the frontend for users to send and receive
-prompts with the Gemini AI model and its associated tools. For a general
-overview of Gemini CLI, see the [main documentation page](/docs).
+Gemini CLI 내에서 `packages/cli`는 사용자가 Gemini AI 모델 및 관련 도구와 프롬프트를
+주고받을 수 있는 프런트엔드입니다. Gemini CLI에 대한 일반적인 개요는
+[기본 문서 페이지](/docs)를 참조하세요.
 
-## Basic features
+## 기본 기능
 
-- **[Commands](/docs/cli/commands):** A reference for all built-in slash commands
-- **[Custom commands](/docs/cli/custom-commands):** Create your own commands and
-  shortcuts for frequently used prompts.
-- **[Headless mode](/docs/cli/headless):** Use Gemini CLI programmatically for
-  scripting and automation.
-- **[Model selection](/docs/cli/model):** Configure the Gemini AI model used by the
-  CLI.
-- **[Settings](/docs/cli/settings):** Configure various aspects of the CLI's behavior
-  and appearance.
-- **[Themes](/docs/cli/themes):** Customizing the CLI's appearance with different
-  themes.
-- **[Keyboard shortcuts](/docs/cli/keyboard-shortcuts):** A reference for all
-  keyboard shortcuts to improve your workflow.
-- **[Tutorials](/docs/cli/tutorials):** Step-by-step guides for common tasks.
+- **[명령](/docs/reference/command-reference):** 모든 내장 슬래시 명령에 대한 참조입니다.
+- **[사용자 정의 명령](/docs/advanced-features/custom-commands):** 자주 사용하는 프롬프트에 대한
+  나만의 명령과 단축키를 만듭니다.
+- **[헤드리스 모드](/docs/advanced-features/headless-mode-and-scripting):** 스크립팅 및 자동화를 위해
+  Gemini CLI를 프로그래밍 방식으로 사용합니다.
+- **[모델 선택](/docs/configuration/model-selection):** CLI에서 사용하는 Gemini AI 모델을
+  구성합니다.
+- **[설정](/docs/configuration/setting):** CLI의 동작 및 모양의 다양한 측면을 구성합니다.
+- **[테마](/docs/configuration/themes):** 다양한 테마로 CLI의 모양을 사용자 지정합니다.
+- **[키보드 단축키](/docs/reference/keyboard-shortcuts):** 워크플로를 개선하기 위한 모든
+  키보드 단축키에 대한 참조입니다.
+- **[자습서](/docs/tutorials):** 일반적인 작업에 대한 단계별 가이드입니다.
 
-## Advanced features
+## 고급 기능
 
-- **[Plan mode (experimental)](/docs/cli/plan-mode):** Use a safe, read-only mode for
-  planning complex changes.
-- **[Checkpointing](/docs/cli/checkpointing):** Automatically save and restore
-  snapshots of your session and files.
-- **[Enterprise configuration](/docs/cli/enterprise):** Deploy and manage Gemini CLI
-  in an enterprise environment.
-- **[Sandboxing](/docs/cli/sandbox):** Isolate tool execution in a secure,
-  containerized environment.
-- **[Agent Skills](/docs/cli/skills):** Extend the CLI with specialized expertise and
-  procedural workflows.
-- **[Telemetry](/docs/cli/telemetry):** Configure observability to monitor usage and
-  performance.
-- **[Token caching](/docs/cli/token-caching):** Optimize API costs by caching tokens.
-- **[Trusted folders](/docs/cli/trusted-folders):** A security feature to control
-  which projects can use the full capabilities of the CLI.
-- **[Ignoring files (.geminiignore)](/docs/cli/gemini-ignore):** Exclude specific
-  files and directories from being accessed by tools.
-- **[Context files (GEMINI.md)](/docs/cli/gemini-md):** Provide persistent,
-  hierarchical context to the model.
-- **[System prompt override](/docs/cli/system-prompt):** Replace the built‑in system
-  instructions using `GEMINI_SYSTEM_MD`.
+- **[계획 모드 (실험적 기능)](/docs/use-gemini-cli/plan-mode):** 복잡한 변경 계획을 위한 안전한
+  읽기 전용 모드를 사용합니다.
+- **[체크포인팅](/docs/advanced-features):** 세션과 파일의 스냅샷을 자동으로 저장하고 복원합니다.
+- **[엔터프라이즈 구성](/docs/advanced-features/enterprise-features):** 엔터프라이즈 환경에서
+  Gemini CLI를 배포하고 관리합니다.
+- **[샌드박싱](/docs/advanced-features/sandboxing):** 안전한 컨테이너화된 환경에서 도구 실행을
+  격리합니다.
+- **[에이전트 기술](/docs/ecosystem-and-extensibility/creating-agent-skills):** 전문 지식과
+  절차적 워크플로로 CLI를 확장합니다.
+- **[텔레메트리](/docs/advanced-features/telemetry):** 사용량 및 성능을 모니터링하기 위해
+  관측성을 구성합니다.
+- **[토큰 캐싱](/docs/configuration/token-caching):** 토큰을 캐싱하여 API 비용을 최적화합니다.
+- **[신뢰할 수 있는 폴더](/docs/configuration/trusted-folders):** 어떤 프로젝트가 CLI의 전체 기능을
+  사용할 수 있는지 제어하는 보안 기능입니다.
+- **[파일 무시 (.geminiignore)](/docs/configuration):** 특정 파일 및 디렉토리가 도구에 의해
+  액세스되지 않도록 제외합니다.
+- **[컨텍스트 파일 (GEMINI.md)](/docs/use-gemini-cli/project-context):** 모델에 영구적이고
+  계층적인 컨텍스트를 제공합니다.
+- **[시스템 프롬프트 재정의](/docs/advanced-features/system-prompt-override):** `GEMINI_SYSTEM_MD`를
+  사용하여 내장 시스템 지침을 대체합니다.
 
-## Non-interactive mode
+## 비대화형 모드
 
-Gemini CLI can be run in a non-interactive mode, which is useful for scripting
-and automation. In this mode, you pipe input to the CLI, it executes the
-command, and then it exits.
+Gemini CLI는 스크립팅 및 자동화에 유용한 비대화형 모드로 실행할 수 있습니다.
+이 모드에서는 입력을 CLI로 파이프하면 명령을 실행한 다음 종료됩니다.
 
-The following example pipes a command to Gemini CLI from your terminal:
+다음 예제는 터미널에서 Gemini CLI로 명령을 파이프합니다:
 
 ```bash
-echo "What is fine tuning?" | gemini
+echo "파인 튜닝이란 무엇인가요?" | gemini
 ```
 
-You can also use the `--prompt` or `-p` flag:
+`--prompt` 또는 `-p` 플래그를 사용할 수도 있습니다:
 
 ```bash
-gemini -p "What is fine tuning?"
+gemini -p "파인 튜닝이란 무엇인가요?"
 ```
 
-For comprehensive documentation on headless usage, scripting, automation, and
-advanced examples, see the **[Headless mode](/docs/cli/headless)** guide.
+헤드리스 사용, 스크립팅, 자동화 및 고급 예제에 대한 포괄적인 문서는
+**[헤드리스 모드](/docs/advanced-features/headless-mode-and-scripting)** 가이드를 참조하세요.

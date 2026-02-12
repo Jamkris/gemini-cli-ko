@@ -1,85 +1,81 @@
-# Shell tool (`run_shell_command`)
+# 셸 도구 (`run_shell_command`)
 
-This document describes the `run_shell_command` tool for the Gemini CLI.
+이 문서는 Gemini CLI의 `run_shell_command` 도구에 대해 설명합니다.
 
-## Description
+## 설명
 
-Use `run_shell_command` to interact with the underlying system, run scripts, or
-perform command-line operations. `run_shell_command` executes a given shell
-command, including interactive commands that require user input (e.g., `vim`,
-`git rebase -i`) if the `tools.shell.enableInteractiveShell` setting is set to
-`true`.
+`run_shell_command`를 사용하여 기본 시스템과 상호 작용하고, 스크립트를 실행하거나,
+명령줄 작업을 수행합니다. `run_shell_command`는 `tools.shell.enableInteractiveShell`
+설정이 `true`로 설정된 경우 사용자 입력이 필요한 대화형 명령(예: `vim`, `git rebase -i`)을
+포함하여 주어진 셸 명령을 실행합니다.
 
-On Windows, commands are executed with `powershell.exe -NoProfile -Command`
-(unless you explicitly point `ComSpec` at another shell). On other platforms,
-they are executed with `bash -c`.
+Windows에서는 `ComSpec`이 다른 셸을 가리키도록 명시적으로 지정하지 않는 한
+`powershell.exe -NoProfile -Command`로 명령이 실행됩니다.
+다른 플랫폼에서는 `bash -c`로 실행됩니다.
 
-### Arguments
+### 인수
 
-`run_shell_command` takes the following arguments:
+`run_shell_command`는 다음 인수를 받습니다:
 
-- `command` (string, required): The exact shell command to execute.
-- `description` (string, optional): A brief description of the command's
-  purpose, which will be shown to the user.
-- `directory` (string, optional): The directory (relative to the project root)
-  in which to execute the command. If not provided, the command runs in the
-  project root.
+- `command` (string, 필수): 실행할 정확한 셸 명령입니다.
+- `description` (string, 선택): 사용자에게 표시될 명령의 목적에 대한 간략한 설명입니다.
+- `directory` (string, 선택): 명령을 실행할 디렉토리(프로젝트 루트 기준)입니다.
+  제공되지 않으면 명령은 프로젝트 루트에서 실행됩니다.
 
-## How to use `run_shell_command` with the Gemini CLI
+## Gemini CLI에서 `run_shell_command`를 사용하는 방법
 
-When using `run_shell_command`, the command is executed as a subprocess.
-`run_shell_command` can start background processes using `&`. The tool returns
-detailed information about the execution, including:
+`run_shell_command`를 사용할 때 명령은 하위 프로세스로 실행됩니다.
+`run_shell_command`는 `&`를 사용하여 백그라운드 프로세스를 시작할 수 있습니다.
+이 도구는 다음을 포함하여 실행에 대한 자세한 정보를 반환합니다:
 
-- `Command`: The command that was executed.
-- `Directory`: The directory where the command was run.
-- `Stdout`: Output from the standard output stream.
-- `Stderr`: Output from the standard error stream.
-- `Error`: Any error message reported by the subprocess.
-- `Exit Code`: The exit code of the command.
-- `Signal`: The signal number if the command was terminated by a signal.
-- `Background PIDs`: A list of PIDs for any background processes started.
+- `Command`: 실행된 명령입니다.
+- `Directory`: 명령이 실행된 디렉토리입니다.
+- `Stdout`: 표준 출력 스트림의 출력입니다.
+- `Stderr`: 표준 오류 스트림의 출력입니다.
+- `Error`: 하위 프로세스에서 보고된 모든 오류 메시지입니다.
+- `Exit Code`: 명령의 종료 코드입니다.
+- `Signal`: 명령이 신호에 의해 종료된 경우 신호 번호입니다.
+- `Background PIDs`: 시작된 백그라운드 프로세스의 PID 목록입니다.
 
-Usage:
+사용법:
 
 ```
-run_shell_command(command="Your commands.", description="Your description of the command.", directory="Your execution directory.")
+run_shell_command(command="여기에 명령 입력.", description="명령에 대한 설명.", directory="실행 디렉토리.")
 ```
 
-## `run_shell_command` examples
+## `run_shell_command` 예제
 
-List files in the current directory:
+현재 디렉토리의 파일 나열:
 
 ```
 run_shell_command(command="ls -la")
 ```
 
-Run a script in a specific directory:
+특정 디렉토리에서 스크립트 실행:
 
 ```
-run_shell_command(command="./my_script.sh", directory="scripts", description="Run my custom script")
+run_shell_command(command="./my_script.sh", directory="scripts", description="내 사용자 정의 스크립트 실행")
 ```
 
-Start a background server:
+백그라운드 서버 시작:
 
 ```
-run_shell_command(command="npm run dev &", description="Start development server in background")
+run_shell_command(command="npm run dev &", description="백그라운드에서 개발 서버 시작")
 ```
 
-## Configuration
+## 구성
 
-You can configure the behavior of the `run_shell_command` tool by modifying your
-`settings.json` file or by using the `/settings` command in the Gemini CLI.
+`settings.json` 파일을 수정하거나 Gemini CLI의 `/settings` 명령을 사용하여
+`run_shell_command` 도구의 동작을 구성할 수 있습니다.
 
-### Enabling interactive commands
+### 대화형 명령 활성화
 
-To enable interactive commands, you need to set the
-`tools.shell.enableInteractiveShell` setting to `true`. This will use `node-pty`
-for shell command execution, which allows for interactive sessions. If
-`node-pty` is not available, it will fall back to the `child_process`
-implementation, which does not support interactive commands.
+대화형 명령을 활성화하려면 `tools.shell.enableInteractiveShell` 설정을 `true`로
+설정해야 합니다. 이렇게 되면 셸 명령 실행에 `node-pty`를 사용하여 대화형 세션을 허용합니다.
+`node-pty`를 사용할 수 없는 경우 대화형 명령을 지원하지 않는 `child_process`
+구현으로 대체됩니다.
 
-**Example `settings.json`:**
+**`settings.json` 예시:**
 
 ```json
 {
@@ -91,13 +87,12 @@ implementation, which does not support interactive commands.
 }
 ```
 
-### Showing color in output
+### 출력에 색상 표시
 
-To show color in the shell output, you need to set the `tools.shell.showColor`
-setting to `true`. **Note: This setting only applies when
-`tools.shell.enableInteractiveShell` is enabled.**
+셸 출력에 색상을 표시하려면 `tools.shell.showColor` 설정을 `true`로 설정해야 합니다.
+**참고: 이 설정은 `tools.shell.enableInteractiveShell`이 활성화된 경우에만 적용됩니다.**
 
-**Example `settings.json`:**
+**`settings.json` 예시:**
 
 ```json
 {
@@ -109,13 +104,13 @@ setting to `true`. **Note: This setting only applies when
 }
 ```
 
-### Setting the pager
+### 호출기 설정
 
-You can set a custom pager for the shell output by setting the
-`tools.shell.pager` setting. The default pager is `cat`. **Note: This setting
-only applies when `tools.shell.enableInteractiveShell` is enabled.**
+`tools.shell.pager`를 설정하여 셸 출력에 대한 사용자 정의 호출기를 지정할 수 있습니다.
+기본 호출기는 `cat`입니다. **참고: 이 설정은 `tools.shell.enableInteractiveShell`이
+활성화된 경우에만 적용됩니다.**
 
-**Example `settings.json`:**
+**`settings.json` 예시:**
 
 ```json
 {
@@ -127,67 +122,60 @@ only applies when `tools.shell.enableInteractiveShell` is enabled.**
 }
 ```
 
-## Interactive commands
+## 대화형 명령
 
-The `run_shell_command` tool now supports interactive commands by integrating a
-pseudo-terminal (pty). This allows you to run commands that require real-time
-user input, such as text editors (`vim`, `nano`), terminal-based UIs (`htop`),
-and interactive version control operations (`git rebase -i`).
+`run_shell_command` 도구는 이제 사이비 터미널(pty)을 통합하여 대화형 명령을 지원합니다.
+이를 통해 텍스트 편집기(`vim`, `nano`), 터미널 기반 UI(`htop`), 대화형 버전 제어 작업
+(`git rebase -i`)과 같이 실시간 사용자 입력이 필요한 명령을 실행할 수 있습니다.
 
-When an interactive command is running, you can send input to it from the Gemini
-CLI. To focus on the interactive shell, press `Tab`. The terminal output,
-including complex TUIs, will be rendered correctly.
+대화형 명령이 실행 중일 때 Gemini CLI에서 입력을 보낼 수 있습니다. 대화형 셸에 포커스를
+맞추려면 `Tab`을 누르세요. 복잡한 TUI를 포함한 터미널 출력이 올바르게 렌더링됩니다.
 
-## Important notes
+## 중요 참고 사항
 
-- **Security:** Be cautious when executing commands, especially those
-  constructed from user input, to prevent security vulnerabilities.
-- **Error handling:** Check the `Stderr`, `Error`, and `Exit Code` fields to
-  determine if a command executed successfully.
-- **Background processes:** When a command is run in the background with `&`,
-  the tool will return immediately and the process will continue to run in the
-  background. The `Background PIDs` field will contain the process ID of the
-  background process.
+- **보안:** 명령을 실행할 때, 특히 사용자 입력으로 구성된 명령을 실행할 때
+  보안 취약점을 방지하기 위해 주의하세요.
+- **오류 처리:** `Stderr`, `Error` 및 `Exit Code` 필드를 확인하여 명령이
+  성공적으로 실행되었는지 확인하세요.
+- **백그라운드 프로세스:** `&`를 사용하여 백그라운드에서 명령을 실행하면
+  도구가 즉시 반환되고 프로세스는 백그라운드에서 계속 실행됩니다.
+  `Background PIDs` 필드에는 백그라운드 프로세스의 프로세스 ID가 포함됩니다.
 
-## Environment variables
+## 환경 변수
 
-When `run_shell_command` executes a command, it sets the `GEMINI_CLI=1`
-environment variable in the subprocess's environment. This allows scripts or
-tools to detect if they are being run from within the Gemini CLI.
+`run_shell_command`가 명령을 실행할 때 하위 프로세스의 환경에 `GEMINI_CLI=1`
+환경 변수를 설정합니다. 이를 통해 스크립트나 도구가 Gemini CLI 내에서 실행되고
+있음을 감지할 수 있습니다.
 
-## Command restrictions
+## 명령 제한
 
-You can restrict the commands that can be executed by the `run_shell_command`
-tool by using the `tools.core` and `tools.exclude` settings in your
-configuration file.
+구성 파일의 `tools.core` 및 `tools.exclude` 설정을 사용하여
+`run_shell_command` 도구로 실행할 수 있는 명령을 제한할 수 있습니다.
 
-- `tools.core`: To restrict `run_shell_command` to a specific set of commands,
-  add entries to the `core` list under the `tools` category in the format
-  `run_shell_command(<command>)`. For example,
-  `"tools": {"core": ["run_shell_command(git)"]}` will only allow `git`
-  commands. Including the generic `run_shell_command` acts as a wildcard,
-  allowing any command not explicitly blocked.
-- `tools.exclude`: To block specific commands, add entries to the `exclude` list
-  under the `tools` category in the format `run_shell_command(<command>)`. For
-  example, `"tools": {"exclude": ["run_shell_command(rm)"]}` will block `rm`
-  commands.
+- `tools.core`: `run_shell_command`를 특정 명령 집합으로 제한하려면
+  `tools` 카테고리 아래의 `core` 목록에 `run_shell_command(<command>)` 형식을 사용하여
+  항목을 추가하세요. 예를 들어, `"tools": {"core": ["run_shell_command(git)"]}`는
+  `git` 명령만 허용합니다. 일반적인 `run_shell_command`를 포함하면 와일드카드로 작동하여
+  명시적으로 차단되지 않은 모든 명령을 허용합니다.
+- `tools.exclude`: 특정 명령을 차단하려면 `tools` 카테고리 아래의 `exclude` 목록에
+  `run_shell_command(<command>)` 형식을 사용하여 항목을 추가하세요. 예를 들어,
+  `"tools": {"exclude": ["run_shell_command(rm)"]}`는 `rm` 명령을 차단합니다.
 
-The validation logic is designed to be secure and flexible:
+유효성 검사 로직은 안전하고 유연하게 설계되었습니다:
 
-1.  **Command chaining disabled**: The tool automatically splits commands
-    chained with `&&`, `||`, or `;` and validates each part separately. If any
-    part of the chain is disallowed, the entire command is blocked.
-2.  **Prefix matching**: The tool uses prefix matching. For example, if you
-    allow `git`, you can run `git status` or `git log`.
-3.  **Blocklist precedence**: The `tools.exclude` list is always checked first.
-    If a command matches a blocked prefix, it will be denied, even if it also
-    matches an allowed prefix in `tools.core`.
+1.  **명령 체이닝 비활성화**: 도구는 `&&`, `||` 또는 `;`로 연결된 명령을 자동으로 분할하고
+    각 부분을 개별적으로 검증합니다. 체인의 일부가 허용되지 않으면 전체 명령이 차단됩니다.
+2.  **접두사 일치**: 도구는 접두사 일치를 사용합니다. 예를 들어 `git`을 허용하면
+    `git status` 또는 `git log`를 실행할 수 있습니다.
+3.  **차단 목록 우선순위**: `tools.exclude` 목록이 항상 먼저 확인됩니다.
+    명령이 차단된 접두사와 일치하면 `tools.core`에서 허용된 접두사와 일치하더라도
+    거부됩니다.
 
-### Command restriction examples
+### 명령 제한 예제
 
-**Allow only specific command prefixes**
+**특정 명령 접두사만 허용**
 
-To allow only `git` and `npm` commands, and block all others:
+`git` 및 `npm` 명령만 허용하고 다른 모든 명령을 차단하려면:
 
 ```json
 {
@@ -197,13 +185,13 @@ To allow only `git` and `npm` commands, and block all others:
 }
 ```
 
-- `git status`: Allowed
-- `npm install`: Allowed
-- `ls -l`: Blocked
+- `git status`: 허용됨
+- `npm install`: 허용됨
+- `ls -l`: 차단됨
 
-**Block specific command prefixes**
+**특정 명령 접두사 차단**
 
-To block `rm` and allow all other commands:
+`rm`을 차단하고 다른 모든 명령을 허용하려면:
 
 ```json
 {
@@ -214,14 +202,13 @@ To block `rm` and allow all other commands:
 }
 ```
 
-- `rm -rf /`: Blocked
-- `git status`: Allowed
-- `npm install`: Allowed
+- `rm -rf /`: 차단됨
+- `git status`: 허용됨
+- `npm install`: 허용됨
 
-**Blocklist takes precedence**
+**차단 목록 우선순위**
 
-If a command prefix is in both `tools.core` and `tools.exclude`, it will be
-blocked.
+명령 접두사가 `tools.core` 및 `tools.exclude` 모두에 있으면 차단됩니다.
 
 ```json
 {
@@ -232,13 +219,12 @@ blocked.
 }
 ```
 
-- `git push origin main`: Blocked
-- `git status`: Allowed
+- `git push origin main`: 차단됨
+- `git status`: 허용됨
 
-**Block all shell commands**
+**모든 셸 명령 차단**
 
-To block all shell commands, add the `run_shell_command` wildcard to
-`tools.exclude`:
+모든 셸 명령을 차단하려면 `tools.exclude`에 `run_shell_command` 와일드카드를 추가하세요:
 
 ```json
 {
@@ -248,13 +234,12 @@ To block all shell commands, add the `run_shell_command` wildcard to
 }
 ```
 
-- `ls -l`: Blocked
-- `any other command`: Blocked
+- `ls -l`: 차단됨
+- `any other command`: 차단됨
 
-## Security note for `excludeTools`
+## `excludeTools`에 대한 보안 참고 사항
 
-Command-specific restrictions in `excludeTools` for `run_shell_command` are
-based on simple string matching and can be easily bypassed. This feature is
-**not a security mechanism** and should not be relied upon to safely execute
-untrusted code. It is recommended to use `coreTools` to explicitly select
-commands that can be executed.
+`run_shell_command`에 대한 `excludeTools`의 명령별 제한은 간단한 문자열 일치를 기반으로
+하며 쉽게 우회될 수 있습니다. 이 기능은 **보안 메커니즘이 아니며** 신뢰할 수 없는 코드를
+안전하게 실행하기 위해 의존해서는 안 됩니다. `coreTools`를 사용하여 실행할 수 있는 명령을
+명시적으로 선택하는 것이 좋습니다.
