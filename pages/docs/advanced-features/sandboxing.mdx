@@ -1,66 +1,62 @@
-# Sandboxing in the Gemini CLI
+# Gemini CLI의 샌드박싱
 
-This document provides a guide to sandboxing in the Gemini CLI, including
-prerequisites, quickstart, and configuration.
+이 문서에서는 전제 조건, 빠른 시작 및 구성을 포함한 Gemini CLI의 샌드박싱 가이드를 제공합니다.
 
-## Prerequisites
+## 전제 조건
 
-Before using sandboxing, you need to install and set up the Gemini CLI:
+샌드박싱을 사용하기 전에 Gemini CLI를 설치하고 설정해야 합니다:
 
 ```bash
 npm install -g @google/gemini-cli
 ```
 
-To verify the installation:
+설치를 확인하려면:
 
 ```bash
 gemini --version
 ```
 
-## Overview of sandboxing
+## 샌드박싱 개요
 
-Sandboxing isolates potentially dangerous operations (such as shell commands or
-file modifications) from your host system, providing a security barrier between
-AI operations and your environment.
+샌드박싱은 위험할 수 있는 작업(예: 셸 명령 또는 파일 수정)을 호스트 시스템에서 격리하여
+AI 작업과 환경 사이에 보안 장벽을 제공합니다.
 
-The benefits of sandboxing include:
+샌드박싱의 이점은 다음과 같습니다:
 
-- **Security**: Prevent accidental system damage or data loss.
-- **Isolation**: Limit file system access to project directory.
-- **Consistency**: Ensure reproducible environments across different systems.
-- **Safety**: Reduce risk when working with untrusted code or experimental
-  commands.
+- **보안**: 우발적인 시스템 손상이나 데이터 손실을 방지합니다.
+- **격리**: 파일 시스템 액세스를 프로젝트 디렉터리로 제한합니다.
+- **일관성**: 서로 다른 시스템에서 재현 가능한 환경을 보장합니다.
+- **안전성**: 신뢰할 수 없는 코드나 실험적인 명령으로 작업할 때 위험을 줄입니다.
 
-## Sandboxing methods
+## 샌드박싱 방법
 
-Your ideal method of sandboxing may differ depending on your platform and your
-preferred container solution.
+이상적인 샌드박싱 방법은 플랫폼과 선호하는 컨테이너 솔루션에 따라 다를 수 있습니다.
 
-### 1. macOS Seatbelt (macOS only)
+### 1. macOS Seatbelt (macOS 전용)
 
-Lightweight, built-in sandboxing using `sandbox-exec`.
+`sandbox-exec`를 사용하는 가볍고 내장된 샌드박싱입니다.
 
-**Default profile**: `permissive-open` - restricts writes outside project
-directory but allows most other operations.
+**기본 프로필**: `permissive-open` - 프로젝트 디렉터리 외부 쓰기를 제한하지만
+대부분의 다른 작업은 허용합니다.
 
-### 2. Container-based (Docker/Podman)
+### 2. 컨테이너 기반 (Docker/Podman)
 
-Cross-platform sandboxing with complete process isolation.
+완전한 프로세스 격리를 제공하는 크로스 플랫폼 샌드박싱입니다.
 
-**Note**: Requires building the sandbox image locally or using a published image
-from your organization's registry.
+**참고**: 샌드박스 이미지를 로컬에서 빌드하거나 조직의 레지스트리에 게시된 이미지를
+사용해야 합니다.
 
-## Quickstart
+## 빠른 시작
 
 ```bash
-# Enable sandboxing with command flag
+# 명령 플래그로 샌드박싱 활성화
 gemini -s -p "analyze the code structure"
 
-# Use environment variable
+# 환경 변수 사용
 export GEMINI_SANDBOX=true
 gemini -p "run the test suite"
 
-# Configure in settings.json
+# settings.json에서 구성
 {
   "tools": {
     "sandbox": "docker"
@@ -68,104 +64,102 @@ gemini -p "run the test suite"
 }
 ```
 
-## Configuration
+## 구성
 
-### Enable sandboxing (in order of precedence)
+### 샌드박싱 활성화 (우선순위 순)
 
-1. **Command flag**: `-s` or `--sandbox`
-2. **Environment variable**: `GEMINI_SANDBOX=true|docker|podman|sandbox-exec`
-3. **Settings file**: `"sandbox": true` in the `tools` object of your
-   `settings.json` file (e.g., `{"tools": {"sandbox": true}}`).
+1. **명령 플래그**: `-s` 또는 `--sandbox`
+2. **환경 변수**: `GEMINI_SANDBOX=true|docker|podman|sandbox-exec`
+3. **설정 파일**: `settings.json` 파일의 `tools` 객체에 `"sandbox": true` 설정
+   (예: `{"tools": {"sandbox": true}}`).
 
-### macOS Seatbelt profiles
+### macOS Seatbelt 프로필
 
-Built-in profiles (set via `SEATBELT_PROFILE` env var):
+내장 프로필 (`SEATBELT_PROFILE` 환경 변수로 설정):
 
-- `permissive-open` (default): Write restrictions, network allowed
-- `permissive-closed`: Write restrictions, no network
-- `permissive-proxied`: Write restrictions, network via proxy
-- `restrictive-open`: Strict restrictions, network allowed
-- `restrictive-closed`: Maximum restrictions
+- `permissive-open` (기본값): 쓰기 제한, 네트워크 허용
+- `permissive-closed`: 쓰기 제한, 네트워크 없음
+- `permissive-proxied`: 쓰기 제한, 프록시를 통한 네트워크
+- `restrictive-open`: 엄격한 제한, 네트워크 허용
+- `restrictive-closed`: 최대 제한
 
-### Custom sandbox flags
+### 사용자 지정 샌드박스 플래그
 
-For container-based sandboxing, you can inject custom flags into the `docker` or
-`podman` command using the `SANDBOX_FLAGS` environment variable. This is useful
-for advanced configurations, such as disabling security features for specific
-use cases.
+컨테이너 기반 샌드박싱의 경우 `SANDBOX_FLAGS` 환경 변수를 사용하여 사용자 지정 플래그를
+`docker` 또는 `podman` 명령에 주입할 수 있습니다. 이는 특정 사용 사례에 대해 보안 기능을
+비활성화하는 등 고급 구성을 위해 유용합니다.
 
-**Example (Podman)**:
+**예시 (Podman)**:
 
-To disable SELinux labeling for volume mounts, you can set the following:
+볼륨 마운트에 대한 SELinux 레이블링을 비활성화하려면 다음과 같이 설정할 수 있습니다:
 
 ```bash
 export SANDBOX_FLAGS="--security-opt label=disable"
 ```
 
-Multiple flags can be provided as a space-separated string:
+여러 플래그는 공백으로 구분된 문자열로 제공할 수 있습니다:
 
 ```bash
 export SANDBOX_FLAGS="--flag1 --flag2=value"
 ```
 
-## Linux UID/GID handling
+## Linux UID/GID 처리
 
-The sandbox automatically handles user permissions on Linux. Override these
-permissions with:
+샌드박스는 Linux에서 사용자 권한을 자동으로 처리합니다. 다음을 사용하여 이 권한을
+재정의하세요:
 
 ```bash
-export SANDBOX_SET_UID_GID=true   # Force host UID/GID
-export SANDBOX_SET_UID_GID=false  # Disable UID/GID mapping
+export SANDBOX_SET_UID_GID=true   # 호스트 UID/GID 강제 설정
+export SANDBOX_SET_UID_GID=false  # UID/GID 매핑 비활성화
 ```
 
-## Troubleshooting
+## 문제 해결
 
-### Common issues
+### 일반적인 문제
 
-**"Operation not permitted"**
+**"Operation not permitted" (작업이 허용되지 않음)**
 
-- Operation requires access outside sandbox.
-- Try more permissive profile or add mount points.
+- 작업이 샌드박스 외부 액세스를 필요로 합니다.
+- 더 관대한 프로필을 시도하거나 마운트 지점을 추가하세요.
 
-**Missing commands**
+**명령 누락**
 
-- Add to custom Dockerfile.
-- Install via `sandbox.bashrc`.
+- 사용자 지정 Dockerfile에 추가하세요.
+- `sandbox.bashrc`를 통해 설치하세요.
 
-**Network issues**
+**네트워크 문제**
 
-- Check sandbox profile allows network.
-- Verify proxy configuration.
+- 샌드박스 프로필이 네트워크를 허용하는지 확인하세요.
+- 프록시 구성을 확인하세요.
 
-### Debug mode
+### 디버그 모드
 
 ```bash
 DEBUG=1 gemini -s -p "debug command"
 ```
 
-**Note:** If you have `DEBUG=true` in a project's `.env` file, it won't affect
-gemini-cli due to automatic exclusion. Use `.gemini/.env` files for gemini-cli
-specific debug settings.
+**참고:** 프로젝트의 `.env` 파일에 `DEBUG=true`가 있어도 자동 제외로 인해 gemini-cli에는
+영향을 미치지 않습니다. gemini-cli 관련 디버그 설정에는 `.gemini/.env` 파일을 사용하세요.
 
-### Inspect sandbox
+### 샌드박스 검사
 
 ```bash
-# Check environment
+# 환경 확인
 gemini -s -p "run shell command: env | grep SANDBOX"
 
-# List mounts
+# 마운트 목록
 gemini -s -p "run shell command: mount | grep workspace"
 ```
 
-## Security notes
+## 보안 참고 사항
 
-- Sandboxing reduces but doesn't eliminate all risks.
-- Use the most restrictive profile that allows your work.
-- Container overhead is minimal after first build.
-- GUI applications may not work in sandboxes.
+- 샌드박싱은 위험을 줄여주지만 모든 위험을 제거하지는 않습니다.
+- 작업을 허용하는 가장 제한적인 프로필을 사용하세요.
+- 컨테이너 오버헤드는 첫 번째 빌드 후에는 최소화됩니다.
+- GUI 애플리케이션은 샌드박스에서 작동하지 않을 수 있습니다.
 
-## Related documentation
+## 관련 문서
 
-- [Configuration](/docs/get-started/configuration): Full configuration options.
-- [Commands](/docs/cli/commands): Available commands.
-- [Troubleshooting](/docs/troubleshooting): General troubleshooting.
+- [구성](/docs/get-started/configuration): 전체 구성 옵션.
+- [명령](/docs/reference/command-reference): 사용 가능한 명령.
+- [문제 해결](/docs/resources/troubleshooting): 일반적인 문제 해결.

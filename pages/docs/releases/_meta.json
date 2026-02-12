@@ -1,11 +1,11 @@
 {
 	"index": {
-		"title": "Release notes"
+		"title": "릴리스 노트"
 	},
 	"stable-release": {
-		"title": "Stable release"
+		"title": "안정 릴리스"
 	},
 	"preview-release": {
-		"title": "Preview release"
+		"title": "미리보기 릴리스"
 	}
 }

@@ -1,110 +1,96 @@
-# Local development guide
+# 로컬 개발 가이드 (Local development guide)
 
-This guide provides instructions for setting up and using local development
-features, such as development tracing.
+이 가이드는 개발 트레이싱과 같은 로컬 개발 기능을 설정하고 사용하는 방법에 대한 지침을 제공합니다.
 
-## Development tracing
+## 개발 트레이싱 (Development tracing)
 
-Development traces (dev traces) are OpenTelemetry (OTel) traces that help you
-debug your code by instrumenting interesting events like model calls, tool
-scheduler, tool calls, etc.
+개발 트레이스(dev traces)는 모델 호출, 도구 스케줄러, 도구 호출 등과 같은 흥미로운 이벤트를 계측하여 코드를 디버깅하는 데 도움이 되는 OpenTelemetry(OTel) 트레이스입니다.
 
-Dev traces are verbose and are specifically meant for understanding agent
-behavior and debugging issues. They are disabled by default.
+개발 트레이스는 상세하며 에이전트 동작을 이해하고 문제를 디버깅하기 위한 것입니다. 기본적으로 비활성화되어 있습니다.
 
-To enable dev traces, set the `GEMINI_DEV_TRACING=true` environment variable
-when running Gemini CLI.
+개발 트레이스를 활성화하려면 Gemini CLI를 실행할 때 `GEMINI_DEV_TRACING=true` 환경 변수를 설정하세요.
 
-### Viewing dev traces
+### 개발 트레이스 보기 (Viewing dev traces)
 
-You can view dev traces using either Jaeger or the Genkit Developer UI.
+Jaeger 또는 Genkit Developer UI를 사용하여 개발 트레이스를 볼 수 있습니다.
 
-#### Using Genkit
+#### Genkit 사용 (Using Genkit)
 
-Genkit provides a web-based UI for viewing traces and other telemetry data.
+Genkit은 트레이스 및 기타 원격 측정 데이터를 보기 위한 웹 기반 UI를 제공합니다.
 
-1.  **Start the Genkit telemetry server:**
+1.  **Genkit 텔레메트리 서버 시작:**
 
-    Run the following command to start the Genkit server:
+    Genkit 서버를 시작하려면 다음 명령을 실행하세요:
 
     ```bash
     npm run telemetry -- --target=genkit
     ```
 
-    The script will output the URL for the Genkit Developer UI, for example:
+    스크립트는 Genkit Developer UI의 URL을 출력합니다. 예:
 
     ```
     Genkit Developer UI: http://localhost:4000
     ```
 
-2.  **Run Gemini CLI with dev tracing:**
+2.  **개발 트레이싱으로 Gemini CLI 실행:**
 
-    In a separate terminal, run your Gemini CLI command with the
-    `GEMINI_DEV_TRACING` environment variable:
+    별도의 터미널에서 `GEMINI_DEV_TRACING` 환경 변수와 함께 Gemini CLI 명령을 실행하세요:
 
     ```bash
     GEMINI_DEV_TRACING=true gemini
     ```
 
-3.  **View the traces:**
+3.  **트레이스 보기:**
 
-    Open the Genkit Developer UI URL in your browser and navigate to the
-    **Traces** tab to view the traces.
+    브라우저에서 Genkit Developer UI URL을 열고 **Traces** 탭으로 이동하여 트레이스를 봅니다.
 
-#### Using Jaeger
+#### Jaeger 사용 (Using Jaeger)
 
-You can view dev traces in the Jaeger UI. To get started, follow these steps:
+Jaeger UI에서 개발 트레이스를 볼 수 있습니다. 시작하려면 다음 단계를 따르세요:
 
-1.  **Start the telemetry collector:**
+1.  **텔레메트리 수집기 시작:**
 
-    Run the following command in your terminal to download and start Jaeger and
-    an OTEL collector:
+    터미널에서 다음 명령을 실행하여 Jaeger 및 OTEL 수집기를 다운로드하고 시작합니다:
 
     ```bash
     npm run telemetry -- --target=local
     ```
 
-    This command also configures your workspace for local telemetry and provides
-    a link to the Jaeger UI (usually `http://localhost:16686`).
+    이 명령은 또한 로컬 텔레메트리에 맞게 작업 공간을 구성하고 Jaeger UI에 대한 링크(일반적으로 `http://localhost:16686`)를 제공합니다.
 
-2.  **Run Gemini CLI with dev tracing:**
+2.  **개발 트레이싱으로 Gemini CLI 실행:**
 
-    In a separate terminal, run your Gemini CLI command with the
-    `GEMINI_DEV_TRACING` environment variable:
+    별도의 터미널에서 `GEMINI_DEV_TRACING` 환경 변수와 함께 Gemini CLI 명령을 실행하세요:
 
     ```bash
     GEMINI_DEV_TRACING=true gemini
     ```
 
-3.  **View the traces:**
+3.  **트레이스 보기:**
 
-    After running your command, open the Jaeger UI link in your browser to view
-    the traces.
+    명령을 실행한 후 브라우저에서 Jaeger UI 링크를 열어 트레이스를 봅니다.
 
-For more detailed information on telemetry, see the
-[telemetry documentation](/docs/cli/telemetry).
+텔레메트리에 대한 자세한 내용은 [텔레메트리 문서](/docs/cli/telemetry)를 참조하십시오.
 
-### Instrumenting code with dev traces
+### 개발 트레이스로 코드 계측 (Instrumenting code with dev traces)
 
-You can add dev traces to your own code for more detailed instrumentation. This
-is useful for debugging and understanding the flow of execution.
+더 자세한 계측을 위해 자신의 코드에 개발 트레이스를 추가할 수 있습니다. 이는 실행 흐름을 디버깅하고 이해하는 데 유용합니다.
 
-Use the `runInDevTraceSpan` function to wrap any section of code in a trace
-span.
+`runInDevTraceSpan` 함수를 사용하여 코드 섹션을 트레이스 범위로 래핑하세요.
 
-Here is a basic example:
+다음은 기본적인 예입니다:
 
 ```typescript
 import { runInDevTraceSpan } from '@google/gemini-cli-core';
 
 await runInDevTraceSpan({ name: 'my-custom-span' }, async ({ metadata }) => {
-  // The `metadata` object allows you to record the input and output of the
-  // operation as well as other attributes.
+  // `metadata` 객체를 사용하면 입력 및 출력을 기록할 수 있습니다.
+  // 작업뿐만 아니라 다른 속성도 기록할 수 있습니다.
   metadata.input = { key: 'value' };
-  // Set custom attributes.
+  // 사용자 정의 속성 설정.
   metadata.attributes['gen_ai.request.model'] = 'gemini-4.0-mega';
 
-  // Your code to be traced goes here
+  // 트레이스될 코드는 여기에 들어갑니다.
   try {
     const output = await somethingRisky();
     metadata.output = output;
@@ -116,13 +102,10 @@ await runInDevTraceSpan({ name: 'my-custom-span' }, async ({ metadata }) => {
 });
 ```
 
-In this example:
+이 예제에서:
 
-- `name`: The name of the span, which will be displayed in the trace.
-- `metadata.input`: (Optional) An object containing the input data for the
-  traced operation.
-- `metadata.output`: (Optional) An object containing the output data from the
-  traced operation.
-- `metadata.attributes`: (Optional) A record of custom attributes to add to the
-  span.
-- `metadata.error`: (Optional) An error object to record if the operation fails.
+- `name`: 트레이스에 표시될 스팬의 이름입니다.
+- `metadata.input`: (선택 사항) 트레이스된 작업에 대한 입력 데이터를 포함하는 객체입니다.
+- `metadata.output`: (선택 사항) 트레이스된 작업의 출력 데이터를 포함하는 객체입니다.
+- `metadata.attributes`: (선택 사항) 스팬에 추가할 사용자 정의 속성의 레코드입니다.
+- `metadata.error`: (선택 사항) 작업이 실패할 경우 기록할 오류 객체입니다.

@@ -1,23 +1,23 @@
 {
 	"index": {
-		"title": "Agent skills"
+		"title": "에이전트 스킬"
 	},
 	"creating-agent-skills": {
-		"title": "Creating Agent skills"
+		"title": "에이전트 스킬 만들기"
 	},
 	"sub-agents": {
-		"title": "Sub-agents (experimental)"
+		"title": "서브 에이전트 (실험적)"
 	},
 	"remote-subagents": {
-		"title": "Remote subagents (experimental)"
+		"title": "원격 서브 에이전트 (실험적)"
 	},
 	"hooks": {
-		"title": "Hooks"
+		"title": "후크"
 	},
 	"ide-integration": {
-		"title": "IDE integration"
+		"title": "IDE 통합"
 	},
 	"mcp-servers": {
-		"title": "MCP servers"
+		"title": "MCP 서버"
 	}
 }

@@ -1,146 +1,87 @@
-# Extension releasing
+# 확장 배포
 
-There are two primary ways of releasing extensions to users:
+사용자에게 확장을 배포하는 두 가지 주요 방법이 있습니다:
 
-- [Git repository](#releasing-through-a-git-repository)
-- [Github Releases](#releasing-through-github-releases)
+- [Git 저장소](#releasing-through-a-git-repository)
+- [GitHub Releases](#releasing-through-github-releases)
 
-Git repository releases tend to be the simplest and most flexible approach,
-while GitHub releases can be more efficient on initial install as they are
-shipped as single archives instead of requiring a git clone which downloads each
-file individually. Github releases may also contain platform specific archives
-if you need to ship platform specific binary files.
+Git 저장소 배포는 가장 간단하고 유연한 접근 방식인 반면, GitHub Releases는 각 파일을 개별적으로 다운로드하는 git clone이 필요 없이 단일 아카이브로 제공되므로 초기 설치 시 더 효율적일 수 있습니다. 또한 플랫폼별 바이너리 파일을 제공해야 하는 경우 GitHub Releases에 플랫폼별 아카이브를 포함할 수 있습니다.
 
-## Releasing through a git repository
+## Git 저장소를 통한 배포
 
-This is the most flexible and simple option. All you need to do is create a
-publicly accessible git repo (such as a public github repository) and then users
-can install your extension using `gemini extensions install <your-repo-uri>`.
-They can optionally depend on a specific ref (branch/tag/commit) using the
-`--ref=<some-ref>` argument, this defaults to the default branch.
+이것은 가장 유연하고 간단한 옵션입니다. 공개적으로 접근 가능한 git 저장소(예: 공개 GitHub 저장소)를 만들기만 하면 사용자는 `gemini extensions install <your-repo-uri>`를 사용하여 확장을 설치할 수 있습니다. 사용자는 선택적으로 `--ref=<some-ref>` 인수를 사용하여 특정 참조(브랜치/태그/커밋)에 의존할 수 있으며, 이 인수의 기본값은 default 브랜치입니다.
 
-Whenever commits are pushed to the ref that a user depends on, they will be
-prompted to update the extension. Note that this also allows for easy rollbacks,
-the HEAD commit is always treated as the latest version regardless of the actual
-version in the `gemini-extension.json` file.
+사용자가 의존하는 참조(ref)에 커밋이 푸시될 때마다 확장을 업데이트하라는 메시지가 표시됩니다. 이를 통해 롤백을 쉽게 할 수 있으며, HEAD 커밋은 `gemini-extension.json` 파일의 실제 버전과 관계없이 항상 최신 버전으로 취급됩니다.
 
-### Managing release channels using a git repository
+### git 저장소를 사용한 배포 채널 관리
 
-Users can depend on any ref from your git repo, such as a branch or tag, which
-allows you to manage multiple release channels.
+사용자는 브랜치나 태그와 같은 git 저장소의 모든 참조(ref)에 의존할 수 있으므로, 이를 통해 여러 배포 채널을 관리할 수 있습니다.
 
-For instance, you can maintain a `stable` branch, which users can install this
-way `gemini extensions install <your-repo-uri> --ref=stable`. Or, you could make
-this the default by treating your default branch as your stable release branch,
-and doing development in a different branch (for instance called `dev`). You can
-maintain as many branches or tags as you like, providing maximum flexibility for
-you and your users.
+예를 들어, 사용자가 `gemini extensions install <your-repo-uri> --ref=stable` 방식으로 설치할 수 있는 `stable` 브랜치를 유지할 수 있습니다. 또는 default 브랜치를 안정적인 릴리스 브랜치로 취급하고 개발은 다른 브랜치(예: `dev`)에서 수행하여 이를 기본값으로 설정할 수도 있습니다. 원하는 만큼 브랜치나 태그를 유지하여 귀하와 사용자 모두에게 최대한의 유연성을 제공할 수 있습니다.
 
-Note that these `ref` arguments can be tags, branches, or even specific commits,
-which allows users to depend on a specific version of your extension. It is up
-to you how you want to manage your tags and branches.
+이러한 `ref` 인수는 태그, 브랜치 또는 특정 커밋일 수 있으므로 사용자는 확장의 특정 버전에 의존할 수 있습니다. 태그와 브랜치를 어떻게 관리할지는 전적으로 귀하에게 달려 있습니다.
 
-### Example releasing flow using a git repo
+### git 저장소를 사용하는 배포 흐름 예시
 
-While there are many options for how you want to manage releases using a git
-flow, we recommend treating your default branch as your "stable" release branch.
-This means that the default behavior for
-`gemini extensions install <your-repo-uri>` is to be on the stable release
-branch.
+git 흐름을 사용하여 릴리스를 관리하는 방법에는 여러 가지 옵션이 있지만, default 브랜치를 "stable" 릴리스 브랜치로 취급하는 것을 권장합니다. 즉, `gemini extensions install <your-repo-uri>`의 기본 동작은 안정적인 릴리스 브랜치에 있는 것입니다.
 
-Lets say you want to maintain three standard release channels, `stable`,
-`preview`, and `dev`. You would do all your standard development in the `dev`
-branch. When you are ready to do a preview release, you merge that branch into
-your `preview` branch. When you are ready to promote your preview branch to
-stable, you merge `preview` into your stable branch (which might be your default
-branch or a different branch).
+`stable`, `preview`, `dev`라는 세 가지 표준 릴리스 채널을 유지한다고 가정해 보겠습니다. 모든 표준 개발은 `dev` 브랜치에서 수행합니다. 프리뷰 릴리스를 할 준비가 되면 해당 브랜치를 `preview` 브랜치에 병합합니다. 프리뷰 브랜치를 안정 버전으로 승격할 준비가 되면 `preview`를 `stable` 브랜치(default 브랜치일 수도 있고 다른 브랜치일 수도 있음)에 병합합니다.
 
-You can also cherry pick changes from one branch into another using
-`git cherry-pick`, but do note that this will result in your branches having a
-slightly divergent history from each other, unless you force push changes to
-your branches on each release to restore the history to a clean slate (which may
-not be possible for the default branch depending on your repository settings).
-If you plan on doing cherry picks, you may want to avoid having your default
-branch be the stable branch to avoid force-pushing to the default branch which
-should generally be avoided.
+`git cherry-pick`을 사용하여 한 브랜치에서 다른 브랜치로 변경 사항을 가져올 수도 있지만, 이렇게 하면 각 릴리스마다 브랜치에 강제 푸시(force push)하여 히스토리를 초기화하지 않는 한 브랜치 간의 히스토리가 약간 달라질 수 있습니다(저장소 설정에 따라 default 브랜치에서는 불가능할 수 있음). 체리 픽을 수행할 계획이라면 default 브랜치를 안정 브랜치로 사용하지 않는 것이 좋습니다. 일반적으로 default 브랜치에 대한 강제 푸시는 피해야 하기 때문입니다.
 
-## Releasing through GitHub releases
+## GitHub Releases를 통한 배포
 
-Gemini CLI extensions can be distributed through
-[GitHub Releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases).
-This provides a faster and more reliable initial installation experience for
-users, as it avoids the need to clone the repository.
+Gemini CLI 확장은 [GitHub Releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases)를 통해 배포할 수 있습니다. 이는 저장소를 복제(clone)할 필요가 없으므로 사용자에게 더 빠르고 안정적인 초기 설치 경험을 제공합니다.
 
-Each release includes at least one archive file, which contains the full
-contents of the repo at the tag that it was linked to. Releases may also include
-[pre-built archives](#custom-pre-built-archives) if your extension requires some
-build step or has platform specific binaries attached to it.
+각 릴리스에는 연결된 태그의 저장소 전체 내용이 포함된 아카이브 파일이 적어도 하나 포함됩니다. 확장에 빌드 단계가 필요하거나 플랫폼별 바이너리가 첨부된 경우 릴리스에 [미리 빌드된 아카이브](#custom-pre-built-archives)가 포함될 수도 있습니다.
 
-When checking for updates, gemini will just look for the "latest" release on
-github (you must mark it as such when creating the release), unless the user
-installed a specific release by passing `--ref=<some-release-tag>`.
+업데이트를 확인할 때 gemini는 GitHub에서 "latest" 릴리스만 찾습니다(릴리스 생성 시 이를 표시해야 함). 단, 사용자가 `--ref=<some-release-tag>`를 전달하여 특정 릴리스를 설치한 경우는 제외합니다.
 
-You may also install extensions with the `--pre-release` flag in order to get
-the latest release regardless of whether it has been marked as "latest". This
-allows you to test that your release works before actually pushing it to all
-users.
+또한 `--pre-release` 플래그를 사용하여 확장을 설치하면 "latest"로 표시되었는지 여부와 관계없이 최신 릴리스를 가져올 수 있습니다. 이를 통해 모든 사용자에게 실제로 푸시하기 전에 릴리스가 작동하는지 테스트할 수 있습니다.
 
-### Custom pre-built archives
+### 사용자 지정 미리 빌드된 아카이브
 
-Custom archives must be attached directly to the github release as assets and
-must be fully self-contained. This means they should include the entire
-extension, see [archive structure](#archive-structure).
+사용자 지정 아카이브는 GitHub 릴리스에 자산(asset)으로 직접 첨부해야 하며 완전히 독립적이어야 합니다. 즉, 전체 확장을 포함해야 합니다([아카이브 구조](#archive-structure) 참조).
 
-If your extension is platform-independent, you can provide a single generic
-asset. In this case, there should be only one asset attached to the release.
+확장이 플랫폼 독립적인 경우 단일 일반 자산을 제공할 수 있습니다. 이 경우 릴리스에 첨부된 자산은 하나만 있어야 합니다.
 
-Custom archives may also be used if you want to develop your extension within a
-larger repository, you can build an archive which has a different layout from
-the repo itself (for instance it might just be an archive of a subdirectory
-containing the extension).
+사용자 지정 아카이브는 더 큰 저장소 내에서 확장을 개발하고 저장소 자체와 다른 레이아웃을 가진 아카이브를 빌드하려는 경우(예: 확장이 포함된 하위 디렉터리의 아카이브일 수 있음)에도 사용할 수 있습니다.
 
-#### Platform specific archives
+#### 플랫폼별 아카이브
 
-To ensure Gemini CLI can automatically find the correct release asset for each
-platform, you must follow this naming convention. The CLI will search for assets
-in the following order:
+Gemini CLI가 각 플랫폼에 맞는 올바른 릴리스 자산을 자동으로 찾을 수 있도록 하려면 다음 명명 규칙을 따라야 합니다. CLI는 다음 순서로 자산을 검색합니다:
 
-1.  **Platform and architecture-Specific:**
+1.  **플랫폼 및 아키텍처별:**
     `{platform}.{arch}.{name}.{extension}`
-2.  **Platform-specific:** `{platform}.{name}.{extension}`
-3.  **Generic:** If only one asset is provided, it will be used as a generic
-    fallback.
+2.  **플랫폼별:** `{platform}.{name}.{extension}`
+3.  **일반:** 하나의 자산만 제공되는 경우 일반적인 대체 자산(fallback)으로 사용됩니다.
 
-- `{name}`: The name of your extension.
-- `{platform}`: The operating system. Supported values are:
+- `{name}`: 확장의 이름입니다.
+- `{platform}`: 운영 체제입니다. 지원되는 값은 다음과 같습니다:
   - `darwin` (macOS)
   - `linux`
   - `win32` (Windows)
-- `{arch}`: The architecture. Supported values are:
+- `{arch}`: 아키텍처입니다. 지원되는 값은 다음과 같습니다:
   - `x64`
   - `arm64`
-- `{extension}`: The file extension of the archive (e.g., `.tar.gz` or `.zip`).
+- `{extension}`: 아카이브의 파일 확장자입니다 (예: `.tar.gz` 또는 `.zip`).
 
-**Examples:**
+**예시:**
 
-- `darwin.arm64.my-tool.tar.gz` (specific to Apple Silicon Macs)
-- `darwin.my-tool.tar.gz` (for all Macs)
+- `darwin.arm64.my-tool.tar.gz` (Apple Silicon Mac 전용)
+- `darwin.my-tool.tar.gz` (모든 Mac용)
 - `linux.x64.my-tool.tar.gz`
 - `win32.my-tool.zip`
 
-#### Archive structure
+#### 아카이브 구조
 
-Archives must be fully contained extensions and have all the standard
-requirements - specifically the `gemini-extension.json` file must be at the root
-of the archive.
+아카이브는 완전히 포함된 확장이이어야 하며 모든 표준 요구 사항을 충족해야 합니다. 구체적으로 `gemini-extension.json` 파일이 아카이브의 루트에 있어야 합니다.
 
-The rest of the layout should look exactly the same as a typical extension, see
-[extensions.md](/docs/extensions).
+나머지 레이아웃은 일반적인 확장과 똑같이 보여야 합니다. [확장 문서](/docs/extensions)를 참조하세요.
 
-#### Example GitHub Actions workflow
+#### GitHub Actions 워크플로 예시
 
-Here is an example of a GitHub Actions workflow that builds and releases a
-Gemini CLI extension for multiple platforms:
+다음은 여러 플랫폼용 Gemini CLI 확장을 빌드하고 배포하는 GitHub Actions 워크플로의 예입니다:
 
 ```yaml
 name: Release Extension

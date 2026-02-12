@@ -1,19 +1,14 @@
-# Memory Import Processor
+# 메모리 가져오기 프로세서 (Memory Import Processor)
 
-The Memory Import Processor is a feature that allows you to modularize your
-GEMINI.md files by importing content from other files using the `@file.md`
-syntax.
+메모리 가져오기 프로세서는 `@file.md` 구문을 사용하여 다른 파일의 내용을 가져옴으로써 `GEMINI.md` 파일을 모듈화할 수 있는 기능입니다.
 
-## Overview
+## 개요 (Overview)
 
-This feature enables you to break down large GEMINI.md files into smaller, more
-manageable components that can be reused across different contexts. The import
-processor supports both relative and absolute paths, with built-in safety
-features to prevent circular imports and ensure file access security.
+이 기능을 사용하면 큰 `GEMINI.md` 파일을 다른 컨텍스트에서 재사용할 수 있는 더 작고 관리하기 쉬운 구성 요소로 나눌 수 있습니다. 가져오기 프로세서는 상대 경로와 절대 경로를 모두 지원하며, 순환 가져오기를 방지하고 파일 액세스 보안을 보장하는 안전 기능이 내장되어 있습니다.
 
-## Syntax
+## 구문 (Syntax)
 
-Use the `@` symbol followed by the path to the file you want to import:
+가져오려는 파일의 경로 앞에 `@` 기호를 사용하세요:
 
 ```markdown
 # Main GEMINI.md file
@@ -27,21 +22,21 @@ More content here.
 @./shared/configuration.md
 ```
 
-## Supported path formats
+## 지원되는 경로 형식 (Supported path formats)
 
-### Relative paths
+### 상대 경로 (Relative paths)
 
-- `@./file.md` - Import from the same directory
-- `@../file.md` - Import from parent directory
-- `@./components/file.md` - Import from subdirectory
+- `@./file.md` - 동일한 디렉토리에서 가져오기
+- `@../file.md` - 상위 디렉토리에서 가져오기
+- `@./components/file.md` - 하위 디렉토리에서 가져오기
 
-### Absolute paths
+### 절대 경로 (Absolute paths)
 
-- `@/absolute/path/to/file.md` - Import using absolute path
+- `@/absolute/path/to/file.md` - 절대 경로를 사용하여 가져오기
 
-## Examples
+## 예제 (Examples)
 
-### Basic import
+### 기본 가져오기 (Basic import)
 
 ```markdown
 # My GEMINI.md
@@ -55,9 +50,9 @@ Welcome to my project!
 @./features/overview.md
 ```
 
-### Nested imports
+### 중첩 가져오기 (Nested imports)
 
-The imported files can themselves contain imports, creating a nested structure:
+가져온 파일 자체에 가져오기가 포함되어 중첩된 구조를 만들 수 있습니다:
 
 ```markdown
 # main.md
@@ -73,11 +68,11 @@ The imported files can themselves contain imports, creating a nested structure:
 @./shared/title.md
 ```
 
-## Safety features
+## 안전 기능 (Safety features)
 
-### Circular import detection
+### 순환 가져오기 감지 (Circular import detection)
 
-The processor automatically detects and prevents circular imports:
+프로세서는 순환 가져오기를 자동으로 감지하고 방지합니다:
 
 ```markdown
 # file-a.md
@@ -91,13 +86,11 @@ The processor automatically detects and prevents circular imports:
 @./file-a.md <!-- This will be detected and prevented -->
 ```
 
-### File access security
+### 파일 액세스 보안 (File access security)
 
-The `validateImportPath` function ensures that imports are only allowed from
-specified directories, preventing access to sensitive files outside the allowed
-scope.
+`validateImportPath` 함수는 지정된 디렉토리에서만 가져오기가 허용되도록 하여, 허용된 범위 밖의 민감한 파일에 대한 액세스를 방지합니다.
 
-### Maximum import depth
+### 최대 가져오기 깊이 (Maximum import depth)
 
 To prevent infinite recursion, there's a configurable maximum import depth
 (default: 5 levels).
@@ -109,26 +102,19 @@ To prevent infinite recursion, there's a configurable maximum import depth
 If a referenced file doesn't exist, the import will fail gracefully with an
 error comment in the output.
 
-### File access errors
+### 파일 액세스 오류 (File access errors)
 
-Permission issues or other file system errors are handled gracefully with
-appropriate error messages.
+권한 문제나 기타 파일 시스템 오류는 적절한 오류 메시지와 함께 정상적으로 처리됩니다.
 
-## Code region detection
+## 코드 영역 감지 (Code region detection)
 
-The import processor uses the `marked` library to detect code blocks and inline
-code spans, ensuring that `@` imports inside these regions are properly ignored.
-This provides robust handling of nested code blocks and complex Markdown
-structures.
+가져오기 프로세서는 `marked` 라이브러리를 사용하여 코드 블록과 인라인 코드 범위를 감지하여, 이러한 영역 내부의 `@` 가져오기가 적절하게 무시되도록 합니다. 이는 중첩된 코드 블록과 복잡한 Markdown 구조를 강력하게 처리합니다.
 
-## Import tree structure
+## 가져오기 트리 구조 (Import tree structure)
 
-The processor returns an import tree that shows the hierarchy of imported files,
-similar to Claude's `/memory` feature. This helps users debug problems with
-their GEMINI.md files by showing which files were read and their import
-relationships.
+프로세서는 Claude의 `/memory` 기능과 유사하게 가져온 파일의 계층 구조를 보여주는 가져오기 트리를 반환합니다. 이는 어떤 파일이 읽혔는지와 가져오기 관계를 보여줌으로써 사용자가 `GEMINI.md` 파일의 문제를 디버깅하는 데 도움을 줍니다.
 
-Example tree structure:
+예제 트리 구조:
 
 ```
 Memory Files
@@ -142,37 +128,28 @@ Memory Files
             L included.md
 ```
 
-The tree preserves the order that files were imported and shows the complete
-import chain for debugging purposes.
+트리는 파일이 가져온 순서를 보존하고 디버깅 목적으로 전체 가져오기 체인을 보여줍니다.
 
-## Comparison to Claude Code's `/memory` (`claude.md`) approach
+## Claude Code의 `/memory` (`claude.md`) 방식과의 비교
 
-Claude Code's `/memory` feature (as seen in `claude.md`) produces a flat, linear
-document by concatenating all included files, always marking file boundaries
-with clear comments and path names. It does not explicitly present the import
-hierarchy, but the LLM receives all file contents and paths, which is sufficient
-for reconstructing the hierarchy if needed.
+Claude Code의 `/memory` 기능(`claude.md`에서 볼 수 있음)은 모든 포함된 파일을 연결하여 평면적이고 선형적인 문서를 생성하며, 항상 명확한 주석과 경로 이름으로 파일 경계를 표시합니다. 가져오기 계층 구조를 명시적으로 제공하지는 않지만, LLM은 모든 파일 내용과 경로를 수신하므로 필요한 경우 계층 구조를 재구성하기에 충분합니다.
 
-> [!NOTE] The import tree is mainly for clarity during development and has
-> limited relevance to LLM consumption.
+> [!NOTE] 가져오기 트리는 주로 개발 중 명확성을 위한 것이며 LLM 소비와는 관련이 적습니다.
 
-## API reference
+## API 참조 (API reference)
 
 ### `processImports(content, basePath, debugMode?, importState?)`
 
-Processes import statements in GEMINI.md content.
+`GEMINI.md` 내용의 가져오기 문을 처리합니다.
 
 **Parameters:**
 
-- `content` (string): The content to process for imports
-- `basePath` (string): The directory path where the current file is located
-- `debugMode` (boolean, optional): Whether to enable debug logging (default:
-  false)
-- `importState` (ImportState, optional): State tracking for circular import
-  prevention
+- `content` (string): 가져오기를 처리할 내용
+- `basePath` (string): 현재 파일이 위치한 디렉토리 경로
+- `debugMode` (boolean, optional): 디버그 로깅 활성화 여부 (기본값: false)
+- `importState` (ImportState, optional): 순환 가져오기 방지를 위한 상태 추적
 
-**Returns:** Promise&lt;ProcessImportsResult&gt; - Object containing processed
-content and import tree
+**Returns:** Promise&lt;ProcessImportsResult&gt; - 처리된 내용과 가져오기 트리를 포함하는 객체
 
 ### `ProcessImportsResult`
 
@@ -194,52 +171,46 @@ interface MemoryFile {
 
 ### `validateImportPath(importPath, basePath, allowedDirectories)`
 
-Validates import paths to ensure they are safe and within allowed directories.
+가져오기 경로가 안전하고 허용된 디렉토리 내에 있는지 확인합니다.
 
 **Parameters:**
 
-- `importPath` (string): The import path to validate
-- `basePath` (string): The base directory for resolving relative paths
-- `allowedDirectories` (string[]): Array of allowed directory paths
+- `importPath` (string): 확인할 가져오기 경로
+- `basePath` (string): 상대 경로 해결을 위한 기본 디렉토리
+- `allowedDirectories` (string[]): 허용된 디렉토리 경로 배열
 
-**Returns:** boolean - Whether the import path is valid
+**Returns:** boolean - 가져오기 경로가 유효한지 여부
 
 ### `findProjectRoot(startDir)`
 
-Finds the project root by searching for a `.git` directory upwards from the
-given start directory. Implemented as an **async** function using non-blocking
-file system APIs to avoid blocking the Node.js event loop.
+지정된 시작 디렉토리에서 위쪽으로 `.git` 디렉토리를 검색하여 프로젝트 루트를 찾습니다. **비동기(async)** 함수로 구현되어 비차단 파일 시스템 API를 사용하여 Node.js 이벤트 루프 차단을 방지합니다.
 
 **Parameters:**
 
-- `startDir` (string): The directory to start searching from
+- `startDir` (string): 검색을 시작할 디렉토리
 
-**Returns:** Promise&lt;string&gt; - The project root directory (or the start
-directory if no `.git` is found)
+**Returns:** Promise&lt;string&gt; - 프로젝트 루트 디렉토리 (또는 `.git`을 찾을 수 없는 경우 시작 디렉토리)
 
-## Best Practices
+## 모범 사례 (Best Practices)
 
-1. **Use descriptive file names** for imported components
-2. **Keep imports shallow** - avoid deeply nested import chains
-3. **Document your structure** - maintain a clear hierarchy of imported files
-4. **Test your imports** - ensure all referenced files exist and are accessible
-5. **Use relative paths** when possible for better portability
+1. 가져온 구성 요소에 **설명적인 파일 이름 사용**
+2. **가져오기를 얕게 유지** - 깊게 중첩된 가져오기 체인 방지
+3. **구조 문서화** - 가져온 파일의 명확한 계층 구조 유지
+4. **가져오기 테스트** - 참조된 모든 파일이 존재하고 액세스 가능한지 확인
+5. 더 나은 이식성을 위해 가능한 경우 **상대 경로 사용**
 
-## Troubleshooting
+## 문제 해결 (Troubleshooting)
 
-### Common issues
+### 일반적인 문제 (Common issues)
 
-1. **Import not working**: Check that the file exists and the path is correct
-2. **Circular import warnings**: Review your import structure for circular
-   references
-3. **Permission errors**: Ensure the files are readable and within allowed
-   directories
-4. **Path resolution issues**: Use absolute paths if relative paths aren't
-   resolving correctly
+1. **가져오기가 작동하지 않음**: 파일이 존재하고 경로가 올바른지 확인
+2. **순환 가져오기 경고**: 순환 참조에 대한 가져오기 구조 검토
+3. **권한 오류**: 파일이 읽기 가능하고 허용된 디렉토리 내에 있는지 확인
+4. **경로 해결 문제**: 상대 경로가 올바르게 해결되지 않는 경우 절대 경로 사용
 
-### Debug mode
+### 디버그 모드 (Debug mode)
 
-Enable debug mode to see detailed logging of the import process:
+가져오기 프로세스의 자세한 로깅을 보려면 디버그 모드를 활성화하세요:
 
 ```typescript
 const result = await processImports(content, basePath, true);

@@ -1,62 +1,57 @@
-# Gemini CLI model selection (`/model` command)
+# Gemini CLI 모델 선택 (`/model` 명령)
 
-Select your Gemini CLI model. The `/model` command lets you configure the model
-used by Gemini CLI, giving you more control over your results. Use **Pro**
-models for complex tasks and reasoning, **Flash** models for high speed results,
-or the (recommended) **Auto** setting to choose the best model for your tasks.
+Gemini CLI 모델을 선택하세요. `/model` 명령을 사용하면 Gemini CLI에서 사용하는 모델을
+구성하여 결과에 대한 더 많은 제어 권한을 얻을 수 있습니다. 복잡한 작업과 추론에는
+**Pro** 모델을, 빠른 결과를 위해서는 **Flash** 모델을, 작업에 가장 적합한 모델을
+선택하려면 (권장) **Auto** 설정을 사용하세요.
 
-> **Note:** The `/model` command (and the `--model` flag) does not override the
-> model used by sub-agents. Consequently, even when using the `/model` flag you
-> may see other models used in your model usage reports.
+> **참고:** `/model` 명령(및 `--model` 플래그)은 하위 에이전트가 사용하는 모델을
+> 재정의하지 않습니다. 따라서 `/model` 플래그를 사용하는 경우에도 모델 사용 보고서에
+> 다른 모델이 사용되는 것을 볼 수 있습니다.
 
-## How to use the `/model` command
+## `/model` 명령 사용 방법
 
-Use the following command in Gemini CLI:
+Gemini CLI에서 다음 명령을 사용하세요:
 
 ```
 /model
 ```
 
-Running this command will open a dialog with your options:
+이 명령을 실행하면 옵션이 있는 대화 상자가 열립니다:
 
-| Option            | Description                                                    | Models                                                                 |
-| ----------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| Auto (Gemini 3)   | Let the system choose the best Gemini 3 model for your task.   | gemini-3-pro-preview (if enabled), gemini-3-flash-preview (if enabled) |
-| Auto (Gemini 2.5) | Let the system choose the best Gemini 2.5 model for your task. | gemini-2.5-pro, gemini-2.5-flash                                       |
-| Manual            | Select a specific model.                                       | Any available model.                                                   |
+| 옵션              | 설명                                                         | 모델                                                                         |
+| ----------------- | ------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| Auto (Gemini 3)   | 시스템이 작업에 가장 적합한 Gemini 3 모델을 선택하도록 함.   | gemini-3-pro-preview (활성화된 경우), gemini-3-flash-preview (활성화된 경우) |
+| Auto (Gemini 2.5) | 시스템이 작업에 가장 적합한 Gemini 2.5 모델을 선택하도록 함. | gemini-2.5-pro, gemini-2.5-flash                                             |
+| Manual            | 특정 모델 선택.                                              | 사용 가능한 모든 모델.                                                       |
 
-We recommend selecting one of the above **Auto** options. However, you can
-select **Manual** to select a specific model from those available.
+위의 **Auto** 옵션 중 하나를 선택하는 것이 좋습니다. 그러나 **Manual**을 선택하여
+사용 가능한 모델 중에서 특정 모델을 선택할 수도 있습니다.
 
-### Gemini 3 and preview features
+### Gemini 3 및 미리보기 기능
 
-> **Note:** Gemini 3 is not currently available on all account types. To learn
-> more about Gemini 3 access, refer to
-> [Gemini 3 on Gemini CLI](/docs/get-started/gemini-3).
+> **참고:** 현재 Gemini 3는 모든 계정 유형에서 사용할 수 있는 것은 아닙니다.
+> Gemini 3 액세스에 대한 자세한 내용은 [Gemini CLI의 Gemini 3](/docs/get-started/gemini-3)를
+> 참조하세요.
 
-To enable Gemini 3 Pro and Gemini 3 Flash (if available), enable
-[**Preview Features** by using the `settings` command](/docs/cli/settings).
+Gemini 3 Pro 및 Gemini 3 Flash(사용 가능한 경우)를 활성화하려면
+[`settings` 명령을 사용하여 **미리보기 기능**을 활성화](/docs/configuration/setting)하세요.
 
-You can also use the `--model` flag to specify a particular Gemini model on
-startup. For more details, refer to the
-[configuration documentation](/docs/get-started/configuration).
+시작 시 `--model` 플래그를 사용하여 특정 Gemini 모델을 지정할 수도 있습니다.
+자세한 내용은 [구성 문서](/docs/get-started/configuration)를 참조하세요.
 
-Changes to these settings will be applied to all subsequent interactions with
-Gemini CLI.
+이러한 설정 변경 사항은 Gemini CLI와의 모든 후속 상호 작용에 적용됩니다.
 
-## Best practices for model selection
+## 모델 선택 모범 사례
 
-- **Default to Auto.** For most users, the _Auto_ option model provides a
-  balance between speed and performance, automatically selecting the correct
-  model based on the complexity of the task. Example: Developing a web
-  application could include a mix of complex tasks (building architecture and
-  scaffolding the project) and simple tasks (generating CSS).
+- **기본적으로 Auto 사용.** 대부분의 사용자에게 _Auto_ 옵션 모델은 속도와 성능 간의
+  균형을 제공하며 작업의 복잡성에 따라 올바른 모델을 자동으로 선택합니다.
+  예: 웹 애플리케이션 개발에는 복잡한 작업(아키텍처 구축 및 프로젝트 스캐폴딩)과
+  간단한 작업(CSS 생성)이 혼합되어 포함될 수 있습니다.
 
-- **Switch to Pro if you aren't getting the results you want.** If you think you
-  need your model to be a little "smarter," you can manually select Pro. Pro
-  will provide you with the highest levels of reasoning and creativity. Example:
-  A complex or multi-stage debugging task.
+- **원하는 결과를 얻지 못하면 Pro로 전환.** 모델이 조금 더 "똑똑"해야 한다고 생각되면
+  수동으로 Pro를 선택할 수 있습니다. Pro는 가장 높은 수준의 추론과 창의성을 제공합니다.
+  예: 복잡하거나 다단계 디버깅 작업.
 
-- **Switch to Flash or Flash-Lite if you need faster results.** If you need a
-  simple response quickly, Flash or Flash-Lite is the best option. Example:
-  Converting a JSON object to a YAML string.
+- **더 빠른 결과가 필요하면 Flash 또는 Flash-Lite로 전환.** 간단한 응답이 빨리 필요하다면
+  Flash 또는 Flash-Lite가 가장 좋습니다. 예: JSON 객체를 YAML 문자열로 변환.

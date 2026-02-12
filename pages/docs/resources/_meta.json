@@ -1,17 +1,17 @@
 {
 	"index": {
-		"title": "FAQ"
+		"title": "자주 묻는 질문 (FAQ)"
 	},
 	"quota-and-pricing": {
-		"title": "Quota and pricing"
+		"title": "할당량 및 가격 책정"
 	},
 	"terms-and-privacy": {
-		"title": "Terms and privacy"
+		"title": "약관 및 개인 정보 보호"
 	},
 	"troubleshooting": {
-		"title": "Troubleshooting"
+		"title": "문제 해결"
 	},
 	"uninstall": {
-		"title": "Uninstall"
+		"title": "제거"
 	}
 }

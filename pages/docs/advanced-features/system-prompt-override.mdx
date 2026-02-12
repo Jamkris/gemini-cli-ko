@@ -1,79 +1,71 @@
-# System Prompt Override (GEMINI_SYSTEM_MD)
+# 시스템 프롬프트 재정의 (GEMINI_SYSTEM_MD)
 
-The core system instructions that guide Gemini CLI can be completely replaced
-with your own Markdown file. This feature is controlled via the
-`GEMINI_SYSTEM_MD` environment variable.
+Gemini CLI를 안내하는 핵심 시스템 지침을 여러분만의 Markdown 파일로 완전히 대체할 수 있습니다.
+이 기능은 `GEMINI_SYSTEM_MD` 환경 변수를 통해 제어됩니다.
 
-## Overview
+## 개요
 
-The `GEMINI_SYSTEM_MD` variable instructs the CLI to use an external Markdown
-file for its system prompt, completely overriding the built-in default. This is
-a full replacement, not a merge. If you use a custom file, none of the original
-core instructions will apply unless you include them yourself.
+`GEMINI_SYSTEM_MD` 변수는 CLI가 내장된 기본값 대신 외부 Markdown 파일을 시스템 프롬프트로
+사용하도록 지시합니다. 이는 병합이 아니라 완전한 대체입니다. 사용자 지정 파일을 사용하는 경우,
+여러분이 직접 포함하지 않는 한 원래의 핵심 지침 중 어느 것도 적용되지 않습니다.
 
-This feature is intended for advanced users who need to enforce strict,
-project-specific behavior or create a customized persona.
+이 기능은 엄격한 프로젝트별 동작을 강제하거나 사용자 지정 페르소나를 생성해야 하는 고급
+사용자를 위한 것입니다.
 
-> Tip: You can export the current default system prompt to a file first, review
-> it, and then selectively modify or replace it (see
-> [“Export the default prompt”](#export-the-default-prompt-recommended)).
+> 팁: 현재 기본 시스템 프롬프트를 먼저 파일로 내보낸 후 검토하고, 선택적으로 수정하거나
+> 대체할 수 있습니다([“기본 프롬프트 내보내기”](#export-the-default-prompt-recommended) 참조).
 
-## How to enable
+## 활성화 방법
 
-You can set the environment variable temporarily in your shell, or persist it
-via a `.gemini/.env` file. See
-[Persisting Environment Variables](/docs/get-started/authentication#persisting-environment-variables).
+셸에서 환경 변수를 일시적으로 설정하거나 `.gemini/.env` 파일을 통해 지속적으로 설정할 수
+있습니다.
+[환경 변수 지속하기](/docs/get-started/authentication#persisting-environment-variables)를 참조하세요.
 
-- Use the project default path (`.gemini/system.md`):
-  - `GEMINI_SYSTEM_MD=true` or `GEMINI_SYSTEM_MD=1`
-  - The CLI reads `./.gemini/system.md` (relative to your current project
-    directory).
+- 프로젝트 기본 경로 (`.gemini/system.md`) 사용:
+  - `GEMINI_SYSTEM_MD=true` 또는 `GEMINI_SYSTEM_MD=1`
+  - CLI는 `./.gemini/system.md`를 읽습니다 (현재 프로젝트 디렉터리 기준).
 
-- Use a custom file path:
+- 사용자 지정 파일 경로 사용:
   - `GEMINI_SYSTEM_MD=/absolute/path/to/my-system.md`
-  - Relative paths are supported and resolved from the current working
-    directory.
-  - Tilde expansion is supported (e.g., `~/my-system.md`).
+  - 상대 경로는 지원되며 현재 작업 디렉터리에서 확인됩니다.
+  - 물결표 확장(Tilde expansion)이 지원됩니다 (예: `~/my-system.md`).
 
-- Disable the override (use built‑in prompt):
-  - `GEMINI_SYSTEM_MD=false` or `GEMINI_SYSTEM_MD=0` or unset the variable.
+- 재정의 비활성화 (내장 프롬프트 사용):
+  - `GEMINI_SYSTEM_MD=false` 또는 `GEMINI_SYSTEM_MD=0` 또는 변수 설정 해제.
 
-If the override is enabled but the target file does not exist, the CLI will
-error with: `missing system prompt file '<path>'`.
+재정의가 활성화되었지만 대상 파일이 존재하지 않는 경우, CLI는 다음과 같은 오류를 발생시킵니다:
+`missing system prompt file '<path>'`.
 
-## Quick examples
+## 간단한 예시
 
-- One‑off session using a project file:
+- 프로젝트 파일을 사용하는 일회성 세션:
   - `GEMINI_SYSTEM_MD=1 gemini`
-- Persist for a project using `.gemini/.env`:
-  - Create `.gemini/system.md`, then add to `.gemini/.env`:
+- `.gemini/.env`를 사용하여 프로젝트에 지속적으로 적용:
+  - `.gemini/system.md`를 생성한 후 `.gemini/.env`에 추가:
     - `GEMINI_SYSTEM_MD=1`
-- Use a custom file under your home directory:
+- 홈 디렉터리 아래의 사용자 지정 파일 사용:
   - `GEMINI_SYSTEM_MD=~/prompts/SYSTEM.md gemini`
 
-## UI indicator
+## UI 표시
 
-When `GEMINI_SYSTEM_MD` is active, the CLI shows a `|⌐■_■|` indicator in the UI
-to signal custom system‑prompt mode.
+`GEMINI_SYSTEM_MD`가 활성화되면 CLI는 UI에 `|⌐■_■|` 표시를 보여주어 사용자 지정
+시스템 프롬프트 모드임을 알립니다.
 
-## Variable Substitution
+## 변수 대체
 
-When using a custom system prompt file, you can use the following variables to
-dynamically include built-in content:
+사용자 지정 시스템 프롬프트 파일을 사용할 때 다음 변수를 사용하여 내장 콘텐츠를 동적으로
+포함할 수 있습니다.
 
-- `${AgentSkills}`: Injects a complete section (including header) of all
-  available agent skills.
-- `${SubAgents}`: Injects a complete section (including header) of available
-  sub-agents.
-- `${AvailableTools}`: Injects a bulleted list of all currently enabled tool
-  names.
-- Tool Name Variables: Injects the actual name of a tool using the pattern:
-  `${toolName}_ToolName` (e.g., `${write_file_ToolName}`,
+- `${AgentSkills}`: 사용 가능한 모든 에이전트 기술의 전체 섹션(헤더 포함)을 주입합니다.
+- `${SubAgents}`: 사용 가능한 서브 에이전트의 전체 섹션(헤더 포함)을 주입합니다.
+- `${AvailableTools}`: 현재 활성화된 모든 도구 이름의 글머리 기호 목록을 주입합니다.
+- 도구 이름 변수: 다음 패턴을 사용하여 도구의 실제 이름을 주입합니다:
+  `${toolName}_ToolName` (예: `${write_file_ToolName}`,
   `${run_shell_command_ToolName}`).
 
-  This pattern is generated dynamically for all available tools.
+  이 패턴은 사용 가능한 모든 도구에 대해 동적으로 생성됩니다.
 
-### Example
+### 예시
 
 ```markdown
 # Custom System Prompt
@@ -88,38 +80,36 @@ The following tools are available to you: ${AvailableTools}
 You can use ${write_file_ToolName} to save logs.
 ```
 
-## Export the default prompt (recommended)
+## 기본 프롬프트 내보내기 (권장)
 
-Before overriding, export the current default prompt so you can review required
-safety and workflow rules.
+재정의하기 전에 현재 기본 프롬프트를 내보내서 필요한 안전 및 워크플로 규칙을 검토하세요.
 
-- Write the built‑in prompt to the project default path:
+- 내장 프롬프트를 프로젝트 기본 경로에 쓰기:
   - `GEMINI_WRITE_SYSTEM_MD=1 gemini`
-- Or write to a custom path:
+- 또는 사용자 지정 경로에 쓰기:
   - `GEMINI_WRITE_SYSTEM_MD=~/prompts/DEFAULT_SYSTEM.md gemini`
 
-This creates the file and writes the current built‑in system prompt to it.
+이 명령은 파일을 생성하고 현재 내장된 시스템 프롬프트를 해당 파일에 씁니다.
 
-## Best practices: SYSTEM.md vs GEMINI.md
+## 모범 사례: SYSTEM.md 대 GEMINI.md
 
-- SYSTEM.md (firmware):
-  - Non‑negotiable operational rules: safety, tool‑use protocols, approvals, and
-    mechanics that keep the CLI reliable.
-  - Stable across tasks and projects (or per project when needed).
-- GEMINI.md (strategy):
-  - Persona, goals, methodologies, and project/domain context.
-  - Evolves per task; relies on SYSTEM.md for safe execution.
+- SYSTEM.md (펌웨어):
+  - 협상 불가능한 운영 규칙: 안전, 도구 사용 프로토콜, 승인 및 CLI를 신뢰할 수 있게 유지하는 메커니즘.
+  - 작업 및 프로젝트 전반에 걸쳐 안정적입니다 (또는 필요시 프로젝트별로).
+- GEMINI.md (전략):
+  - 페르소나, 목표, 방법론 및 프로젝트/도메인 컨텍스트.
+  - 작업별로 발전하며 안전한 실행을 위해 SYSTEM.md에 의존합니다.
 
-Keep SYSTEM.md minimal but complete for safety and tool operation. Keep
-GEMINI.md focused on high‑level guidance and project specifics.
+SYSTEM.md는 안전 및 도구 작동을 위해 최소한으로 유지하되 완전하게 유지하세요. GEMINI.md는
+상위 수준의 지침 및 프로젝트 세부 정보에 집중하세요.
 
-## Troubleshooting
+## 문제 해결
 
-- Error: `missing system prompt file '…'`
-  - Ensure the referenced path exists and is readable.
-  - For `GEMINI_SYSTEM_MD=1|true`, create `./.gemini/system.md` in your project.
-- Override not taking effect
-  - Confirm the variable is loaded (use `.gemini/.env` or export in your shell).
-  - Paths are resolved from the current working directory; try an absolute path.
-- Restore defaults
-  - Unset `GEMINI_SYSTEM_MD` or set it to `0`/`false`.
+- 오류: `missing system prompt file '…'`
+  - 참조된 경로가 존재하고 읽을 수 있는지 확인하세요.
+  - `GEMINI_SYSTEM_MD=1|true`의 경우, 프로젝트에 `./.gemini/system.md`를 생성하세요.
+- 재정의가 적용되지 않음
+  - 변수가 로드되었는지 확인하세요 (`.gemini/.env` 사용 또는 셸에서 내보내기).
+  - 경로는 현재 작업 디렉터리에서 확인됩니다. 절대 경로를 시도해보세요.
+- 기본값 복원
+  - `GEMINI_SYSTEM_MD` 설정을 해제하거나 `0`/`false`로 설정하세요.

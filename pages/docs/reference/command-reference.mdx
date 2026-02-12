@@ -1,434 +1,293 @@
-# CLI commands
+# CLI 명령어 (CLI commands)
 
-Gemini CLI supports several built-in commands to help you manage your session,
-customize the interface, and control its behavior. These commands are prefixed
-with a forward slash (`/`), an at symbol (`@`), or an exclamation mark (`!`).
+Gemini CLI는 세션 관리, 인터페이스 사용자 정의, 동작 제어를 돕기 위한 여러 내장 명령어를 지원합니다. 이러한 명령어는 슬래시 (`/`), 앳 기호 (`@`) 또는 느낌표 (`!`) 접두사가 붙습니다.
 
-## Slash commands (`/`)
+## 슬래시 명령어 (`/`) (Slash commands (`/`))
 
-Slash commands provide meta-level control over the CLI itself.
+슬래시 명령어는 CLI 자체에 대한 메타 수준의 제어를 제공합니다.
 
-### Built-in Commands
+### 내장 명령어
 
 - **`/about`**
-  - **Description:** Show version info. Please share this information when
-    filing issues.
+  - **설명:** 버전 정보를 표시합니다. 문제를 신고할 때 이 정보를 공유해 주세요.
 
 - **`/auth`**
-  - **Description:** Open a dialog that lets you change the authentication
-    method.
+  - **설명:** 인증 방법을 변경할 수 있는 대화 상자를 엽니다.
 
 - **`/bug`**
-  - **Description:** File an issue about Gemini CLI. By default, the issue is
-    filed within the GitHub repository for Gemini CLI. The string you enter
-    after `/bug` will become the headline for the bug being filed. The default
-    `/bug` behavior can be modified using the `advanced.bugCommand` setting in
-    your `.gemini/settings.json` files.
+  - **설명:** Gemini CLI에 대한 문제를 신고합니다. 기본적으로 문제는 Gemini CLI의 GitHub 저장소에 제출됩니다. `/bug` 뒤에 입력하는 문자열이 제출되는 문제의 제목이 됩니다. 기본 `/bug` 동작은 `.gemini/settings.json` 파일의 `advanced.bugCommand` 설정을 사용하여 수정할 수 있습니다.
 
 - **`/chat`**
-  - **Description:** Save and resume conversation history for branching
-    conversation state interactively, or resuming a previous state from a later
-    session.
-  - **Sub-commands:**
+  - **설명:** 대화 상태를 대화식으로 분기하거나 나중에 이전 상태를 재개할 수 있도록 대화 기록을 저장하고 재개합니다.
+  - **하위 명령어:**
     - **`delete <tag>`**
-      - **Description:** Deletes a saved conversation checkpoint.
+      - **설명:** 저장된 대화 체크포인트를 삭제합니다.
     - **`list`**
-      - **Description:** Lists available tags for chat state resumption.
-      - **Note:** This command only lists chats saved within the current
-        project. Because chat history is project-scoped, chats saved in other
-        project directories will not be displayed.
+      - **설명:** 대화 상태 재개를 위해 사용 가능한 태그를 나열합니다.
+      - **참고:** 이 명령은 현재 프로젝트 내에 저장된 채팅만 나열합니다. 채팅 기록은 프로젝트 범위이므로 다른 프로젝트 디렉터리에 저장된 채팅은 표시되지 않습니다.
     - **`resume <tag>`**
-      - **Description:** Resumes a conversation from a previous save.
-      - **Note:** You can only resume chats that were saved within the current
-        project. To resume a chat from a different project, you must run the
-        Gemini CLI from that project's directory.
+      - **설명:** 이전 저장에서 대화를 재개합니다.
+      - **참고:** 현재 프로젝트 내에 저장된 채팅만 재개할 수 있습니다. 다른 프로젝트의 채팅을 재개하려면 해당 프로젝트의 디렉터리에서 Gemini CLI를 실행해야 합니다.
     - **`save <tag>`**
-      - **Description:** Saves the current conversation history. You must add a
-        `<tag>` for identifying the conversation state.
-      - **Details on checkpoint location:** The default locations for saved chat
-        checkpoints are:
+      - **설명:** 현재 대화 기록을 저장합니다. 대화 상태를 식별하기 위한 `<tag>`를 추가해야 합니다.
+      - **체크포인트 위치 세부 정보:** 저장된 채팅 체크포인트의 기본 위치는 다음과 같습니다.
         - Linux/macOS: `~/.gemini/tmp/<project_hash>/`
         - Windows: `C:\Users\<YourUsername>\.gemini\tmp\<project_hash>\`
-        - **Behavior:** Chats are saved into a project-specific directory,
-          determined by where you run the CLI. Consequently, saved chats are
-          only accessible when working within that same project.
-        - **Note:** These checkpoints are for manually saving and resuming
-          conversation states. For automatic checkpoints created before file
-          modifications, see the
-          [Checkpointing documentation](/docs/cli/checkpointing).
+        - **동작:** 채팅은 CLI를 실행하는 위치에 따라 결정되는 프로젝트별 디렉터리에 저장됩니다. 따라서 저장된 채팅은 동일한 프로젝트 내에서 작업할 때만 액세스할 수 있습니다.
+        - **참고:** 이 체크포인트는 대화 상태를 수동으로 저장하고 재개하기 위한 것입니다. 파일 수정 전에 생성되는 자동 체크포인트에 대해서는 [체크포인팅 문서](/docs/cli/checkpointing)를 참조하세요.
     - **`share [filename]`**
-      - **Description** Writes the current conversation to a provided Markdown
-        or JSON file. If no filename is provided, then the CLI will generate
-        one.
-      - **Usage** `/chat share file.md` or `/chat share file.json`.
+      - **설명** 현재 대화를 제공된 Markdown 또는 JSON 파일에 씁니다. 파일명이 제공되지 않으면 CLI가 생성합니다.
+      - **사용법** `/chat share file.md` 또는 `/chat share file.json`.
 
 - **`/clear`**
-  - **Description:** Clear the terminal screen, including the visible session
-    history and scrollback within the CLI. The underlying session data (for
-    history recall) might be preserved depending on the exact implementation,
-    but the visual display is cleared.
-  - **Keyboard shortcut:** Press **Ctrl+L** at any time to perform a clear
-    action.
+  - **설명:** CLI 내의 보이는 세션 기록 및 스크롤백을 포함하여 터미널 화면을 지웁니다. 기본 세션 데이터(기록 회상용)는 정확한 구현에 따라 보존될 수 있지만 시각적 표시는 지워집니다.
+  - **키보드 단축키:** 언제든지 **Ctrl+L**을 눌러 지우기 작업을 수행할 수 있습니다.
 
 - **`/compress`**
-  - **Description:** Replace the entire chat context with a summary. This saves
-    on tokens used for future tasks while retaining a high level summary of what
-    has happened.
+  - **설명:** 전체 채팅 컨텍스트를 요약으로 대체합니다. 이렇게 하면 향후 작업에 사용되는 토큰을 절약하면서 발생한 일에 대한 높은 수준의 요약을 유지할 수 있습니다.
 
 - **`/copy`**
-  - **Description:** Copies the last output produced by Gemini CLI to your
-    clipboard, for easy sharing or reuse.
-  - **Behavior:**
-    - Local sessions use system clipboard tools (pbcopy/xclip/clip).
-    - Remote sessions (SSH/WSL) use OSC 52 and require terminal support.
-  - **Note:** This command requires platform-specific clipboard tools to be
-    installed.
-    - On Linux, it requires `xclip` or `xsel`. You can typically install them
-      using your system's package manager.
-    - On macOS, it requires `pbcopy`, and on Windows, it requires `clip`. These
-      tools are typically pre-installed on their respective systems.
+  - **설명:** 쉽게 공유하거나 재사용할 수 있도록 Gemini CLI에서 생성한 마지막 출력을 클립보드에 복사합니다.
+  - **동작:**
+    - 로컬 세션은 시스템 클립보드 도구(pbcopy/xclip/clip)를 사용합니다.
+    - 원격 세션(SSH/WSL)은 OSC 52를 사용하며 터미널 지원이 필요합니다.
+  - **참고:** 이 명령은 플랫폼별 클립보드 도구가 설치되어 있어야 합니다.
+    - Linux에서는 `xclip` 또는 `xsel`이 필요합니다. 일반적으로 시스템의 패키지 관리자를 사용하여 설치할 수 있습니다.
+    - macOS에서는 `pbcopy`가 필요하고, Windows에서는 `clip`이 필요합니다. 이러한 도구는 일반적으로 각 시스템에 사전 설치되어 있습니다.
 
-- **`/directory`** (or **`/dir`**)
-  - **Description:** Manage workspace directories for multi-directory support.
-  - **Sub-commands:**
+- **`/directory`** (또는 **`/dir`**)
+  - **설명:** 다중 디렉터리 지원을 위해 작업 공간 디렉터리를 관리합니다.
+  - **하위 명령어:**
     - **`add`**:
-      - **Description:** Add a directory to the workspace. The path can be
-        absolute or relative to the current working directory. Moreover, the
-        reference from home directory is supported as well.
-      - **Usage:** `/directory add <path1>,<path2>`
-      - **Note:** Disabled in restrictive sandbox profiles. If you're using
-        that, use `--include-directories` when starting the session instead.
+      - **설명:** 작업 공간에 디렉터리를 추가합니다. 경로는 절대 경로이거나 현재 작업 디렉터리에 대한 상대 경로일 수 있습니다. 또한 홈 디렉터리에서의 참조도 지원됩니다.
+      - **사용법:** `/directory add <path1>,<path2>`
+      - **참고:** 제한적인 샌드박스 프로필에서는 비활성화됩니다. 해당 프로필을 사용하는 경우 세션을 시작할 때 대신 `--include-directories`를 사용하세요.
     - **`show`**:
-      - **Description:** Display all directories added by `/directory add` and
-        `--include-directories`.
-      - **Usage:** `/directory show`
+      - **설명:** `/directory add` 및 `--include-directories`로 추가된 모든 디렉터리를 표시합니다.
+      - **사용법:** `/directory show`
 
 - **`/docs`**
-  - **Description:** Open the Gemini CLI documentation in your browser.
+  - **설명:** 브라우저에서 Gemini CLI 문서를 엽니다.
 
 - **`/editor`**
-  - **Description:** Open a dialog for selecting supported editors.
+  - **설명:** 지원되는 편집기를 선택하기 위한 대화 상자를 엽니다.
 
 - **`/extensions`**
-  - **Description:** Lists all active extensions in the current Gemini CLI
-    session. See [Gemini CLI Extensions](/docs/extensions).
+  - **설명:** 현재 Gemini CLI 세션의 모든 활성 확장 프로그램을 나열합니다. [Gemini CLI 확장 프로그램](/docs/extensions)을 참조하세요.
 
 - **`/help`**
-  - **Description:** Display help information about Gemini CLI, including
-    available commands and their usage.
+  - **설명:** 사용 가능한 명령어와 사용법을 포함하여 Gemini CLI에 대한 도움말 정보를 표시합니다.
 
 - **`/shortcuts`**
-  - **Description:** Toggle the shortcuts panel above the input.
-  - **Shortcut:** Press `?` when the prompt is empty.
+  - **설명:** 입력창 위의 단축키 패널을 전환합니다.
+  - **단축키:** 프롬프트가 비어 있을 때 `?`를 누릅니다.
 
 - **`/hooks`**
-  - **Description:** Manage hooks, which allow you to intercept and customize
-    Gemini CLI behavior at specific lifecycle events.
-  - **Sub-commands:**
+  - **설명:** 특정 수명 주기 이벤트에서 Gemini CLI 동작을 가로채고 사용자 정의할 수 있는 훅(Hooks)을 관리합니다.
+  - **하위 명령어:**
     - **`disable-all`**:
-      - **Description:** Disable all enabled hooks.
+      - **설명:** 활성화된 모든 훅을 비활성화합니다.
     - **`disable <hook-name>`**:
-      - **Description:** Disable a hook by name.
+      - **설명:** 이름으로 특정 훅을 비활성화합니다.
     - **`enable-all`**:
-      - **Description:** Enable all disabled hooks.
+      - **설명:** 비활성화된 모든 훅을 활성화합니다.
     - **`enable <hook-name>`**:
-      - **Description:** Enable a hook by name.
-    - **`list`** (or `show`, `panel`):
-      - **Description:** Display all registered hooks with their status.
+      - **설명:** 이름으로 특정 훅을 활성화합니다.
+    - **`list`** (또는 `show`, `panel`):
+      - **설명:** 등록된 모든 훅과 상태를 표시합니다.
 
 - **`/ide`**
-  - **Description:** Manage IDE integration.
-  - **Sub-commands:**
+  - **설명:** IDE 통합을 관리합니다.
+  - **하위 명령어:**
     - **`disable`**:
-      - **Description:** Disable IDE integration.
+      - **설명:** IDE 통합을 비활성화합니다.
     - **`enable`**:
-      - **Description:** Enable IDE integration.
+      - **설명:** IDE 통합을 활성화합니다.
     - **`install`**:
-      - **Description:** Install required IDE companion.
+      - **설명:** 필요한 IDE 컴패니언을 설치합니다.
     - **`status`**:
-      - **Description:** Check status of IDE integration.
+      - **설명:** IDE 통합 상태를 확인합니다.
 
 - **`/init`**
-  - **Description:** To help users easily create a `GEMINI.md` file, this
-    command analyzes the current directory and generates a tailored context
-    file, making it simpler for them to provide project-specific instructions to
-    the Gemini agent.
+  - **설명:** 사용자가 `GEMINI.md` 파일을 쉽게 만들 수 있도록 돕기 위해, 이 명령은 현재 디렉터리를 분석하고 맞춤형 컨텍스트 파일을 생성하여 Gemini 에이전트에게 프로젝트별 지침을 더 간단하게 제공할 수 있게 합니다.
 
 - **`/introspect`**
-  - **Description:** Provide debugging information about the current Gemini CLI
-    session, including the state of loaded sub-agents and active hooks. This
-    command is primarily for advanced users and developers.
+  - **설명:** 로드된 하위 에이전트 및 활성 훅의 상태를 포함하여 현재 Gemini CLI 세션에 대한 디버깅 정보를 제공합니다. 이 명령은 주로 고급 사용자 및 개발자를 위한 것입니다.
 
 - **`/mcp`**
-  - **Description:** Manage configured Model Context Protocol (MCP) servers.
-  - **Sub-commands:**
+  - **설명:** 구성된 MCP(Model Context Protocol) 서버를 관리합니다.
+  - **하위 명령어:**
     - **`auth`**:
-      - **Description:** Authenticate with an OAuth-enabled MCP server.
-      - **Usage:** `/mcp auth <server-name>`
-      - **Details:** If `<server-name>` is provided, it initiates the OAuth flow
-        for that server. If no server name is provided, it lists all configured
-        servers that support OAuth authentication.
+      - **설명:** OAuth가 활성화된 MCP 서버로 인증합니다.
+      - **사용법:** `/mcp auth <server-name>`
+      - **세부 정보:** `<server-name>`이 제공되면 해당 서버에 대한 OAuth 흐름을 시작합니다. 서버 이름이 제공되지 않으면 OAuth 인증을 지원하는 구성된 모든 서버를 나열합니다.
     - **`desc`**
-      - **Description:** List configured MCP servers and tools with
-        descriptions.
-    - **`list`** or **`ls`**:
-      - **Description:** List configured MCP servers and tools. This is the
-        default action if no subcommand is specified.
+      - **설명:** 구성된 MCP 서버 및 도구를 설명과 함께 나열합니다.
+    - **`list`** 또는 **`ls`**:
+      - **설명:** 구성된 MCP 서버 및 도구를 나열합니다. 하위 명령어가 지정되지 않은 경우 기본 동작입니다.
     - **`refresh`**:
-      - **Description:** Restarts all MCP servers and re-discovers their
-        available tools.
+      - **설명:** 모든 MCP 서버를 다시 시작하고 사용 가능한 도구를 다시 검색합니다.
     - **`schema`**:
-      - **Description:** List configured MCP servers and tools with descriptions
-        and schemas.
+      - **설명:** 구성된 MCP 서버 및 도구를 설명 및 스키마와 함께 나열합니다.
 
 - **`/memory`**
-  - **Description:** Manage the AI's instructional context (hierarchical memory
-    loaded from `GEMINI.md` files).
-  - **Sub-commands:**
+  - **설명:** AI의 지침 컨텍스트(`GEMINI.md` 파일에서 로드된 계층적 메모리)를 관리합니다.
+  - **하위 명령어:**
     - **`add`**:
-      - **Description:** Adds the following text to the AI's memory. Usage:
-        `/memory add <text to remember>`
+      - **설명:** AI의 메모리에 다음 텍스트를 추가합니다. 사용법: `/memory add <기억할 텍스트>`
     - **`list`**:
-      - **Description:** Lists the paths of the GEMINI.md files in use for
-        hierarchical memory.
+      - **설명:** 계층적 메모리에 사용 중인 GEMINI.md 파일의 경로를 나열합니다.
     - **`refresh`**:
-      - **Description:** Reload the hierarchical instructional memory from all
-        `GEMINI.md` files found in the configured locations (global,
-        project/ancestors, and sub-directories). This command updates the model
-        with the latest `GEMINI.md` content.
+      - **설명:** 구성된 위치(전역, 프로젝트/상위, 하위 디렉터리)에서 찾은 모든 `GEMINI.md` 파일에서 계층적 지침 메모리를 다시 로드합니다. 이 명령은 모델을 최신 `GEMINI.md` 콘텐츠로 업데이트합니다.
     - **`show`**:
-      - **Description:** Display the full, concatenated content of the current
-        hierarchical memory that has been loaded from all `GEMINI.md` files.
-        This lets you inspect the instructional context being provided to the
-        Gemini model.
-    - **Note:** For more details on how `GEMINI.md` files contribute to
-      hierarchical memory, see the
-      [CLI Configuration documentation](/docs/get-started/configuration).
+      - **설명:** 모든 `GEMINI.md` 파일에서 로드된 현재 계층적 메모리의 전체 연결된 내용을 표시합니다. 이를 통해 Gemini 모델에 제공되는 지침 컨텍스트를 검사할 수 있습니다.
+    - **참고:** `GEMINI.md` 파일이 계층적 메모리에 기여하는 방식에 대한 자세한 내용은 [CLI 구성 문서](/docs/get-started/configuration)를 참조하세요.
 
 - [**`/model`**](/docs/cli/model)
-  - **Description:** Opens a dialog to choose your Gemini model.
+  - **설명:** Gemini 모델을 선택하는 대화 상자를 엽니다.
 
 - **`/policies`**
-  - **Description:** Manage policies.
-  - **Sub-commands:**
+  - **설명:** 정책을 관리합니다.
+  - **하위 명령어:**
     - **`list`**:
-      - **Description:** List all active policies grouped by mode.
+      - **설명:** 모든 활성 정책을 모드별로 그룹화하여 나열합니다.
 
 - **`/privacy`**
-  - **Description:** Display the Privacy Notice and allow users to select
-    whether they consent to the collection of their data for service improvement
-    purposes.
+  - **설명:** 개인정보 처리방침을 표시하고 사용자가 서비스 개선 목적으로 데이터 수집에 동의할지 여부를 선택할 수 있도록 합니다.
 
-- **`/quit`** (or **`/exit`**)
-  - **Description:** Exit Gemini CLI.
+- **`/quit`** (또는 **`/exit`**)
+  - **설명:** Gemini CLI를 종료합니다.
 
 - **`/restore`**
-  - **Description:** Restores the project files to the state they were in just
-    before a tool was executed. This is particularly useful for undoing file
-    edits made by a tool. If run without a tool call ID, it will list available
-    checkpoints to restore from.
-  - **Usage:** `/restore [tool_call_id]`
-  - **Note:** Only available if checkpointing is configured via
-    [settings](/docs/get-started/configuration). See
-    [Checkpointing documentation](/docs/cli/checkpointing) for more details.
+  - **설명:** 프로젝트 파일을 도구가 실행되기 직전의 상태로 복원합니다. 이는 도구에 의한 파일 편집을 취소하는 데 특히 유용합니다. 도구 호출 ID 없이 실행하면 복원할 수 있는 사용 가능한 체크포인트를 나열합니다.
+  - **사용법:** `/restore [tool_call_id]`
+  - **참고:** [설정](/docs/get-started/configuration)을 통해 체크포인팅이 구성된 경우에만 사용할 수 있습니다. 자세한 내용은 [체크포인팅 문서](/docs/cli/checkpointing)를 참조하세요.
 
 - [**`/rewind`**](/docs/cli/rewind)
-  - **Description:** Navigates backward through the conversation history,
-    allowing you to review past interactions and potentially revert to a
-    previous state. This feature helps in managing complex or branched
-    conversations.
+  - **설명:** 대화 기록을 뒤로 탐색하여 과거 상호 작용을 검토하고 잠재적으로 이전 상태로 되돌릴 수 있습니다. 이 기능은 복잡하거나 분기된 대화를 관리하는 데 도움이 됩니다.
 
 - **`/resume`**
-  - **Description:** Browse and resume previous conversation sessions. Opens an
-    interactive session browser where you can search, filter, and select from
-    automatically saved conversations.
-  - **Features:**
-    - **Management:** Delete unwanted sessions directly from the browser
-    - **Resume:** Select any session to resume and continue the conversation
-    - **Search:** Use `/` to search through conversation content across all
-      sessions
-    - **Session Browser:** Interactive interface showing all saved sessions with
-      timestamps, message counts, and first user message for context
-    - **Sorting:** Sort sessions by date or message count
-  - **Note:** All conversations are automatically saved as you chat - no manual
-    saving required. See [Session Management](/docs/cli/session-management) for
-    complete details.
+  - **설명:** 이전 대화 세션을 찾아보고 재개합니다. 자동으로 저장된 대화에서 검색, 필터링 및 선택할 수 있는 대화형 세션 브라우저를 엽니다.
+  - **기능:**
+    - **관리:** 원하지 않는 세션을 브라우저에서 직접 삭제합니다.
+    - **재개:** 세션을 선택하여 대화를 재개하고 계속합니다.
+    - **검색:** `/`를 사용하여 모든 세션에서 대화 내용을 검색합니다.
+    - **세션 브라우저:** 타임스탬프, 메시지 수, 컨텍스트를 위한 첫 번째 사용자 메시지가 포함된 모든 저장된 세션을 보여주는 대화형 인터페이스입니다.
+    - **정렬:** 날짜 또는 메시지 수로 세션을 정렬합니다.
+  - **참고:** 모든 대화는 채팅하는 동안 자동으로 저장되므로 수동 저장이 필요하지 않습니다. 자세한 내용은 [세션 관리](/docs/cli/session-management)를 참조하세요.
 
 - [**`/settings`**](/docs/cli/settings)
-  - **Description:** Open the settings editor to view and modify Gemini CLI
-    settings.
-  - **Details:** This command provides a user-friendly interface for changing
-    settings that control the behavior and appearance of Gemini CLI. It is
-    equivalent to manually editing the `.gemini/settings.json` file, but with
-    validation and guidance to prevent errors. See the
-    [settings documentation](/docs/cli/settings) for a full list of available
-    settings.
-  - **Usage:** Simply run `/settings` and the editor will open. You can then
-    browse or search for specific settings, view their current values, and
-    modify them as desired. Changes to some settings are applied immediately,
-    while others require a restart.
+  - **설명:** 설정 편집기를 열어 Gemini CLI 설정을 보고 수정합니다.
+  - **세부 정보:** 이 명령은 Gemini CLI의 동작과 모양을 제어하는 설정을 변경하기 위한 사용자 친화적인 인터페이스를 제공합니다. `.gemini/settings.json` 파일을 수동으로 편집하는 것과 같지만, 오류를 방지하기 위한 유효성 검사 및 지침이 제공됩니다. 사용 가능한 설정의 전체 목록은 [설정 문서](/docs/cli/settings)를 참조하세요.
+  - **사용법:** `/settings`를 실행하면 편집기가 열립니다. 그런 다음 특정 설정을 찾아보거나 검색하고 현재 값을 보고 원하는 대로 수정할 수 있습니다. 일부 설정 변경 사항은 즉시 적용되지만 다른 설정은 다시 시작해야 합니다.
 
-- **`/shells`** (or **`/bashes`**)
-  - **Description:** Toggle the background shells view. This allows you to view
-    and manage long-running processes that you've sent to the background.
+- **`/shells`** (또는 **`/bashes`**)
+  - **설명:** 백그라운드 쉘 보기(view)를 전환합니다. 이를 통해 백그라운드로 보낸 장기 실행 프로세스를 보고 관리할 수 있습니다.
 - **`/setup-github`**
-  - **Description:** Set up GitHub Actions to triage issues and review PRs with
-    Gemini.
+  - **설명:** Gemini로 문제를 분류하고 PR을 검토하도록 GitHub Actions를 설정합니다.
 
 - [**`/skills`**](/docs/cli/skills)
-  - **Description:** Manage Agent Skills, which provide on-demand expertise and
-    specialized workflows.
-  - **Sub-commands:**
+  - **설명:** 온디맨드 전문 지식 및 전문 워크플로우를 제공하는 에이전트 스킬을 관리합니다.
+  - **하위 명령어:**
     - **`disable <name>`**:
-      - **Description:** Disable a specific skill by name.
-      - **Usage:** `/skills disable <name>`
+      - **설명:** 이름으로 특정 스킬을 비활성화합니다.
+      - **사용법:** `/skills disable <name>`
     - **`enable <name>`**:
-      - **Description:** Enable a specific skill by name.
-      - **Usage:** `/skills enable <name>`
+      - **설명:** 이름으로 특정 스킬을 활성화합니다.
+      - **사용법:** `/skills enable <name>`
     - **`list`**:
-      - **Description:** List all discovered skills and their current status
-        (enabled/disabled).
+      - **설명:** 발견된 모든 스킬과 현재 상태(활성화/비활성화)를 나열합니다.
     - **`reload`**:
-      - **Description:** Refresh the list of discovered skills from all tiers
-        (workspace, user, and extensions).
+      - **설명:** 모든 계층(작업 공간, 사용자 및 확장 프로그램)에서 발견된 스킬 목록을 새로 고칩니다.
 
 - **`/stats`**
-  - **Description:** Display detailed statistics for the current Gemini CLI
-    session, including token usage, cached token savings (when available), and
-    session duration. Note: Cached token information is only displayed when
-    cached tokens are being used, which occurs with API key authentication but
-    not with OAuth authentication at this time.
+  - **설명:** 토큰 사용량, 캐시된 토큰 절약량(사용 가능한 경우) 및 세션 기간을 포함하여 현재 Gemini CLI 세션에 대한 자세한 통계를 표시합니다. 참고: 캐시된 토큰 정보는 캐시된 토큰이 사용될 때만 표시되며, 이는 현재 OAuth 인증이 아닌 API 키 인증에서 발생합니다.
 
 - **`/terminal-setup`**
-  - **Description:** Configure terminal keybindings for multiline input (VS
-    Code, Cursor, Windsurf).
+  - **설명:** 여러 줄 입력(VS Code, Cursor, Windsurf)에 대한 터미널 키 바인딩을 구성합니다.
 
 - [**`/theme`**](/docs/cli/themes)
-  - **Description:** Open a dialog that lets you change the visual theme of
-    Gemini CLI.
+  - **설명:** Gemini CLI의 시각적 테마를 변경할 수 있는 대화 상자를 엽니다.
 
 - [**`/tools`**](/docs/tools)
-  - **Description:** Display a list of tools that are currently available within
-    Gemini CLI.
-  - **Usage:** `/tools [desc]`
-  - **Sub-commands:**
-    - **`desc`** or **`descriptions`**:
-      - **Description:** Show detailed descriptions of each tool, including each
-        tool's name with its full description as provided to the model.
-    - **`nodesc`** or **`nodescriptions`**:
-      - **Description:** Hide tool descriptions, showing only the tool names.
+  - **설명:** 현재 Gemini CLI 내에서 사용할 수 있는 도구 목록을 표시합니다.
+  - **사용법:** `/tools [desc]`
+  - **하위 명령어:**
+    - **`desc`** 또는 **`descriptions`**:
+      - **설명:** 모델에 제공된 전체 설명과 함께 각 도구의 이름과 자세한 설명을 표시합니다.
+    - **`nodesc`** 또는 **`nodescriptions`**:
+      - **설명:** 도구 설명을 숨기고 도구 이름만 표시합니다.
 
 - **`/vim`**
-  - **Description:** Toggle vim mode on or off. When vim mode is enabled, the
-    input area supports vim-style navigation and editing commands in both NORMAL
-    and INSERT modes.
-  - **Features:**
-    - **Count support:** Prefix commands with numbers (e.g., `3h`, `5w`, `10G`)
-    - **Editing commands:** Delete with `x`, change with `c`, insert with `i`,
-      `a`, `o`, `O`; complex operations like `dd`, `cc`, `dw`, `cw`
-    - **INSERT mode:** Standard text input with escape to return to NORMAL mode
-    - **NORMAL mode:** Navigate with `h`, `j`, `k`, `l`; jump by words with `w`,
-      `b`, `e`; go to line start/end with `0`, `$`, `^`; go to specific lines
-      with `G` (or `gg` for first line)
-    - **Persistent setting:** Vim mode preference is saved to
-      `~/.gemini/settings.json` and restored between sessions
-    - **Repeat last command:** Use `.` to repeat the last editing operation
-    - **Status indicator:** When enabled, shows `[NORMAL]` or `[INSERT]` in the
-      footer
+  - **설명:** vim 모드를 켜거나 끕니다. vim 모드가 활성화되면 입력 영역은 NORMAL 및 INSERT 모드 모두에서 vim 스타일 탐색 및 편집 명령을 지원합니다.
+  - **기능:**
+    - **카운트 지원:** 명령 앞에 숫자를 붙입니다(예: `3h`, `5w`, `10G`).
+    - **편집 명령:** `x`로 삭제, `c`로 변경, `i`, `a`, `o`, `O`로 삽입; `dd`, `cc`, `dw`, `cw`와 같은 복잡한 작업
+    - **INSERT 모드:** 탈출(escape)하여 NORMAL 모드로 돌아가는 표준 텍스트 입력
+    - **NORMAL 모드:** `h`, `j`, `k`, `l`로 탐색; `w`, `b`, `e`로 단어 단위 점프; `0`, `$`, `^`로 줄 시작/끝으로 이동; `G`(또는 첫 줄의 경우 `gg`)로 특정 줄로 이동
+    - **영구 설정:** Vim 모드 기본 설정은 `~/.gemini/settings.json`에 저장되고 세션 간에 복원됩니다.
+    - **마지막 명령 반복:** 마지막 편집 작업을 반복하려면 `.`을 사용하세요.
+    - **상태 표시기:** 활성화되면 바닥글에 `[NORMAL]` 또는 `[INSERT]`가 표시됩니다.
 
-### Custom commands
+### 사용자 정의 명령어 (Custom commands)
 
-Custom commands allow you to create personalized shortcuts for your most-used
-prompts. For detailed instructions on how to create, manage, and use them,
-please see the dedicated [Custom Commands documentation](/docs/cli/custom-commands).
+사용자 정의 명령어를 사용하면 가장 많이 사용하는 프롬프트에 대한 개인화된 단축키를 만들 수 있습니다. 생성, 관리 및 사용 방법에 대한 자세한 내용은 [사용자 정의 명령어 문서](/docs/cli/custom-commands)를 참조하세요.
 
-## Input prompt shortcuts
+## 입력 프롬프트 단축키 (Input prompt shortcuts)
 
-These shortcuts apply directly to the input prompt for text manipulation.
+이러한 단축키는 텍스트 조작을 위해 입력 프롬프트에 직접 적용됩니다.
 
-- **Undo:**
-  - **Keyboard shortcut:** Press **Alt+z** or **Cmd+z** to undo the last action
-    in the input prompt.
+- **실행 취소 (Undo):**
+  - **키보드 단축키:** 입력 프롬프트에서 마지막 작업을 실행 취소하려면 **Alt+z** 또는 **Cmd+z**를 누르세요.
 
-- **Redo:**
-  - **Keyboard shortcut:** Press **Shift+Alt+Z** or **Shift+Cmd+Z** to redo the
-    last undone action in the input prompt.
+- **다시 실행 (Redo):**
+  - **키보드 단축키:** 입력 프롬프트에서 마지막으로 실행 취소된 작업을 다시 실행하려면 **Shift+Alt+Z** 또는 **Shift+Cmd+Z**를 누르세요.
 
-## At commands (`@`)
+## 앳 명령어 (`@`) (At commands (`@`))
 
-At commands are used to include the content of files or directories as part of
-your prompt to Gemini. These commands include git-aware filtering.
+앳 명령어는 파일이나 디렉터리의 내용을 Gemini에 대한 프롬프트의 일부로 포함하는 데 사용됩니다. 이러한 명령에는 git 인식 필터링이 포함됩니다.
 
 - **`@<path_to_file_or_directory>`**
-  - **Description:** Inject the content of the specified file or files into your
-    current prompt. This is useful for asking questions about specific code,
-    text, or collections of files.
-  - **Examples:**
-    - `@path/to/your/file.txt Explain this text.`
-    - `@src/my_project/ Summarize the code in this directory.`
-    - `What is this file about? @README.md`
-  - **Details:**
-    - If a path to a single file is provided, the content of that file is read.
-    - If a path to a directory is provided, the command attempts to read the
-      content of files within that directory and any subdirectories.
-    - Spaces in paths should be escaped with a backslash (e.g.,
-      `@My\ Documents/file.txt`).
-    - The command uses the `read_many_files` tool internally. The content is
-      fetched and then inserted into your query before being sent to the Gemini
-      model.
-    - **Git-aware filtering:** By default, git-ignored files (like
-      `node_modules/`, `dist/`, `.env`, `.git/`) are excluded. This behavior can
-      be changed via the `context.fileFiltering` settings.
-    - **File types:** The command is intended for text-based files. While it
-      might attempt to read any file, binary files or very large files might be
-      skipped or truncated by the underlying `read_many_files` tool to ensure
-      performance and relevance. The tool indicates if files were skipped.
-  - **Output:** The CLI will show a tool call message indicating that
-    `read_many_files` was used, along with a message detailing the status and
-    the path(s) that were processed.
+  - **설명:** 지정된 파일 또는 파일들의 내용을 현재 프롬프트에 주입합니다. 특정 코드, 텍스트 또는 파일 모음에 대해 질문할 때 유용합니다.
+  - **예시:**
+    - `@path/to/your/file.txt 이 텍스트를 설명해줘.`
+    - `@src/my_project/ 이 디렉터리의 코드를 요약해줘.`
+    - `이 파일은 무엇에 관한 거야? @README.md`
+  - **세부 정보:**
+    - 단일 파일에 대한 경로가 제공되면 해당 파일의 내용을 읽습니다.
+    - 디렉터리에 대한 경로가 제공되면 명령은 해당 디렉터리 및 하위 디렉터리 내의 파일 내용을 읽으려고 시도합니다.
+    - 경로의 공백은 백슬래시로 이스케이프해야 합니다(예: `@My\ Documents/file.txt`).
+    - 이 명령은 내부적으로 `read_many_files` 도구를 사용합니다. 콘텐츠를 가져와 Gemini 모델로 전송하기 전에 쿼리에 삽입합니다.
+    - **Git 인식 필터링:** 기본적으로 git에서 무시되는 파일(예: `node_modules/`, `dist/`, `.env`, `.git/`)은 제외됩니다. 이 동작은 `context.fileFiltering` 설정을 통해 변경할 수 있습니다.
+    - **파일 유형:** 이 명령은 텍스트 기반 파일을 대상으로 합니다. 모든 파일을 읽으려고 시도할 수 있지만 이진 파일이나 매우 큰 파일은 성능과 관련성을 보장하기 위해 기본 `read_many_files` 도구에 의해 건너뛰거나 잘릴 수 있습니다. 도구는 파일이 건너뛰어졌는지 여부를 나타냅니다.
+  - **출력:** CLI는 상태 및 처리된 경로를 자세히 설명하는 메시지와 함께 `read_many_files`가 사용되었음을 나타내는 도구 호출 메시지를 표시합니다.
 
-- **`@` (Lone at symbol)**
-  - **Description:** If you type a lone `@` symbol without a path, the query is
-    passed as-is to the Gemini model. This might be useful if you are
-    specifically talking _about_ the `@` symbol in your prompt.
+- **`@` (단독 앳 기호)**
+  - **설명:** 경로 없이 단독 `@` 기호를 입력하면 쿼리가 Gemini 모델로 그대로 전달됩니다. 프롬프트에서 `@` 기호에 _대해_ 구체적으로 이야기하는 경우 유용할 수 있습니다.
 
-### Error handling for `@` commands
+### `@` 명령어에 대한 오류 처리
 
-- If the path specified after `@` is not found or is invalid, an error message
-  will be displayed, and the query might not be sent to the Gemini model, or it
-  will be sent without the file content.
-- If the `read_many_files` tool encounters an error (e.g., permission issues),
-  this will also be reported.
+- `@` 뒤에 지정된 경로를 찾을 수 없거나 유효하지 않은 경우 오류 메시지가 표시되며 쿼리가 Gemini 모델로 전송되지 않거나 파일 내용 없이 전송될 수 있습니다.
+- `read_many_files` 도구에 오류(예: 권한 문제)가 발생하면 이 내용도 보고됩니다.
 
-## Shell mode and passthrough commands (`!`)
+## 쉘 모드 및 패스스루 명령어 (`!`) (Shell mode and passthrough commands (`!`))
 
-The `!` prefix lets you interact with your system's shell directly from within
-Gemini CLI.
+`!` 접두사를 사용하면 Gemini CLI 내에서 시스템 쉘과 직접 상호 작용할 수 있습니다.
 
 - **`!<shell_command>`**
-  - **Description:** Execute the given `<shell_command>` using `bash` on
-    Linux/macOS or `powershell.exe -NoProfile -Command` on Windows (unless you
-    override `ComSpec`). Any output or errors from the command are displayed in
-    the terminal.
-  - **Examples:**
-    - `!ls -la` (executes `ls -la` and returns to Gemini CLI)
-    - `!git status` (executes `git status` and returns to Gemini CLI)
+  - **설명:** Linux/macOS에서는 `bash`를, Windows에서는 `powershell.exe -NoProfile -Command`(ComSpec을 재정의하지 않는 한)를 사용하여 주어진 `<shell_command>`를 실행합니다. 명령의 출력이나 오류는 터미널에 표시됩니다.
+  - **예시:**
+    - `!ls -la` (`ls -la`를 실행하고 Gemini CLI로 돌아옴)
+    - `!git status` (`git status`를 실행하고 Gemini CLI로 돌아옴)
 
-- **`!` (Toggle shell mode)**
-  - **Description:** Typing `!` on its own toggles shell mode.
-    - **Entering shell mode:**
-      - When active, shell mode uses a different coloring and a "Shell Mode
-        Indicator".
-      - While in shell mode, text you type is interpreted directly as a shell
-        command.
-    - **Exiting shell mode:**
-      - When exited, the UI reverts to its standard appearance and normal Gemini
-        CLI behavior resumes.
+- **`!` (쉘 모드 전환)**
+  - **설명:** `!`만 입력하면 쉘 모드가 전환됩니다.
+    - **쉘 모드 진입:**
+      - 활성화되면 쉘 모드는 다른 색상과 "쉘 모드 표시기"를 사용합니다.
+      - 쉘 모드에 있는 동안 입력하는 텍스트는 쉘 명령으로 직접 해석됩니다.
+    - **쉘 모드 종료:**
+      - 종료하면 UI가 표준 모양으로 되돌아가고 일반적인 Gemini CLI 동작이 재개됩니다.
 
-- **Caution for all `!` usage:** Commands you execute in shell mode have the
-  same permissions and impact as if you ran them directly in your terminal.
+- **모든 `!` 사용에 대한 주의:** 쉘 모드에서 실행하는 명령은 터미널에서 직접 실행한 것과 동일한 권한과 영향을 미칩니다.
 
-- **Environment variable:** When a command is executed via `!` or in shell mode,
-  the `GEMINI_CLI=1` environment variable is set in the subprocess's
-  environment. This allows scripts or tools to detect if they are being run from
-  within the Gemini CLI.
+- **환경 변수:** `!`를 통해 또는 쉘 모드에서 명령이 실행되면 하위 프로세스의 환경에 `GEMINI_CLI=1` 환경 변수가 설정됩니다. 이를 통해 스크립트나 도구는 Gemini CLI 내에서 실행되고 있는지 감지할 수 있습니다.

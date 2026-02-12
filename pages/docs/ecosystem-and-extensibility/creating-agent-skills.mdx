@@ -1,56 +1,52 @@
-# Creating Agent Skills
+# 에이전트 스킬 만들기
 
-This guide provides an overview of how to create your own Agent Skills to extend
-the capabilities of Gemini CLI.
+이 가이드에서는 Gemini CLI의 기능을 확장하기 위해 나만의 에이전트 스킬을 만드는 방법에 대한
+개요를 제공합니다.
 
-## Getting started: The `skill-creator` skill
+## 시작하기: `skill-creator` 스킬
 
-The recommended way to create a new skill is to use the built-in `skill-creator`
-skill. To use it, ask Gemini CLI to create a new skill for you.
+새로운 스킬을 만드는 권장 방법은 내장된 `skill-creator` 스킬을 사용하는 것입니다. 이를
+사용하려면 Gemini CLI에 새로운 스킬을 만들어 달라고 요청하세요.
 
-**Example prompt:**
+**프롬프트 예시:**
 
 > "create a new skill called 'code-reviewer'"
 
-Gemini CLI will then use the `skill-creator` to generate the skill:
+그러면 Gemini CLI는 `skill-creator`를 사용하여 스킬을 생성합니다:
 
-1.  Generate a new directory for your skill (e.g., `my-new-skill/`).
-2.  Create a `SKILL.md` file with the necessary YAML frontmatter (`name` and
-    `description`).
-3.  Create the standard resource directories: `scripts/`, `references/`, and
-    `assets/`.
+1.  스킬을 위한 새 디렉터리를 생성합니다 (예: `my-new-skill/`).
+2.  필요한 YAML frontmatter(`name` 및 `description`)가 포함된 `SKILL.md` 파일을 생성합니다.
+3.  표준 리소스 디렉터리(`scripts/`, `references/`, `assets/`)를 생성합니다.
 
-## Manual skill creation
+## 수동 스킬 생성
 
-If you prefer to create skills manually:
+스킬을 수동으로 생성하려는 경우:
 
-1.  **Create a directory** for your skill (e.g., `my-new-skill/`).
-2.  **Create a `SKILL.md` file** inside the new directory.
+1.  스킬을 위한 **디렉터리를 생성**합니다 (예: `my-new-skill/`).
+2.  새 디렉터리 안에 **`SKILL.md` 파일을 생성**합니다.
 
-To add additional resources that support the skill, refer to the skill
-structure.
+스킬을 지원하는 추가 리소스를 추가하려면 스킬 구조를 참조하세요.
 
-## Skill structure
+## 스킬 구조
 
-A skill is a directory containing a `SKILL.md` file at its root.
+스킬은 루트에 `SKILL.md` 파일이 포함된 디렉터리입니다.
 
-### Folder structure
+### 폴더 구조
 
-While a `SKILL.md` file is the only required component, we recommend the
-following structure for organizing your skill's resources:
+`SKILL.md` 파일은 유일한 필수 구성 요소이지만, 스킬의 리소스를 정리하기 위해 다음 구조를 권장합니다:
 
 ```text
 my-skill/
-├── SKILL.md       (Required) Instructions and metadata
-├── scripts/       (Optional) Executable scripts
-├── references/    (Optional) Static documentation
-└── assets/        (Optional) Templates and other resources
+├── SKILL.md       (Required) 지침 및 메타데이터
+├── scripts/       (Optional) 실행 가능한 스크립트
+├── references/    (Optional) 정적 문서
+└── assets/        (Optional) 템플릿 및 기타 리소스
 ```
 
-### `SKILL.md` file
+### `SKILL.md` 파일
 
-The `SKILL.md` file is the core of your skill. This file uses YAML frontmatter
-for metadata and Markdown for instructions. For example:
+`SKILL.md` 파일은 스킬의 핵심입니다. 이 파일은 메타데이터에 YAML frontmatter를 사용하고
+지침에 Markdown을 사용합니다. 예를 들어:
 
 ```markdown
 ---
@@ -72,9 +68,8 @@ This skill guides the agent in conducting thorough code reviews.
 - **Local Changes**: If changes are local... ...
 ```
 
-- **`name`**: A unique identifier for the skill. This should match the directory
-  name.
-- **`description`**: A description of what the skill does and when Gemini should
-  use it.
-- **Body**: The Markdown body of the file contains the instructions that guide
-  the agent's behavior when the skill is active.
+- **`name`**: 스킬의 고유 식별자입니다. 디렉터리 이름과 일치해야 합니다.
+- **`description`**: 스킬이 수행하는 작업과 Gemini가 이를 사용해야 하는 시기에 대한
+  설명입니다.
+- **본문**: 파일의 Markdown 본문에는 스킬이 활성 상태일 때 에이전트의 행동을 안내하는 지침이
+  포함되어 있습니다.

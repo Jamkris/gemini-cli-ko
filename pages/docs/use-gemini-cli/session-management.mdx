@@ -91,48 +91,43 @@ Available sessions for this project (3):
 gemini --delete-session 2
 ```
 
-**From the Session Browser:**
+**세션 브라우저에서:**
 
-1.  Open the browser with `/resume`.
-2.  Navigate to the session you want to remove.
-3.  Press `x`.
+1.  `/resume` 명령으로 브라우저를 엽니다.
+2.  삭제하려는 세션으로 이동합니다.
+3.  `x`를 누릅니다.
 
-## Configuration
+## 구성
 
-You can configure how Gemini CLI manages your session history in your
-`settings.json` file.
+`settings.json` 파일에서 Gemini CLI가 세션 기록을 관리하는 방법을 구성할 수 있습니다.
 
-### Session Retention
+### 세션 보존
 
-To prevent your history from growing indefinitely, you can enable automatic
-cleanup policies.
+기록이 무한정 커지는 것을 방지하기 위해 자동 정리 정책을 활성화할 수 있습니다.
 
 ```json
 {
   "general": {
     "sessionRetention": {
       "enabled": true,
-      "maxAge": "30d", // Keep sessions for 30 days
-      "maxCount": 50 // Keep the 50 most recent sessions
+      "maxAge": "30d", // 30일 동안 세션 보관
+      "maxCount": 50 // 가장 최근 50개의 세션 보관
     }
   }
 }
 ```
 
-- **`enabled`**: (boolean) Master switch for session cleanup. Default is
-  `false`.
-- **`maxAge`**: (string) Duration to keep sessions (e.g., "24h", "7d", "4w").
-  Sessions older than this will be deleted.
-- **`maxCount`**: (number) Maximum number of sessions to retain. The oldest
-  sessions exceeding this count will be deleted.
-- **`minRetention`**: (string) Minimum retention period (safety limit). Defaults
-  to `"1d"`; sessions newer than this period are never deleted by automatic
-  cleanup.
+- **`enabled`**: (boolean) 세션 정리의 마스터 스위치입니다. 기본값은 `false`입니다.
+- **`maxAge`**: (string) 세션을 보관할 기간(예: "24h", "7d", "4w")입니다.
+  이 기간보다 오래된 세션은 삭제됩니다.
+- **`maxCount`**: (number) 보관할 최대 세션 수입니다. 이 수를 초과하는 가장 오래된
+  세션은 삭제됩니다.
+- **`minRetention`**: (string) 최소 보존 기간(안전 제한)입니다. 기본값은 `"1d"`이며;
+  이 기간보다 최신인 세션은 자동 정리로 삭제되지 않습니다.
 
-### Session Limits
+### 세션 제한
 
-You can also limit the length of individual sessions to prevent context windows
-from becoming too large and expensive.
+컨텍스트 창이 너무 커져 비용이 많이 드는 것을 방지하기 위해 개별 세션의 길이를 제한할 수도 있습니다.
 
 ```json
 {
@@ -142,10 +137,10 @@ from becoming too large and expensive.
 }
 ```
 
-- **`maxSessionTurns`**: (number) The maximum number of turns (user + model
-  exchanges) allowed in a single session. Set to `-1` for unlimited (default).
+- **`maxSessionTurns`**: (number) 단일 세션에서 허용되는 최대 턴 수(사용자 + 모델 교환)입니다.
+  제한 없음을 설정하려면 `-1`로 설정하세요(기본값).
 
-  **Behavior when limit is reached:**
-  - **Interactive Mode:** The CLI shows an informational message and stops
-    sending requests to the model. You must manually start a new session.
-  - **Non-Interactive Mode:** The CLI exits with an error.
+  **제한 도달 시 동작:**
+  - **대화형 모드:** CLI가 정보 메시지를 표시하고 모델에 요청 전송을 중지합니다.
+    새 세션을 수동으로 시작해야 합니다.
+  - **비대화형 모드:** CLI가 오류와 함께 종료됩니다.

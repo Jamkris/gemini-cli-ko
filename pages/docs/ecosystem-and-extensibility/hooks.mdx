@@ -1,104 +1,96 @@
-# Gemini CLI hooks
+# Gemini CLI 후크
 
-Hooks are scripts or programs that Gemini CLI executes at specific points in the
-agentic loop, allowing you to intercept and customize behavior without modifying
-the CLI's source code.
+후크는 Gemini CLI가 에이전트 루프의 특정 지점에서 실행하는 스크립트 또는 프로그램으로,
+CLI의 소스 코드를 수정하지 않고도 동작을 가로채고 사용자 지정할 수 있습니다.
 
-## What are hooks?
+## 후크란 무엇인가요?
 
-Hooks run synchronously as part of the agent loop—when a hook event fires,
-Gemini CLI waits for all matching hooks to complete before continuing.
+후크는 에이전트 루프의 일부로 동기적으로 실행됩니다. 후크 이벤트가 발생하면 Gemini CLI는
+일치하는 모든 후크가 완료될 때까지 기다렸다가 계속 진행합니다.
 
-With hooks, you can:
+후크를 사용하여 다음을 수행할 수 있습니다:
 
-- **Add context:** Inject relevant information (like git history) before the
-  model processes a request.
-- **Validate actions:** Review tool arguments and block potentially dangerous
-  operations.
-- **Enforce policies:** Implement security scanners and compliance checks.
-- **Log interactions:** Track tool usage and model responses for auditing.
-- **Optimize behavior:** Dynamically filter available tools or adjust model
-  parameters.
+- **컨텍스트 추가**: 모델이 요청을 처리하기 전에 관련 정보(예: git 기록)를 주입합니다.
+- **작업 검증**: 도구 인수를 검토하고 위험할 수 있는 작업을 차단합니다.
+- **정책 시행**: 보안 스캐너 및 규정 준수 검사를 구현합니다.
+- **상호 작용 기록**: 감사를 위해 도구 사용량 및 모델 응답을 추적합니다.
+- **동작 최적화**: 사용 가능한 도구를 동적으로 필터링하거나 모델 매개변수를 조정합니다.
 
-### Getting started
+### 시작하기
 
-- **[Writing hooks guide](/docs/hooks/writing-hooks)**: A tutorial on creating
-  your first hook with comprehensive examples.
-- **[Best practices](/docs/hooks/best-practices)**: Guidelines on security,
-  performance, and debugging.
-- **[Hooks reference](/docs/hooks/reference)**: The definitive technical
-  specification of I/O schemas and exit codes.
+- **[후크 작성 가이드](/docs/hooks/writing-hooks)**: 포괄적인 예제와 함께 첫 번째 후크를
+  만드는 튜토리얼입니다.
+- **[모범 사례](/docs/hooks/best-practices)**: 보안, 성능 및 디버깅에 대한 지침입니다.
+- **[후크 참조](/docs/hooks/reference)**: I/O 스키마 및 종료 코드에 대한 확정적인 기술
+  사양입니다.
 
-## Core concepts
+## 핵심 개념
 
-### Hook events
+### 후크 이벤트
 
-Hooks are triggered by specific events in Gemini CLI's lifecycle.
+후크는 Gemini CLI 수명 주기의 특정 이벤트에 의해 트리거됩니다.
 
-| Event                 | When It Fires                                  | Impact                 | Common Use Cases                             |
-| --------------------- | ---------------------------------------------- | ---------------------- | -------------------------------------------- |
-| `SessionStart`        | When a session begins (startup, resume, clear) | Inject Context         | Initialize resources, load context           |
-| `SessionEnd`          | When a session ends (exit, clear)              | Advisory               | Clean up, save state                         |
-| `BeforeAgent`         | After user submits prompt, before planning     | Block Turn / Context   | Add context, validate prompts, block turns   |
-| `AfterAgent`          | When agent loop ends                           | Retry / Halt           | Review output, force retry or halt execution |
-| `BeforeModel`         | Before sending request to LLM                  | Block Turn / Mock      | Modify prompts, swap models, mock responses  |
-| `AfterModel`          | After receiving LLM response                   | Block Turn / Redact    | Filter/redact responses, log interactions    |
-| `BeforeToolSelection` | Before LLM selects tools                       | Filter Tools           | Filter available tools, optimize selection   |
-| `BeforeTool`          | Before a tool executes                         | Block Tool / Rewrite   | Validate arguments, block dangerous ops      |
-| `AfterTool`           | After a tool executes                          | Block Result / Context | Process results, run tests, hide results     |
-| `PreCompress`         | Before context compression                     | Advisory               | Save state, notify user                      |
-| `Notification`        | When a system notification occurs              | Advisory               | Forward to desktop alerts, logging           |
+| 이벤트                | 발생 시기                                | 영향                   | 일반적인 사용 사례                    |
+| --------------------- | ---------------------------------------- | ---------------------- | ------------------------------------- |
+| `SessionStart`        | 세션이 시작될 때 (시작, 재개, 지우기)    | 컨텍스트 주입          | 리소스 초기화, 컨텍스트 로드          |
+| `SessionEnd`          | 세션이 종료될 때 (종료, 지우기)          | 권고                   | 정리, 상태 저장                       |
+| `BeforeAgent`         | 사용자가 프롬프트를 제출한 후, 계획 전에 | 턴 / 컨텍스트 차단     | 컨텍스트 추가, 프롬프트 검증, 턴 차단 |
+| `AfterAgent`          | 에이전트 루프가 끝날 때                  | 재시도 / 중단          | 출력 검토, 재시도 강제 또는 실행 중단 |
+| `BeforeModel`         | LLM에 요청을 보내기 전                   | 턴 차단 / 모의(Mock)   | 프롬프트 수정, 모델 교체, 모의 응답   |
+| `AfterModel`          | LLM 응답을 받은 후                       | 턴 차단 / 수정(Redact) | 응답 필터링/수정, 상호 작용 기록      |
+| `BeforeToolSelection` | LLM이 도구를 선택하기 전                 | 도구 필터링            | 사용 가능한 도구 필터링, 선택 최적화  |
+| `BeforeTool`          | 도구가 실행되기 전                       | 도구 차단 / 재작성     | 인수 검증, 위험한 작업 차단           |
+| `AfterTool`           | 도구가 실행된 후                         | 결과 차단 / 컨텍스트   | 결과 처리, 테스트 실행, 결과 숨기기   |
+| `PreCompress`         | 컨텍스트 압축 전                         | 권고                   | 상태 저장, 사용자에게 알림            |
+| `Notification`        | 시스템 알림이 발생할 때                  | 권고                   | 데스크톱 알림으로 전달, 로깅          |
 
-### Global mechanics
+### 전역 메커니즘
 
-Understanding these core principles is essential for building robust hooks.
+이러한 핵심 원칙을 이해하는 것은 견고한 후크를 구축하는 데 필수적입니다.
 
-#### Strict JSON requirements (The "Golden Rule")
+#### 엄격한 JSON 요구 사항 ("황금률")
 
-Hooks communicate via `stdin` (Input) and `stdout` (Output).
+후크는 `stdin`(입력) 및 `stdout`(출력)을 통해 통신합니다.
 
-1. **Silence is Mandatory**: Your script **must not** print any plain text to
-   `stdout` other than the final JSON object. **Even a single `echo` or `print`
-   call before the JSON will break parsing.**
-2. **Pollution = Failure**: If `stdout` contains non-JSON text, parsing will
-   fail. The CLI will default to "Allow" and treat the entire output as a
-   `systemMessage`.
-3. **Debug via Stderr**: Use `stderr` for **all** logging and debugging (e.g.,
-   `echo "debug" >&2`). Gemini CLI captures `stderr` but never attempts to parse
-   it as JSON.
+1. **침묵은 필수입니다**: 스크립트는 최종 JSON 객체 외에 `stdout`에 어떠한 일반 텍스트도
+   출력해서는 **안 됩니다**. **JSON 앞에 `echo`나 `print` 호출이 하나만 있어도 파싱이
+   중단됩니다.**
+2. **오염 = 실패**: `stdout`에 JSON이 아닌 텍스트가 포함되면 파싱이 실패합니다. CLI는
+   "Allow(허용)"를 기본값으로 설정하고 전체 출력을 `systemMessage`로 처리합니다.
+3. **Stderr를 통한 디버그**: **모든** 로깅 및 디버깅에는 `stderr`를 사용하세요(예:
+   `echo "debug" >&2`). Gemini CLI는 `stderr`를 캡처하지만 JSON으로 파싱을 시도하지는
+   않습니다.
 
-#### Exit codes
+#### 종료 코드
 
-Gemini CLI uses exit codes to determine the high-level outcome of a hook
-execution:
+Gemini CLI는 종료 코드를 사용하여 후크 실행의 상위 수준 결과를 결정합니다:
 
-| Exit Code | Label            | Behavioral Impact                                                                                                                                                            |
-| --------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **0**     | **Success**      | The `stdout` is parsed as JSON. **Preferred code** for all logic, including intentional blocks (e.g., `{"decision": "deny"}`).                                               |
-| **2**     | **System Block** | **Critical Block**. The target action (tool, turn, or stop) is aborted. `stderr` is used as the rejection reason. High severity; used for security stops or script failures. |
-| **Other** | **Warning**      | Non-fatal failure. A warning is shown, but the interaction proceeds using original parameters.                                                                               |
+| 종료 코드 | 레이블          | 행동 영향                                                                                                                                                  |
+| --------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **0**     | **성공**        | `stdout`이 JSON으로 파싱됩니다. 의도적인 차단(예: `{"decision": "deny"}`)을 포함한 모든 로직에 대해 **선호되는 코드**입니다.                               |
+| **2**     | **시스템 차단** | **중대한 차단**. 대상 작업(도구, 턴 또는 중지)이 중단됩니다. `stderr`가 거부 사유로 사용됩니다. 심각도가 높으며 보안 중지 또는 스크립트 실패에 사용됩니다. |
+| **기타**  | **경고**        | 치명적이지 않은 실패입니다. 경고가 표시되지만 상호 작용은 원래 매개변수를 사용하여 진행됩니다.                                                             |
 
-#### Matchers
+#### 매처 (Matchers)
 
-You can filter which specific tools or triggers fire your hook using the
-`matcher` field.
+`matcher` 필드를 사용하여 후크를 실행할 특정 도구 또는 트리거를 필터링할 수 있습니다.
 
-- **Tool events** (`BeforeTool`, `AfterTool`): Matchers are **Regular
-  Expressions**. (e.g., `"write_.*"`).
-- **Lifecycle events**: Matchers are **Exact Strings**. (e.g., `"startup"`).
-- **Wildcards**: `"*"` or `""` (empty string) matches all occurrences.
+- **도구 이벤트** (`BeforeTool`, `AfterTool`): 매처는 **정규 표현식**입니다. (예:
+  `"write_.*"`).
+- **수명 주기 이벤트**: 매처는 **정확한 문자열**입니다. (예: `"startup"`).
+- **와일드카드**: `"*"` 또는 `""` (빈 문자열)은 모든 발생과 일치합니다.
 
-## Configuration
+## 구성
 
-Hooks are configured in `settings.json`. Gemini CLI merges configurations from
-multiple layers in the following order of precedence (highest to lowest):
+후크는 `settings.json`에서 구성됩니다. Gemini CLI는 다음 우선순위 순서(높은 순에서 낮은 순)로
+여러 계층의 구성을 병합합니다:
 
-1.  **Project settings**: `.gemini/settings.json` in the current directory.
-2.  **User settings**: `~/.gemini/settings.json`.
-3.  **System settings**: `/etc/gemini-cli/settings.json`.
-4.  **Extensions**: Hooks defined by installed extensions.
+1.  **프로젝트 설정**: 현재 디렉터리의 `.gemini/settings.json`.
+2.  **사용자 설정**: `~/.gemini/settings.json`.
+3.  **시스템 설정**: `/etc/gemini-cli/settings.json`.
+4.  **확장**: 설치된 확장에 의해 정의된 후크.
 
-### Configuration schema
+### 구성 스키마
 
 ```json
 {
@@ -120,45 +112,43 @@ multiple layers in the following order of precedence (highest to lowest):
 }
 ```
 
-#### Hook configuration fields
+#### 후크 구성 필드
 
-| Field         | Type   | Required  | Description                                                          |
-| :------------ | :----- | :-------- | :------------------------------------------------------------------- |
-| `type`        | string | **Yes**   | The execution engine. Currently only `"command"` is supported.       |
-| `command`     | string | **Yes\*** | The shell command to execute. (Required when `type` is `"command"`). |
-| `name`        | string | No        | A friendly name for identifying the hook in logs and CLI commands.   |
-| `timeout`     | number | No        | Execution timeout in milliseconds (default: 60000).                  |
-| `description` | string | No        | A brief explanation of the hook's purpose.                           |
+| 필드          | 유형   | 필수 여부 | 설명                                                         |
+| :------------ | :----- | :-------- | :----------------------------------------------------------- |
+| `type`        | string | **Yes**   | 실행 엔진입니다. 현재 `"command"`만 지원됩니다.              |
+| `command`     | string | **Yes\*** | 실행할 셸 명령입니다. (`type`이 `"command"`일 때 필수).      |
+| `name`        | string | No        | 로그 및 CLI 명령에서 후크를 식별하기 위한 친절한 이름입니다. |
+| `timeout`     | number | No        | 실행 제한 시간(밀리초)입니다 (기본값: 60000).                |
+| `description` | string | No        | 후크의 목적에 대한 간략한 설명입니다.                        |
 
 ---
 
-### Environment variables
+### 환경 변수
 
-Hooks are executed with a sanitized environment.
+후크는 정화된 환경에서 실행됩니다.
 
-- `GEMINI_PROJECT_DIR`: The absolute path to the project root.
-- `GEMINI_SESSION_ID`: The unique ID for the current session.
-- `GEMINI_CWD`: The current working directory.
-- `CLAUDE_PROJECT_DIR`: (Alias) Provided for compatibility.
+- `GEMINI_PROJECT_DIR`: 프로젝트 루트의 절대 경로입니다.
+- `GEMINI_SESSION_ID`: 현재 세션의 고유 ID입니다.
+- `GEMINI_CWD`: 현재 작업 디렉터리입니다.
+- `CLAUDE_PROJECT_DIR`: (별칭) 호환성을 위해 제공됩니다.
 
-## Security and risks
+## 보안 및 위험
 
-> **Warning: Hooks execute arbitrary code with your user privileges.** By
-> configuring hooks, you are allowing scripts to run shell commands on your
-> machine.
+> **경고: 후크는 사용자 권한으로 임의의 코드를 실행합니다.** 후크를 구성하면 스크립트가
+> 사용자 머신에서 셸 명령을 실행하도록 허용하는 것입니다.
 
-**Project-level hooks** are particularly risky when opening untrusted projects.
-Gemini CLI **fingerprints** project hooks. If a hook's name or command changes
-(e.g., via `git pull`), it is treated as a **new, untrusted hook** and you will
-be warned before it executes.
+**프로젝트 수준 후크**는 신뢰할 수 없는 프로젝트를 열 때 특히 위험합니다. Gemini CLI는 프로젝트
+후크를 **지문(fingerprint)**으로 식별합니다. 후크의 이름이나 명령이 변경되면(예: `git pull`을
+통해) **새롭고 신뢰할 수 없는 후크**로 취급되며 실행 전에 경고가 표시됩니다.
 
-See [Security Considerations](/docs/hooks/best-practices#using-hooks-securely)
-for a detailed threat model.
+자세한 위협 모델은 [보안 고려 사항](/docs/hooks/best-practices#using-hooks-securely)을
+참조하세요.
 
-## Managing hooks
+## 후크 관리
 
-Use the CLI commands to manage hooks without editing JSON manually:
+JSON을 수동으로 편집하지 않고 CLI 명령을 사용하여 후크를 관리하세요:
 
-- **View hooks:** `/hooks panel`
-- **Enable/Disable all:** `/hooks enable-all` or `/hooks disable-all`
-- **Toggle individual:** `/hooks enable <name>` or `/hooks disable <name>`
+- **후크 보기:** `/hooks panel`
+- **모두 활성화/비활성화:** `/hooks enable-all` 또는 `/hooks disable-all`
+- **개별 토글:** `/hooks enable <name>` 또는 `/hooks disable <name>`

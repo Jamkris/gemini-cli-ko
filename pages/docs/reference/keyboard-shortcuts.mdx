@@ -1,147 +1,135 @@
-# Gemini CLI keyboard shortcuts
+# Gemini CLI 단축키 (Gemini CLI keyboard shortcuts)
 
-Gemini CLI ships with a set of default keyboard shortcuts for editing input,
-navigating history, and controlling the UI. Use this reference to learn the
-available combinations.
+Gemini CLI는 입력 편집, 히스토리 탐색 및 UI 제어를 위한 기본 단축키 세트와 함께 제공됩니다. 사용 가능한 조합을 알아보려면 이 참조를 사용하세요.
 
 <!-- KEYBINDINGS-AUTOGEN:START -->
 
-#### Basic Controls
+#### 기본 제어 (Basic Controls)
 
-| Action                                                          | Keys       |
-| --------------------------------------------------------------- | ---------- |
-| Confirm the current selection or choice.                        | `Enter`    |
-| Dismiss dialogs or cancel the current focus.                    | `Esc`      |
-| Cancel the current request or quit the CLI when input is empty. | `Ctrl + C` |
-| Exit the CLI when the input buffer is empty.                    | `Ctrl + D` |
+| 작업 (Action)                                     | 키 (Keys)  |
+| ------------------------------------------------- | ---------- |
+| 현재 선택 또는 선택 사항 확인.                    | `Enter`    |
+| 대화상자 닫기 또는 현재 포커스 취소.              | `Esc`      |
+| 입력이 비어 있을 때 현재 요청 취소 또는 CLI 종료. | `Ctrl + C` |
+| 입력 버퍼가 비어 있을 때 CLI 종료.                | `Ctrl + D` |
 
-#### Cursor Movement
+#### 커서 이동 (Cursor Movement)
 
-| Action                                      | Keys                                                         |
-| ------------------------------------------- | ------------------------------------------------------------ |
-| Move the cursor to the start of the line.   | `Ctrl + A`<br />`Home (no Shift, Ctrl)`                      |
-| Move the cursor to the end of the line.     | `Ctrl + E`<br />`End (no Shift, Ctrl)`                       |
-| Move the cursor up one line.                | `Up Arrow (no Shift, Alt, Ctrl, Cmd)`                        |
-| Move the cursor down one line.              | `Down Arrow (no Shift, Alt, Ctrl, Cmd)`                      |
-| Move the cursor one character to the left.  | `Left Arrow (no Shift, Alt, Ctrl, Cmd)`                      |
-| Move the cursor one character to the right. | `Right Arrow (no Shift, Alt, Ctrl, Cmd)`<br />`Ctrl + F`     |
-| Move the cursor one word to the left.       | `Ctrl + Left Arrow`<br />`Alt + Left Arrow`<br />`Alt + B`   |
-| Move the cursor one word to the right.      | `Ctrl + Right Arrow`<br />`Alt + Right Arrow`<br />`Alt + F` |
+| 작업 (Action)                   | 키 (Keys)                                                    |
+| ------------------------------- | ------------------------------------------------------------ |
+| 커서를 줄의 시작으로 이동.      | `Ctrl + A`<br />`Home (no Shift, Ctrl)`                      |
+| 커서를 줄의 끝으로 이동.        | `Ctrl + E`<br />`End (no Shift, Ctrl)`                       |
+| 커서를 한 줄 위로 이동.         | `Up Arrow (no Shift, Alt, Ctrl, Cmd)`                        |
+| 커서를 한 줄 아래로 이동.       | `Down Arrow (no Shift, Alt, Ctrl, Cmd)`                      |
+| 커서를 왼쪽으로 한 문자 이동.   | `Left Arrow (no Shift, Alt, Ctrl, Cmd)`                      |
+| 커서를 오른쪽으로 한 문자 이동. | `Right Arrow (no Shift, Alt, Ctrl, Cmd)`<br />`Ctrl + F`     |
+| 커서를 왼쪽으로 한 단어 이동.   | `Ctrl + Left Arrow`<br />`Alt + Left Arrow`<br />`Alt + B`   |
+| 커서를 오른쪽으로 한 단어 이동. | `Ctrl + Right Arrow`<br />`Alt + Right Arrow`<br />`Alt + F` |
 
-#### Editing
+#### 편집 (Editing)
 
-| Action                                           | Keys                                                             |
-| ------------------------------------------------ | ---------------------------------------------------------------- |
-| Delete from the cursor to the end of the line.   | `Ctrl + K`                                                       |
-| Delete from the cursor to the start of the line. | `Ctrl + U`                                                       |
-| Clear all text in the input field.               | `Ctrl + C`                                                       |
-| Delete the previous word.                        | `Ctrl + Backspace`<br />`Alt + Backspace`<br />`Ctrl + W`        |
-| Delete the next word.                            | `Ctrl + Delete`<br />`Alt + Delete`                              |
-| Delete the character to the left.                | `Backspace`<br />`Ctrl + H`                                      |
-| Delete the character to the right.               | `Delete`<br />`Ctrl + D`                                         |
-| Undo the most recent text edit.                  | `Cmd + Z (no Shift)`<br />`Alt + Z (no Shift)`                   |
-| Redo the most recent undone text edit.           | `Shift + Ctrl + Z`<br />`Shift + Cmd + Z`<br />`Shift + Alt + Z` |
+| 작업 (Action)                                  | 키 (Keys)                                                        |
+| ---------------------------------------------- | ---------------------------------------------------------------- |
+| 커서에서 줄 끝까지 삭제.                       | `Ctrl + K`                                                       |
+| 커서에서 줄 시작까지 삭제.                     | `Ctrl + U`                                                       |
+| 입력 필드의 모든 텍스트 지우기.                | `Ctrl + C`                                                       |
+| 이전 단어 삭제.                                | `Ctrl + Backspace`<br />`Alt + Backspace`<br />`Ctrl + W`        |
+| 다음 단어 삭제.                                | `Ctrl + Delete`<br />`Alt + Delete`                              |
+| 왼쪽 문자 삭제.                                | `Backspace`<br />`Ctrl + H`                                      |
+| 오른쪽 문자 삭제.                              | `Delete`<br />`Ctrl + D`                                         |
+| 최근 텍스트 편집 실행 취소 (Undo).             | `Cmd + Z (no Shift)`<br />`Alt + Z (no Shift)`                   |
+| 최근 실행 취소된 텍스트 편집 다시 실행 (Redo). | `Shift + Ctrl + Z`<br />`Shift + Cmd + Z`<br />`Shift + Alt + Z` |
 
-#### Scrolling
+#### 스크롤 (Scrolling)
 
-| Action                   | Keys                              |
+| 작업 (Action)            | 키 (Keys)                         |
 | ------------------------ | --------------------------------- |
-| Scroll content up.       | `Shift + Up Arrow`                |
-| Scroll content down.     | `Shift + Down Arrow`              |
-| Scroll to the top.       | `Ctrl + Home`<br />`Shift + Home` |
-| Scroll to the bottom.    | `Ctrl + End`<br />`Shift + End`   |
-| Scroll up by one page.   | `Page Up`                         |
-| Scroll down by one page. | `Page Down`                       |
+| 콘텐츠 위로 스크롤.      | `Shift + Up Arrow`                |
+| 콘텐츠 아래로 스크롤.    | `Shift + Down Arrow`              |
+| 맨 위로 스크롤.          | `Ctrl + Home`<br />`Shift + Home` |
+| 맨 아래로 스크롤.        | `Ctrl + End`<br />`Shift + End`   |
+| 한 페이지 위로 스크롤.   | `Page Up`                         |
+| 한 페이지 아래로 스크롤. | `Page Down`                       |
 
-#### History & Search
+#### 히스토리 및 검색 (History & Search)
 
-| Action                                       | Keys                  |
-| -------------------------------------------- | --------------------- |
-| Show the previous entry in history.          | `Ctrl + P (no Shift)` |
-| Show the next entry in history.              | `Ctrl + N (no Shift)` |
-| Start reverse search through history.        | `Ctrl + R`            |
-| Submit the selected reverse-search match.    | `Enter (no Ctrl)`     |
-| Accept a suggestion while reverse searching. | `Tab`                 |
-| Browse and rewind previous interactions.     | `Double Esc`          |
+| 작업 (Action)                      | 키 (Keys)             |
+| ---------------------------------- | --------------------- |
+| 히스토리의 이전 항목 표시.         | `Ctrl + P (no Shift)` |
+| 히스토리의 다음 항목 표시.         | `Ctrl + N (no Shift)` |
+| 히스토리 역방향 검색 시작.         | `Ctrl + R`            |
+| 선택된 역방향 검색 일치 항목 제출. | `Enter (no Ctrl)`     |
+| 역방향 검색 중 제안 수락.          | `Tab`                 |
+| 이전 상호 작용 찾아보기 및 되감기. | `Double Esc`          |
 
-#### Navigation
+#### 탐색 (Navigation)
 
-| Action                                             | Keys                                        |
-| -------------------------------------------------- | ------------------------------------------- |
-| Move selection up in lists.                        | `Up Arrow (no Shift)`                       |
-| Move selection down in lists.                      | `Down Arrow (no Shift)`                     |
-| Move up within dialog options.                     | `Up Arrow (no Shift)`<br />`K (no Shift)`   |
-| Move down within dialog options.                   | `Down Arrow (no Shift)`<br />`J (no Shift)` |
-| Move to the next item or question in a dialog.     | `Tab (no Shift)`                            |
-| Move to the previous item or question in a dialog. | `Shift + Tab`                               |
+| 작업 (Action)                            | 키 (Keys)                                   |
+| ---------------------------------------- | ------------------------------------------- |
+| 목록에서 선택 항목 위로 이동.            | `Up Arrow (no Shift)`                       |
+| 목록에서 선택 항목 아래로 이동.          | `Down Arrow (no Shift)`                     |
+| 대화상자 옵션 내에서 위로 이동.          | `Up Arrow (no Shift)`<br />`K (no Shift)`   |
+| 대화상자 옵션 내에서 아래로 이동.        | `Down Arrow (no Shift)`<br />`J (no Shift)` |
+| 대화상자의 다음 항목 또는 질문으로 이동. | `Tab (no Shift)`                            |
+| 대화상자의 이전 항목 또는 질문으로 이동. | `Shift + Tab`                               |
 
-#### Suggestions & Completions
+#### 제안 및 완성 (Suggestions & Completions)
 
-| Action                                  | Keys                                               |
-| --------------------------------------- | -------------------------------------------------- |
-| Accept the inline suggestion.           | `Tab`<br />`Enter (no Ctrl)`                       |
-| Move to the previous completion option. | `Up Arrow (no Shift)`<br />`Ctrl + P (no Shift)`   |
-| Move to the next completion option.     | `Down Arrow (no Shift)`<br />`Ctrl + N (no Shift)` |
-| Expand an inline suggestion.            | `Right Arrow`                                      |
-| Collapse an inline suggestion.          | `Left Arrow`                                       |
+| 작업 (Action)            | 키 (Keys)                                          |
+| ------------------------ | -------------------------------------------------- |
+| 인라인 제안 수락.        | `Tab`<br />`Enter (no Ctrl)`                       |
+| 이전 완성 옵션으로 이동. | `Up Arrow (no Shift)`<br />`Ctrl + P (no Shift)`   |
+| 다음 완성 옵션으로 이동. | `Down Arrow (no Shift)`<br />`Ctrl + N (no Shift)` |
+| 인라인 제안 확장.        | `Right Arrow`                                      |
+| 인라인 제안 축소.        | `Left Arrow`                                       |
 
-#### Text Input
+#### 텍스트 입력 (Text Input)
 
-| Action                                         | Keys                                                                                      |
-| ---------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| Submit the current prompt.                     | `Enter (no Shift, Alt, Ctrl, Cmd)`                                                        |
-| Insert a newline without submitting.           | `Ctrl + Enter`<br />`Cmd + Enter`<br />`Alt + Enter`<br />`Shift + Enter`<br />`Ctrl + J` |
-| Open the current prompt in an external editor. | `Ctrl + X`                                                                                |
-| Paste from the clipboard.                      | `Ctrl + V`<br />`Cmd + V`<br />`Alt + V`                                                  |
+| 작업 (Action)                         | 키 (Keys)                                                                                 |
+| ------------------------------------- | ----------------------------------------------------------------------------------------- |
+| 현재 프롬프트 제출.                   | `Enter (no Shift, Alt, Ctrl, Cmd)`                                                        |
+| 제출하지 않고 줄 바꿈 삽입.           | `Ctrl + Enter`<br />`Cmd + Enter`<br />`Alt + Enter`<br />`Shift + Enter`<br />`Ctrl + J` |
+| 현재 프롬프트를 외부 에디터에서 열기. | `Ctrl + X`                                                                                |
+| 클립보드에서 붙여넣기.                | `Ctrl + V`<br />`Cmd + V`<br />`Alt + V`                                                  |
 
-#### App Controls
+#### 앱 제어 (App Controls)
 
-| Action                                                                                                | Keys                       |
-| ----------------------------------------------------------------------------------------------------- | -------------------------- |
-| Toggle detailed error information.                                                                    | `F12`                      |
-| Toggle the full TODO list.                                                                            | `Ctrl + T`                 |
-| Show IDE context details.                                                                             | `Ctrl + G`                 |
-| Toggle Markdown rendering.                                                                            | `Alt + M`                  |
-| Toggle copy mode when in alternate buffer mode.                                                       | `Ctrl + S`                 |
-| Toggle YOLO (auto-approval) mode for tool calls.                                                      | `Ctrl + Y`                 |
-| Cycle through approval modes: default (prompt), auto_edit (auto-approve edits), and plan (read-only). | `Shift + Tab`              |
-| Expand a height-constrained response to show additional lines when not in alternate buffer mode.      | `Ctrl + O`<br />`Ctrl + S` |
-| Expand or collapse a paste placeholder when cursor is over placeholder.                               | `Ctrl + O`                 |
-| Toggle current background shell visibility.                                                           | `Ctrl + B`                 |
-| Toggle background shell list.                                                                         | `Ctrl + L`                 |
-| Kill the active background shell.                                                                     | `Ctrl + K`                 |
-| Confirm selection in background shell list.                                                           | `Enter`                    |
-| Dismiss background shell list.                                                                        | `Esc`                      |
-| Move focus from background shell to Gemini.                                                           | `Shift + Tab`              |
-| Move focus from background shell list to Gemini.                                                      | `Tab (no Shift)`           |
-| Show warning when trying to unfocus background shell via Tab.                                         | `Tab (no Shift)`           |
-| Show warning when trying to unfocus shell input via Tab.                                              | `Tab (no Shift)`           |
-| Move focus from Gemini to the active shell.                                                           | `Tab (no Shift)`           |
-| Move focus from the shell back to Gemini.                                                             | `Shift + Tab`              |
-| Clear the terminal screen and redraw the UI.                                                          | `Ctrl + L`                 |
-| Restart the application.                                                                              | `R`                        |
-| Suspend the application (not yet implemented).                                                        | `Ctrl + Z`                 |
+| 작업 (Action)                                                                 | 키 (Keys)                  |
+| ----------------------------------------------------------------------------- | -------------------------- |
+| 상세 오류 정보 토글.                                                          | `F12`                      |
+| 전체 TODO 목록 토글.                                                          | `Ctrl + T`                 |
+| IDE 컨텍스트 세부 정보 표시.                                                  | `Ctrl + G`                 |
+| 마크다운 렌더링 토글.                                                         | `Alt + M`                  |
+| 대체 버퍼 모드에서 복사 모드 토글.                                            | `Ctrl + S`                 |
+| 도구 호출에 대한 YOLO (자동 승인) 모드 토글.                                  | `Ctrl + Y`                 |
+| 승인 모드 순환: default (승인), auto_edit (편집 자동 승인), plan (읽기 전용). | `Shift + Tab`              |
+| 대체 버퍼 모드가 아닐 때 높이가 제한된 응답을 확장하여 추가 줄 표시.          | `Ctrl + O`<br />`Ctrl + S` |
+| 커서가 자리 표시자 위에 있을 때 붙여넣기 자리 표시자 확장 또는 축소.          | `Ctrl + O`                 |
+| 현재 백그라운드 쉘 가시성 토글.                                               | `Ctrl + B`                 |
+| 백그라운드 쉘 목록 토글.                                                      | `Ctrl + L`                 |
+| 활성 백그라운드 쉘 종료 (Kill).                                               | `Ctrl + K`                 |
+| 백그라운드 쉘 목록에서 선택 확인.                                             | `Enter`                    |
+| 백그라운드 쉘 목록 닫기.                                                      | `Esc`                      |
+| 백그라운드 쉘에서 Gemini로 포커스 이동.                                       | `Shift + Tab`              |
+| 백그라운드 쉘 목록에서 Gemini로 포커스 이동.                                  | `Tab (no Shift)`           |
+| Tab을 통해 백그라운드 쉘 포커스 해제 시도 시 경고 표시.                       | `Tab (no Shift)`           |
+| Tab을 통해 쉘 입력 포커스 해제 시도 시 경고 표시.                             | `Tab (no Shift)`           |
+| Gemini에서 활성 쉘로 포커스 이동.                                             | `Tab (no Shift)`           |
+| 쉘에서 Gemini로 포커스 다시 이동.                                             | `Shift + Tab`              |
+| 터미널 화면을 지우고 UI 다시 그리기.                                          | `Ctrl + L`                 |
+| 애플리케이션 다시 시작.                                                       | `R`                        |
+| 애플리케이션 일시 중단 (아직 구현되지 않음).                                  | `Ctrl + Z`                 |
 
 <!-- KEYBINDINGS-AUTOGEN:END -->
 
-## Additional context-specific shortcuts
+## 추가적인 상황별 단축키 (Additional context-specific shortcuts)
 
-- `Option+B/F/M` (macOS only): Are interpreted as `Cmd+B/F/M` even if your
-  terminal isn't configured to send Meta with Option.
-- `!` on an empty prompt: Enter or exit shell mode.
-- `?` on an empty prompt: Toggle the shortcuts panel above the input. Press
-  `Esc`, `Backspace`, or any printable key to close it. Press `?` again to close
-  the panel and insert a `?` into the prompt. You can hide only the hint text
-  via `ui.showShortcutsHint`, without changing this keyboard behavior.
-- `\` (at end of a line) + `Enter`: Insert a newline without leaving single-line
-  mode.
-- `Esc` pressed twice quickly: Clear the input prompt if it is not empty,
-  otherwise browse and rewind previous interactions.
-- `Up Arrow` / `Down Arrow`: When the cursor is at the top or bottom of a
-  single-line input, navigate backward or forward through prompt history.
-- `Number keys (1-9, multi-digit)` inside selection dialogs: Jump directly to
-  the numbered radio option and confirm when the full number is entered.
-- `Ctrl + O`: Expand or collapse paste placeholders (`[Pasted Text: X lines]`)
-  inline when the cursor is over the placeholder.
-- `Double-click` on a paste placeholder (alternate buffer mode only): Expand to
-  view full content inline. Double-click again to collapse.
+- `Option+B/F/M` (macOS 전용): 터미널이 Option과 함께 Meta를 보내도록 구성되지 않았더라도 `Cmd+B/F/M`으로 해석됩니다.
+- 빈 프롬프트에서 `!`: 쉘 모드로 진입하거나 종료합니다.
+- 빈 프롬프트에서 `?`: 입력창 위의 단축키 패널을 토글합니다. `Esc`, `Backspace` 또는 출력 가능한 키를 눌러 닫을 수 있습니다. `?`를 다시 누르면 패널을 닫고 프롬프트에 `?`를 삽입합니다. 키보드 동작을 변경하지 않고 `ui.showShortcutsHint`를 통해 힌트 텍스트만 숨길 수 있습니다.
+- `\` (줄 끝에서) + `Enter`: 단일 줄 모드를 벗어나지 않고 줄 바꿈을 삽입합니다.
+- `Esc` 두 번 빠르게 누르기: 입력 프롬프트가 비어 있지 않으면 지우고, 그렇지 않으면 이전 상호 작용을 찾아보고 되감습니다.
+- `Up Arrow` / `Down Arrow`: 커서가 단일 줄 입력의 맨 위나 맨 아래에 있을 때 프롬프트 히스토리를 뒤로 또는 앞으로 이동합니다.
+- 선택 대화상자 내에서 `숫자 키 (1-9, 여러 자리)`: 번호가 매겨진 라디오 옵션으로 바로 이동하고 전체 번호가 입력되면 확인합니다.
+- `Ctrl + O`: 커서가 자리 표시자 위에 있을 때 인라인 붙여넣기 자리 표시자(`[Pasted Text: X lines]`)를 확장하거나 축소합니다.
+- 붙여넣기 자리 표시자 `더블 클릭` (대체 버퍼 모드 전용): 전체 내용을 인라인으로 보려면 확장합니다. 다시 더블 클릭하면 축소됩니다.

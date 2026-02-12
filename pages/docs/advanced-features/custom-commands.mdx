@@ -1,51 +1,43 @@
-# Custom commands
+# 사용자 정의 명령
 
-Custom commands let you save and reuse your favorite or most frequently used
-prompts as personal shortcuts within Gemini CLI. You can create commands that
-are specific to a single project or commands that are available globally across
-all your projects, streamlining your workflow and ensuring consistency.
+사용자 정의 명령을 사용하면 좋아하는 프롬프트나 자주 사용하는 프롬프트를 Gemini CLI 내의
+개인 단축키로 저장하고 재사용할 수 있습니다. 단일 프로젝트에만 적용되는 명령이나
+모든 프로젝트에서 전역적으로 사용할 수 있는 명령을 만들어 워크플로를 간소화하고 일관성을 보장할 수 있습니다.
 
-## File locations and precedence
+## 파일 위치 및 우선 순위
 
-Gemini CLI discovers commands from two locations, loaded in a specific order:
+Gemini CLI는 두 위치에서 명령을 검색하며, 특정 순서로 로드합니다:
 
-1.  **User commands (global):** Located in `~/.gemini/commands/`. These commands
-    are available in any project you are working on.
-2.  **Project commands (local):** Located in
-    `<your-project-root>/.gemini/commands/`. These commands are specific to the
-    current project and can be checked into version control to be shared with
-    your team.
+1.  **사용자 명령 (전역):** `~/.gemini/commands/`에 위치합니다. 이 명령은 작업 중인
+    모든 프로젝트에서 사용할 수 있습니다.
+2.  **프로젝트 명령 (로컬):** `<your-project-root>/.gemini/commands/`에 위치합니다.
+    이 명령은 현재 프로젝트에만 적용되며 버전 관리에 체크인하여 팀과 공유할 수 있습니다.
 
-If a command in the project directory has the same name as a command in the user
-directory, the **project command will always be used.** This allows projects to
-override global commands with project-specific versions.
+프로젝트 디렉터리의 명령이 사용자 디렉터리의 명령과 동일한 이름을 갖는 경우,
+**(로컬) 프로젝트 명령이 항상 사용됩니다.** 이를 통해 프로젝트별 버전으로 전역 명령을 재정의할 수 있습니다.
 
-## Naming and namespacing
+## 이름 지정 및 네임스페이스
 
-The name of a command is determined by its file path relative to its `commands`
-directory. Subdirectories are used to create namespaced commands, with the path
-separator (`/` or `\`) being converted to a colon (`:`).
+명령의 이름은 `commands` 디렉터리에 대한 상대 파일 경로에 의해 결정됩니다.
+하위 디렉터리는 네임스페이스 명령을 만드는 데 사용되며, 경로 구분 기호(`/` 또는 `\`)는 콜론(`:`)으로 변환됩니다.
 
-- A file at `~/.gemini/commands/test.toml` becomes the command `/test`.
-- A file at `<project>/.gemini/commands/git/commit.toml` becomes the namespaced
-  command `/git:commit`.
+- `~/.gemini/commands/test.toml` 파일은 `/test` 명령이 됩니다.
+- `<project>/.gemini/commands/git/commit.toml` 파일은 네임스페이스 명령 `/git:commit`이 됩니다.
 
-## TOML file format (v1)
+## TOML 파일 형식 (v1)
 
-Your command definition files must be written in the TOML format and use the
-`.toml` file extension.
+명령 정의 파일은 TOML 형식으로 작성해야 하며 `.toml` 파일 확장자를 사용해야 합니다.
 
-### Required fields
+### 필수 필드
 
-- `prompt` (String): The prompt that will be sent to the Gemini model when the
-  command is executed. This can be a single-line or multi-line string.
+- `prompt` (문자열): 명령이 실행될 때 Gemini 모델로 전송될 프롬프트입니다.
+  한 줄 또는 여러 줄 문자열이 될 수 있습니다.
 
-### Optional fields
+### 선택 필드
 
-- `description` (String): A brief, one-line description of what the command
-  does. This text will be displayed next to your command in the `/help` menu.
-  **If you omit this field, a generic description will be generated from the
-  filename.**
+- `description` (문자열): 명령이 수행하는 작업에 대한 간단한 한 줄 설명입니다.
+  이 텍스트는 `/help` 메뉴에서 명령 옆에 표시됩니다.
+  **이 필드를 생략하면 파일 이름에서 일반적인 설명이 생성됩니다.**
 
 ## Handling arguments
 
@@ -106,28 +98,26 @@ When you run `/grep-code It's complicated`:
 5. The CLI prompts you to confirm this exact, secure command before execution.
 6. The final prompt is sent.
 
-### 2. Default argument handling
+### 2. 기본 인수 처리
 
-If your `prompt` does **not** contain the special placeholder `{{args}}`, the
-CLI uses a default behavior for handling arguments.
+`prompt`에 특수 자리 표시자 `{{args}}`가 포함되어 있지 **않은** 경우, CLI는
+인수 처리에 기본 동작을 사용합니다.
 
-If you provide arguments to the command (e.g., `/mycommand arg1`), the CLI will
-append the full command you typed to the end of the prompt, separated by two
-newlines. This allows the model to see both the original instructions and the
-specific arguments you just provided.
+명령에 인수를 제공하는 경우(예: `/mycommand arg1`), CLI는 사용자가 입력한 전체 명령을
+두 개의 줄 바꿈으로 구분하여 프롬프트 끝에 추가합니다. 이를 통해 모델은 원래 지침과
+방금 제공한 특정 인수를 모두 볼 수 있습니다.
 
-If you do **not** provide any arguments (e.g., `/mycommand`), the prompt is sent
-to the model exactly as it is, with nothing appended.
+인수를 제공하지 **않는** 경우(예: `/mycommand`), 프롬프트는 아무것도 추가되지 않은 채
+그대로 모델로 전송됩니다.
 
-**Example (`changelog.toml`):**
+**예시 (`changelog.toml`):**
 
-This example shows how to create a robust command by defining a role for the
-model, explaining where to find the user's input, and specifying the expected
-format and behavior.
+이 예시는 모델의 역할을 정의하고, 사용자 입력 위치를 설명하며,
+예상되는 형식과 동작을 지정하여 강력한 명령을 만드는 방법을 보여줍니다.
 
 ```toml
-# In: <project>/.gemini/commands/changelog.toml
-# Invoked via: /changelog 1.2.0 added "Support for default argument parsing."
+# 위치: <project>/.gemini/commands/changelog.toml
+# 호출 방법: /changelog 1.2.0 added "Support for default argument parsing."
 
 description = "Adds a new entry to the project's CHANGELOG.md file."
 prompt = """
@@ -152,53 +142,43 @@ The command follows this format: `/changelog <version> <type> <message>`
 """
 ```
 
-When you run `/changelog 1.2.0 added "New feature"`, the final text sent to the
-model will be the original prompt followed by two newlines and the command you
-typed.
+`/changelog 1.2.0 added "New feature"`를 실행하면, 모델로 전송되는 최종 텍스트는
+원래 프롬프트 뒤에 두 개의 줄 바꿈과 사용자가 입력한 명령이 이어집니다.
 
-### 3. Executing shell commands with `!{...}`
+### 3. `!{...}`를 사용한 셸 명령 실행
 
-You can make your commands dynamic by executing shell commands directly within
-your `prompt` and injecting their output. This is ideal for gathering context
-from your local environment, like reading file content or checking the status of
-Git.
+`prompt` 내에서 직접 셸 명령을 실행하고 그 출력을 주입하여 명령을 동적으로 만들 수 있습니다.
+이는 파일 내용을 읽거나 Git 상태를 확인하는 등 로컬 환경에서 컨텍스트를 수집하는 데 이상적입니다.
 
-When a custom command attempts to execute a shell command, Gemini CLI will now
-prompt you for confirmation before proceeding. This is a security measure to
-ensure that only intended commands can be run.
+사용자 정의 명령이 셸 명령 실행을 시도하면, Gemini CLI는 이제 진행하기 전에
+사용자에게 확인을 요청합니다. 이는 의도한 명령만 실행되도록 보장하는 보안 조치입니다.
 
-**How it works:**
+**작동 방식:**
 
-1.  **Inject commands:** Use the `!{...}` syntax.
-2.  **Argument substitution:** If `{{args}}` is present inside the block, it is
-    automatically shell-escaped (see
-    [Context-Aware Injection](#1-context-aware-injection-with-args) above).
-3.  **Robust parsing:** The parser correctly handles complex shell commands that
-    include nested braces, such as JSON payloads. **Note:** The content inside
-    `!{...}` must have balanced braces (`{` and `}`). If you need to execute a
-    command containing unbalanced braces, consider wrapping it in an external
-    script file and calling the script within the `!{...}` block.
-4.  **Security check and confirmation:** The CLI performs a security check on
-    the final, resolved command (after arguments are escaped and substituted). A
-    dialog will appear showing the exact command(s) to be executed.
-5.  **Execution and error reporting:** The command is executed. If the command
-    fails, the output injected into the prompt will include the error messages
-    (stderr) followed by a status line, e.g.,
-    `[Shell command exited with code 1]`. This helps the model understand the
-    context of the failure.
+1.  **명령 주입:** `!{...}` 구문을 사용합니다.
+2.  **인수 대체:** 블록 내에 `{{args}}`가 있는 경우 자동으로 셸 이스케이프 처리됩니다
+    (위의 [컨텍스트 인식 주입](#1-context-aware-injection-with-args) 참조).
+3.  **견고한 파싱:** 파서는 중첩된 중괄호(예: JSON 페이로드)가 포함된 복잡한 셸 명령을
+    올바르게 처리합니다. **참고:** `!{...}` 내부의 내용은 균형 잡힌 중괄호(`{` 및 `}`)를 가져야 합니다.
+    균형이 맞지 않는 중괄호가 포함된 명령을 실행해야 하는 경우, 외부 스크립트 파일로 래핑하고
+    `!{...}` 블록 내에서 해당 스크립트를 호출하는 것을 고려하세요.
+4.  **보안 검사 및 확인:** CLI는 최종적으로 해결된 명령(인수가 이스케이프 및 대체된 후)에 대해
+    보안 검사를 수행합니다. 실행될 정확한 명령을 보여주는 대화 상자가 나타납니다.
+5.  **실행 및 오류 보고:** 명령이 실행됩니다. 명령이 실패하면 프롬프트에 주입된 출력에는
+    오류 메시지(stderr)와 상태 줄(예: `[Shell command exited with code 1]`)이 포함됩니다.
+    이는 모델이 실패의 맥락을 이해하는 데 도움이 됩니다.
 
-**Example (`git/commit.toml`):**
+**예시 (`git/commit.toml`):**
 
-This command gets the staged git diff and uses it to ask the model to write a
-commit message.
+이 명령은 스테이징된 git diff를 가져와 모델에게 커밋 메시지 작성을 요청하는 데 사용합니다.
 
 ````toml
-# In: <project>/.gemini/commands/git/commit.toml
-# Invoked via: /git:commit
+# 위치: <project>/.gemini/commands/git/commit.toml
+# 호출 방법: /git:commit
 
 description = "Generates a Git commit message based on staged changes."
 
-# The prompt uses !{...} to execute the command and inject its output.
+# 프롬프트는 !{...}를 사용하여 명령을 실행하고 출력을 주입합니다.
 prompt = """
 Please generate a Conventional Commit message based on the following git diff:
 
@@ -210,43 +190,35 @@ Please generate a Conventional Commit message based on the following git diff:
 
 ````
 
-When you run `/git:commit`, the CLI first executes `git diff --staged`, then
-replaces `!{git diff --staged}` with the output of that command before sending
-the final, complete prompt to the model.
+`/git:commit`을 실행하면, CLI는 먼저 `git diff --staged`를 실행한 다음,
+최종 전체 프롬프트를 모델로 보내기 전에 `!{git diff --staged}`를 해당 명령의 출력으로 바꿉니다.
 
-### 4. Injecting file content with `@{...}`
+### 4. `@{...}`를 사용한 파일 내용 주입
 
-You can directly embed the content of a file or a directory listing into your
-prompt using the `@{...}` syntax. This is useful for creating commands that
-operate on specific files.
+`@{...}` 구문을 사용하여 파일이나 디렉터리 목록의 내용을 프롬프트에 직접 삽입할 수 있습니다.
+이는 특정 파일에 작용하는 명령을 만드는 데 유용합니다.
 
-**How it works:**
+**작동 방식:**
 
-- **File injection**: `@{path/to/file.txt}` is replaced by the content of
-  `file.txt`.
-- **Multimodal support**: If the path points to a supported image (e.g., PNG,
-  JPEG), PDF, audio, or video file, it will be correctly encoded and injected as
-  multimodal input. Other binary files are handled gracefully and skipped.
-- **Directory listing**: `@{path/to/dir}` is traversed and each file present
-  within the directory and all subdirectories is inserted into the prompt. This
-  respects `.gitignore` and `.geminiignore` if enabled.
-- **Workspace-aware**: The command searches for the path in the current
-  directory and any other workspace directories. Absolute paths are allowed if
-  they are within the workspace.
-- **Processing order**: File content injection with `@{...}` is processed
-  _before_ shell commands (`!{...}`) and argument substitution (`{{args}}`).
-- **Parsing**: The parser requires the content inside `@{...}` (the path) to
-  have balanced braces (`{` and `}`).
+- **파일 주입:** `@{path/to/file.txt}`는 `file.txt`의 내용으로 대체됩니다.
+- **멀티모달 지원:** 경로가 지원되는 이미지(예: PNG, JPEG), PDF, 오디오 또는 비디오 파일을 가리키는 경우,
+  올바르게 인코딩되어 멀티모달 입력으로 주입됩니다. 다른 바이너리 파일은 정상적으로 처리되고 건너뜁니다.
+- **디렉터리 목록:** `@{path/to/dir}`은 순회하며 디렉터리 및 모든 하위 디렉터리에 있는
+  각 파일이 프롬프트에 삽입됩니다. 활성화된 경우 `.gitignore` 및 `.geminiignore`를 준수합니다.
+- **작업 공간 인식:** 명령은 현재 디렉터리와 다른 작업 공간 디렉터리에서 경로를 검색합니다.
+  작업 공간 내에 있는 경우 절대 경로가 허용됩니다.
+- **처리 순서:** `@{...}`를 사용한 파일 내용 주입은 셸 명령(`!{...}`) 및
+  인수 대체(`{{args}}`) _전에_ 처리됩니다.
+- **파싱:** 파서는 `@{...}` 내부의 내용(경로)에 균형 잡힌 중괄호(`{` 및 `}`)가 있어야 합니다.
 
-**Example (`review.toml`):**
+**예시 (`review.toml`):**
 
-This command injects the content of a _fixed_ best practices file
-(`docs/best-practices.md`) and uses the user's arguments to provide context for
-the review.
+이 명령은 _고정된_ 모범 사례 파일(`docs/best-practices.md`)의 내용을 주입하고
+사용자의 인수를 사용하여 리뷰를 위한 컨텍스트를 제공합니다.
 
 ```toml
-# In: <project>/.gemini/commands/review.toml
-# Invoked via: /review FileCommandLoader.ts
+# 위치: <project>/.gemini/commands/review.toml
+# 호출 방법: /review FileCommandLoader.ts
 
 description = "Reviews the provided context using a best practice guide."
 prompt = """
@@ -260,35 +232,34 @@ Use the following best practices when providing your review:
 """
 ```
 
-When you run `/review FileCommandLoader.ts`, the `@{docs/best-practices.md}`
-placeholder is replaced by the content of that file, and `{{args}}` is replaced
-by the text you provided, before the final prompt is sent to the model.
+`/review FileCommandLoader.ts`를 실행하면, 최종 프롬프트가 모델로 전송되기 전에
+`@{docs/best-practices.md}` 자리 표시자는 해당 파일의 내용으로 바뀌고,
+`{{args}}`는 사용자가 제공한 텍스트로 바뀝니다.
 
 ---
 
-## Example: A "Pure Function" refactoring command
+## 예시: "순수 함수" 리팩토링 명령
 
-Let's create a global command that asks the model to refactor a piece of code.
+모델에게 코드 조각을 리팩토링하도록 요청하는 전역 명령을 만들어 보겠습니다.
 
-**1. Create the file and directories:**
+**1. 파일 및 디렉터리 생성:**
 
-First, ensure the user commands directory exists, then create a `refactor`
-subdirectory for organization and the final TOML file.
+먼저 사용자 명령 디렉터리가 존재하는지 확인한 다음, 구성을 위한 `refactor`
+하위 디렉터리와 최종 TOML 파일을 만듭니다.
 
 ```bash
 mkdir -p ~/.gemini/commands/refactor
 touch ~/.gemini/commands/refactor/pure.toml
 ```
 
-**2. Add the content to the file:**
+**2. 파일에 내용 추가:**
 
-Open `~/.gemini/commands/refactor/pure.toml` in your editor and add the
-following content. We are including the optional `description` for best
-practice.
+편집기에서 `~/.gemini/commands/refactor/pure.toml`을 열고 다음 내용을 추가합니다.
+모범 사례를 위해 선택 사항인 `description`을 포함하고 있습니다.
 
 ```toml
-# In: ~/.gemini/commands/refactor/pure.toml
-# This command will be invoked via: /refactor:pure
+# 위치: ~/.gemini/commands/refactor/pure.toml
+# 이 명령은 다음과 같이 호출됩니다: /refactor:pure
 
 description = "Asks the model to refactor the current context into a pure function."
 
@@ -302,14 +273,14 @@ Your response should include:
 """
 ```
 
-**3. Run the command:**
+**3. 명령 실행:**
 
-That's it! You can now run your command in the CLI. First, you might add a file
-to the context, and then invoke your command:
+이제 끝났습니다! CLI에서 명령을 실행할 수 있습니다. 먼저 컨텍스트에 파일을 추가한 다음
+명령을 호출할 수 있습니다:
 
 ```
 > @my-messy-function.js
 > /refactor:pure
 ```
 
-Gemini CLI will then execute the multi-line prompt defined in your TOML file.
+그러면 Gemini CLI가 TOML 파일에 정의된 여러 줄 프롬프트를 실행합니다.

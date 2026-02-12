@@ -1,35 +1,35 @@
 {
 	"get-started": {
-		"title": "Get started"
+		"title": "시작하기"
 	},
 	"use-gemini-cli": {
-		"title": "Use Gemini CLI"
+		"title": "Gemini CLI 사용하기"
 	},
 	"configuration": {
-		"title": "Configuration"
+		"title": "구성"
 	},
 	"advanced-features": {
-		"title": "Advanced features"
+		"title": "고급 기능"
 	},
 	"extensions": {
-		"title": "Extensions"
+		"title": "확장 프로그램"
 	},
 	"ecosystem-and-extensibility": {
-		"title": "Ecosystem and extensibility"
+		"title": "생태계 및 확장성"
 	},
 	"tutorials": {
-		"title": "Tutorials"
+		"title": "자습서"
 	},
 	"reference": {
-		"title": "Reference"
+		"title": "참고 자료"
 	},
 	"resources": {
-		"title": "Resources"
+		"title": "리소스"
 	},
 	"development": {
-		"title": "Development"
+		"title": "개발"
 	},
 	"releases": {
-		"title": "Releases"
+		"title": "릴리스"
 	}
 }

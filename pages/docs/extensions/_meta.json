@@ -1,17 +1,17 @@
 {
 	"index": {
-		"title": "Introduction"
+		"title": "소개"
 	},
 	"writing-extensions": {
-		"title": "Writing extensions"
+		"title": "확장 작성"
 	},
 	"extensions-reference": {
-		"title": "Extensions reference"
+		"title": "확장 레퍼런스"
 	},
 	"best-practices": {
-		"title": "Best practices"
+		"title": "모범 사례"
 	},
 	"extensions-releasing": {
-		"title": "Extensions releasing"
+		"title": "확장 배포"
 	}
 }

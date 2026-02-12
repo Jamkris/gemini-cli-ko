@@ -1,23 +1,23 @@
 {
 	"index": {
-		"title": "Architecture"
+		"title": "아키텍처"
 	},
 	"command-reference": {
-		"title": "Command reference"
+		"title": "명령어 참조"
 	},
 	"configuration": {
-		"title": "Configuration"
+		"title": "구성"
 	},
 	"keyboard-shortcuts": {
-		"title": "Keyboard shortcuts"
+		"title": "키보드 단축키"
 	},
 	"memory-import-processor": {
-		"title": "Memory import processor"
+		"title": "메모리 가져오기 프로세서"
 	},
 	"policy-engine": {
-		"title": "Policy engine"
+		"title": "정책 엔진"
 	},
 	"tools-api": {
-		"title": "Tools API"
+		"title": "도구 API"
 	}
 }

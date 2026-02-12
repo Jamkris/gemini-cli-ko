@@ -1,41 +1,26 @@
-# Package overview
+# 패키지 개요 (Package overview)
 
-This monorepo contains two main packages: `@google/gemini-cli` and
-`@google/gemini-cli-core`.
+이 모노레포에는 두 가지 주요 패키지가 포함되어 있습니다: `@google/gemini-cli` 및 `@google/gemini-cli-core`.
 
 ## `@google/gemini-cli`
 
-This is the main package for the Gemini CLI. It is responsible for the user
-interface, command parsing, and all other user-facing functionality.
+이것은 Gemini CLI의 주요 패키지입니다. 사용자 인터페이스, 명령 파싱 및 기타 모든 사용자 대면 기능을 담당합니다.
 
-When this package is published, it is bundled into a single executable file.
-This bundle includes all of the package's dependencies, including
-`@google/gemini-cli-core`. This means that whether a user installs the package
-with `npm install -g @google/gemini-cli` or runs it directly with
-`npx @google/gemini-cli`, they are using this single, self-contained executable.
+이 패키지가 게시될 때 단일 실행 파일로 번들됩니다. 이 번들은 `@google/gemini-cli-core`를 포함한 패키지의 모든 종속성을 포함합니다. 즉, 사용자가 `npm install -g @google/gemini-cli`로 패키지를 설치하든 `npx @google/gemini-cli`로 직접 실행하든 관계없이 이 단일의 독립 실행형 실행 파일을 사용하게 됩니다.
 
 ## `@google/gemini-cli-core`
 
-This package contains the core logic for interacting with the Gemini API. It is
-responsible for making API requests, handling authentication, and managing the
-local cache.
+이 패키지에는 Gemini API와 상호 작용하기 위한 핵심 로직이 포함되어 있습니다. API 요청 수행, 인증 처리 및 로컬 캐시 관리 등을 담당합니다.
 
-This package is not bundled. When it is published, it is published as a standard
-Node.js package with its own dependencies. This allows it to be used as a
-standalone package in other projects, if needed. All transpiled js code in the
-`dist` folder is included in the package.
+이 패키지는 번들되지 않습니다. 게시될 때 자체 종속성이 있는 표준 Node.js 패키지로 게시됩니다. 따라서 필요한 경우 다른 프로젝트에서 독립형 패키지로 사용할 수 있습니다. `dist` 폴더의 모든 트랜스파일된 js 코드가 패키지에 포함됩니다.
 
-## NPM workspaces
+## NPM 워크스페이스 (NPM workspaces)
 
-This project uses
-[NPM Workspaces](https://docs.npmjs.com/cli/v10/using-npm/workspaces) to manage
-the packages within this monorepo. This simplifies development by allowing us to
-manage dependencies and run scripts across multiple packages from the root of
-the project.
+이 프로젝트는 [NPM Workspaces](https://docs.npmjs.com/cli/v10/using-npm/workspaces)를 사용하여 이 모노레포 내의 패키지를 관리합니다. 이를 통해 종속성을 관리하고 프로젝트 루트에서 여러 패키지에 걸쳐 스크립트를 실행할 수 있어 개발이 간편해집니다.
 
-### How it works
+### 작동 방식 (How it works)
 
-The root `package.json` file defines the workspaces for this project:
+루트 `package.json` 파일은 이 프로젝트의 워크스페이스를 정의합니다:
 
 ```json
 {
@@ -43,20 +28,10 @@ The root `package.json` file defines the workspaces for this project:
 }
 ```
 
-This tells NPM that any folder inside the `packages` directory is a separate
-package that should be managed as part of the workspace.
+이는 NPM에 `packages` 디렉터리 내의 모든 폴더가 워크스페이스의 일부로 관리되어야 하는 별도 패키지임을 알려줍니다.
 
-### Benefits of workspaces
+### 워크스페이스의 이점 (Benefits of workspaces)
 
-- **Simplified dependency management**: Running `npm install` from the root of
-  the project will install all dependencies for all packages in the workspace
-  and link them together. This means you don't need to run `npm install` in each
-  package's directory.
-- **Automatic linking**: Packages within the workspace can depend on each other.
-  When you run `npm install`, NPM will automatically create symlinks between the
-  packages. This means that when you make changes to one package, the changes
-  are immediately available to other packages that depend on it.
-- **Simplified script execution**: You can run scripts in any package from the
-  root of the project using the `--workspace` flag. For example, to run the
-  `build` script in the `cli` package, you can run
-  `npm run build --workspace @google/gemini-cli`.
+- **간소화된 종속성 관리**: 프로젝트 루트에서 `npm install`을 실행하면 워크스페이스의 모든 패키지에 대한 모든 종속성을 설치하고 연결합니다. 즉, 각 패키지의 디렉터리에서 `npm install`을 실행할 필요가 없습니다.
+- **자동 연결**: 워크스페이스 내의 패키지는 서로 의존할 수 있습니다. `npm install`을 실행하면 NPM은 자동으로 패키지 간에 심볼릭 링크를 생성합니다. 즉, 한 패키지를 변경하면 해당 패키지에 의존하는 다른 패키지에서 변경 사항을 즉시 사용할 수 있습니다.
+- **간소화된 스크립트 실행**: `--workspace` 플래그를 사용하여 프로젝트 루트에서 모든 패키지의 스크립트를 실행할 수 있습니다. 예를 들어 `cli` 패키지에서 `build` 스크립트를 실행하려면 `npm run build --workspace @google/gemini-cli`를 실행할 수 있습니다.

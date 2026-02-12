@@ -1,20 +1,20 @@
 {
 	"index": {
-		"title": "Ignore files (.geminiignore)"
+		"title": "파일 무시 (.geminiignore)"
 	},
 	"model-selection": {
-		"title": "Model selection"
+		"title": "모델 선택"
 	},
 	"setting": {
-		"title": "Setting"
+		"title": "설정"
 	},
 	"themes": {
-		"title": "Themes"
+		"title": "테마"
 	},
 	"token-caching": {
-		"title": "Token caching"
+		"title": "토큰 캐싱"
 	},
 	"trusted-folders": {
-		"title": "Trusted folders"
+		"title": "신뢰할 수 있는 폴더"
 	}
 }

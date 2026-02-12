@@ -1,134 +1,111 @@
-# Extensions reference
+# 확장 참조
 
-This guide covers the `gemini extensions` commands and the structure of the
-`gemini-extension.json` configuration file.
+이 가이드는 `gemini extensions` 명령과 `gemini-extension.json` 구성 파일의 구조를 다룹니다.
 
-## Extension management
+## 확장 관리
 
-We offer a suite of extension management tools using `gemini extensions`
-commands.
+`gemini extensions` 명령을 사용하여 다양한 확장 관리 도구를 제공합니다.
 
-Note that these commands (e.g. `gemini extensions install`) are not supported
-from within the CLI's **interactive mode**, although you can list installed
-extensions using the `/extensions list` slash command.
+이러한 명령(예: `gemini extensions install`)은 CLI의 **대화형 모드** 내에서는 지원되지 않지만, `/extensions list` 슬래시 명령을 사용하여 설치된 확장을 나열할 수는 있습니다.
 
-Note that all of these management operations (including updates to slash
-commands) will only be reflected in active CLI sessions on **restart**.
+이러한 모든 관리 작업(슬래시 명령 업데이트 포함)은 **재시작** 시 활성 CLI 세션에 반영됩니다.
 
-### Installing an extension
+### 확장 설치
 
-You can install an extension using `gemini extensions install` with either a
-GitHub URL or a local path.
+GitHub URL 또는 로컬 경로를 사용하여 `gemini extensions install`로 확장을 설치할 수 있습니다.
 
-Note that we create a copy of the installed extension, so you will need to run
-`gemini extensions update` to pull in changes from both locally-defined
-extensions and those on GitHub.
+설치된 확장의 사본을 생성하므로, 로컬에 정의된 확장과 GitHub에 있는 확장의 변경 사항을 가져오려면 `gemini extensions update`를 실행해야 합니다.
 
-NOTE: If you are installing an extension from GitHub, you'll need to have `git`
-installed on your machine. See
-[git installation instructions](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-for help.
+참고: GitHub에서 확장을 설치하는 경우, 컴퓨터에 `git`이 설치되어 있어야 합니다. 도움이 필요하면 [git 설치 지침](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)을 참조하세요.
 
 ```
 gemini extensions install <source> [--ref <ref>] [--auto-update] [--pre-release] [--consent]
 ```
 
-- `<source>`: The github URL or local path of the extension to install.
-- `--ref`: The git ref to install from.
-- `--auto-update`: Enable auto-update for this extension.
-- `--pre-release`: Enable pre-release versions for this extension.
-- `--consent`: Acknowledge the security risks of installing an extension and
-  skip the confirmation prompt.
+- `<source>`: 설치할 확장의 GitHub URL 또는 로컬 경로입니다.
+- `--ref`: 설치할 git 참조(ref)입니다.
+- `--auto-update`: 이 확장에 대한 자동 업데이트를 활성화합니다.
+- `--pre-release`: 이 확장에 대한 프리릴리스 버전을 활성화합니다.
+- `--consent`: 확장의 보안 위험을 인지하고 확인 메시지를 건너뜁니다.
 
-### Uninstalling an extension
+### 확장 제거
 
-To uninstall one or more extensions, run
-`gemini extensions uninstall <name...>`:
+하나 이상의 확장을 제거하려면 `gemini extensions uninstall <name...>`을 실행하세요:
 
 ```
 gemini extensions uninstall gemini-cli-security gemini-cli-another-extension
 ```
 
-### Disabling an extension
+### 확장 비활성화
 
-Extensions are, by default, enabled across all workspaces. You can disable an
-extension entirely or for specific workspace.
+확장은 기본적으로 모든 작업 공간에서 활성화됩니다. 확장을 완전히 비활성화하거나 특정 작업 공간에서만 비활성화할 수 있습니다.
 
 ```
 gemini extensions disable <name> [--scope <scope>]
 ```
 
-- `<name>`: The name of the extension to disable.
-- `--scope`: The scope to disable the extension in (`user` or `workspace`).
+- `<name>`: 비활성화할 확장의 이름입니다.
+- `--scope`: 확장을 비활성화할 범위입니다 (`user` 또는 `workspace`).
 
-### Enabling an extension
+### 확장 활성화
 
-You can enable extensions using `gemini extensions enable <name>`. You can also
-enable an extension for a specific workspace using
-`gemini extensions enable <name> --scope=workspace` from within that workspace.
+`gemini extensions enable <name>`을 사용하여 확장을 활성화할 수 있습니다. 작업 공간 내에서 `gemini extensions enable <name> --scope=workspace`를 사용하여 해당 작업 공간에 대해서만 확장을 활성화할 수도 있습니다.
 
 ```
 gemini extensions enable <name> [--scope <scope>]
 ```
 
-- `<name>`: The name of the extension to enable.
-- `--scope`: The scope to enable the extension in (`user` or `workspace`).
+- `<name>`: 활성화할 확장의 이름입니다.
+- `--scope`: 확장을 활성화할 범위입니다 (`user` 또는 `workspace`).
 
-### Updating an extension
+### 확장 업데이트
 
-For extensions installed from a local path or a git repository, you can
-explicitly update to the latest version (as reflected in the
-`gemini-extension.json` `version` field) with `gemini extensions update <name>`.
+로컬 경로 또는 git 저장소에서 설치된 확장의 경우, `gemini extensions update <name>`을 사용하여 최신 버전(`gemini-extension.json`의 `version` 필드에 반영된 대로)으로 명시적으로 업데이트할 수 있습니다.
 
-You can update all extensions with:
+다음 명령으로 모든 확장을 업데이트할 수 있습니다:
 
 ```
 gemini extensions update --all
 ```
 
-### Create a boilerplate extension
+### 보일러플레이트 확장 만들기
 
-We offer several example extensions `context`, `custom-commands`,
-`exclude-tools` and `mcp-server`. You can view these examples
-[here](https://github.com/google-gemini/gemini-cli/tree/main/packages/cli/src/commands/extensions/examples).
+`context`, `custom-commands`, `exclude-tools`, `mcp-server`와 같은 몇 가지 예제 확장을 제공합니다. 이러한 예제는 [여기](https://github.com/google-gemini/gemini-cli/tree/main/packages/cli/src/commands/extensions/examples)에서 볼 수 있습니다.
 
-To copy one of these examples into a development directory using the type of
-your choosing, run:
+원하는 유형을 사용하여 이러한 예제 중 하나를 개발 디렉터리로 복사하려면 다음을 실행하세요:
 
 ```
 gemini extensions new <path> [template]
 ```
 
-- `<path>`: The path to create the extension in.
-- `[template]`: The boilerplate template to use.
+- `<path>`: 확장을 생성할 경로입니다.
+- `[template]`: 사용할 보일러플레이트 템플릿입니다.
 
-### Link a local extension
+### 로컬 확장 연결
 
-The `gemini extensions link` command will create a symbolic link from the
-extension installation directory to the development path.
+`gemini extensions link` 명령은 확장 설치 디렉터리에서 개발 경로로의 심볼릭 링크를 생성합니다.
 
-This is useful so you don't have to run `gemini extensions update` every time
-you make changes you'd like to test.
+테스트하려는 변경 사항을 만들 때마다 `gemini extensions update`를 실행할 필요가 없어 유용합니다.
 
 ```
 gemini extensions link <path>
 ```
 
-- `<path>`: The path of the extension to link.
+- `<path>`: 연결할 확장의 경로입니다.
 
-## Extension format
+## 확장 형식
 
-On startup, Gemini CLI looks for extensions in `<home>/.gemini/extensions`
+Gemini CLI는 시작 시 `<home>/.gemini/extensions`에서 확장을 찾습니다.
 
-Extensions exist as a directory that contains a `gemini-extension.json` file.
-For example:
+확장은 `gemini-extension.json` 파일을 포함하는 디렉터리로 존재합니다.
+예:
 
 `<home>/.gemini/extensions/my-extension/gemini-extension.json`
 
 ### `gemini-extension.json`
 
-The `gemini-extension.json` file contains the configuration for the extension.
-The file has the following structure:
+`gemini-extension.json` 파일에는 확장의 구성이 포함되어 있습니다.
+파일 구조는 다음과 같습니다:
 
 ```json
 {
@@ -145,56 +122,31 @@ The file has the following structure:
 }
 ```
 
-- `name`: The name of the extension. This is used to uniquely identify the
-  extension and for conflict resolution when extension commands have the same
-  name as user or project commands. The name should be lowercase or numbers and
-  use dashes instead of underscores or spaces. This is how users will refer to
-  your extension in the CLI. Note that we expect this name to match the
-  extension directory name.
-- `version`: The version of the extension.
-- `description`: A short description of the extension. This will be displayed on
-  [geminicli.com/extensions](https://geminicli.com/extensions).
-- `mcpServers`: A map of MCP servers to settings. The key is the name of the
-  server, and the value is the server configuration. These servers will be
-  loaded on startup just like MCP servers settingsd in a
-  [`settings.json` file](/docs/get-started/configuration). If both an extension
-  and a `settings.json` file settings an MCP server with the same name, the
-  server defined in the `settings.json` file takes precedence.
-  - Note that all MCP server configuration options are supported except for
-    `trust`.
-- `contextFileName`: The name of the file that contains the context for the
-  extension. This will be used to load the context from the extension directory.
-  If this property is not used but a `GEMINI.md` file is present in your
-  extension directory, then that file will be loaded.
-- `excludeTools`: An array of tool names to exclude from the model. You can also
-  specify command-specific restrictions for tools that support it, like the
-  `run_shell_command` tool. For example,
-  `"excludeTools": ["run_shell_command(rm -rf)"]` will block the `rm -rf`
-  command. Note that this differs from the MCP server `excludeTools`
-  functionality, which can be listed in the MCP server config.
+- `name`: 확장의 이름입니다. 이는 확장을 고유하게 식별하고, 사용자 또는 프로젝트 명령과 이름이 같을 때 충돌을 해결하는 데 사용됩니다. 이름은 소문자나 숫자여야 하며, 밑줄이나 공백 대신 대시를 사용해야 합니다. 사용자가 CLI에서 확장을 지칭할 때 이 이름을 사용합니다. 이 이름은 확장 디렉터리 이름과 일치해야 합니다.
+- `version`: 확장의 버전입니다.
+- `description`: 확장에 대한 짧은 설명입니다. 이는 [geminicli.com/extensions](https://geminicli.com/extensions)에 표시됩니다.
+- `mcpServers`: MCP 서버와 설정의 맵입니다. 키는 서버의 이름이고 값은 서버 구성입니다. 이 서버들은 [`settings.json` 파일](/docs/get-started/configuration)에 설정된 MCP 서버처럼 시작 시 로드됩니다. 확장과 `settings.json` 파일 모두 같은 이름의 MCP 서버를 설정하는 경우, `settings.json` 파일에 정의된 서버가 우선합니다.
+  - `trust`를 제외한 모든 MCP 서버 구성 옵션이 지원됩니다.
+- `contextFileName`: 확장의 컨텍스트를 포함하는 파일의 이름입니다. 확장 디렉터리에서 컨텍스트를 로드하는 데 사용됩니다. 이 속성을 사용하지 않더라도 `GEMINI.md` 파일이 확장 디렉터리에 있으면 해당 파일이 로드됩니다.
+- `excludeTools`: 모델에서 제외할 도구 이름의 배열입니다. `run_shell_command` 도구와 같이 이를 지원하는 도구에 대해 명령별 제한을 지정할 수도 있습니다. 예를 들어, `"excludeTools": ["run_shell_command(rm -rf)"]`는 `rm -rf` 명령을 차단합니다. 이는 MCP 서버 구성에 나열할 수 있는 MCP 서버 `excludeTools` 기능과 다르다는 점에 유의하세요.
 
-When Gemini CLI starts, it loads all the extensions and merges their
-configurations. If there are any conflicts, the workspace configuration takes
-precedence.
+Gemini CLI가 시작되면 모든 확장을 로드하고 구성을 병합합니다. 충돌이 있는 경우 작업 공간 구성이 우선합니다.
 
-### Settings
+### 설정 (Settings)
 
-_Note: This is an experimental feature. We do not yet recommend extension
-authors introduce settings as part of their core flows._
+_참고: 이는 실험적인 기능입니다. 확장 작성자가 핵심 흐름의 일부로 설정을 도입하는 것을 아직 권장하지 않습니다._
 
-Extensions can define settings that the user will be prompted to provide upon
-installation. This is useful for things like API keys, URLs, or other
-configuration that the extension needs to function.
+확장은 설치 시 사용자에게 입력을 요청할 설정을 정의할 수 있습니다. 이는 API 키, URL 또는 확장이 작동하는 데 필요한 기타 구성에 유용합니다.
 
-To define settings, add a `settings` array to your `gemini-extension.json` file.
-Each object in the array should have the following properties:
+설정을 정의하려면 `gemini-extension.json` 파일에 `settings` 배열을 추가하세요.
+배열의 각 객체는 다음 속성을 가져야 합니다:
 
-- `name`: A user-friendly name for the setting.
-- `description`: A description of the setting and what it's used for.
-- `envVar`: The name of the environment variable that the setting will be stored
-  as.
-- `sensitive`: Optional boolean. If true, obfuscates the input the user provides
-  and stores the secret in keychain storage. **Example**
+- `name`: 설정의 사용자 친화적인 이름입니다.
+- `description`: 설정에 대한 설명과 용도입니다.
+- `envVar`: 설정이 저장될 환경 변수의 이름입니다.
+- `sensitive`: 선택적 불리언 값입니다. true인 경우 사용자가 제공한 입력을 난독화하고 키체인 저장소에 비밀을 저장합니다.
+
+**예시**
 
 ```json
 {
@@ -210,35 +162,29 @@ Each object in the array should have the following properties:
 }
 ```
 
-When a user installs this extension, they will be prompted to enter their API
-key. The value will be saved to a `.env` file in the extension's directory
-(e.g., `<home>/.gemini/extensions/my-api-extension/.env`).
+사용자가 이 확장을 설치하면 API 키를 입력하라는 메시지가 표시됩니다. 값은 확장의 디렉터리(예: `<home>/.gemini/extensions/my-api-extension/.env`)에 있는 `.env` 파일에 저장됩니다.
 
-You can view a list of an extension's settings by running:
+다음 명령을 실행하여 확장의 설정 목록을 볼 수 있습니다:
 
 ```
 gemini extensions list
 ```
 
-and you can update a given setting using:
+그리고 다음을 사용하여 주어진 설정을 업데이트할 수 있습니다:
 
 ```
 gemini extensions config <extension name> [setting name] [--scope <scope>]
 ```
 
-- `--scope`: The scope to set the setting in (`user` or `workspace`). This is
-  optional and will default to `user`.
+- `--scope`: 설정을 설정할 범위입니다 (`user` 또는 `workspace`). 선택 사항이며 기본값은 `user`입니다.
 
-### Custom commands
+### 사용자 지정 명령
 
-Extensions can provide [custom commands](/docs/cli/custom-commands) by placing
-TOML files in a `commands/` subdirectory within the extension directory. These
-commands follow the same format as user and project custom commands and use
-standard naming conventions.
+확장은 확장 디렉터리 내의 `commands/` 하위 디렉터리에 TOML 파일을 배치하여 [사용자 지정 명령](/docs/cli/custom-commands)을 제공할 수 있습니다. 이러한 명령은 사용자 및 프로젝트 사용자 지정 명령과 동일한 형식을 따르며 표준 명명 규칙을 사용합니다.
 
-**Example**
+**예시**
 
-An extension named `gcp` with the following structure:
+다음과 같은 구조를 가진 `gcp`라는 확장이 있다고 가정해 봅시다:
 
 ```
 .gemini/extensions/gcp/
@@ -249,28 +195,25 @@ An extension named `gcp` with the following structure:
         └── sync.toml
 ```
 
-Would provide these commands:
+이 확장은 다음 명령을 제공합니다:
 
-- `/deploy` - Shows as `[gcp] Custom command from deploy.toml` in help
-- `/gcs:sync` - Shows as `[gcp] Custom command from sync.toml` in help
+- `/deploy` - 도움말에 `[gcp] Custom command from deploy.toml`로 표시됨
+- `/gcs:sync` - 도움말에 `[gcp] Custom command from sync.toml`로 표시됨
 
-### Hooks
+### 훅 (Hooks)
 
-Extensions can provide [hooks](/docs/hooks) to intercept and customize
-Gemini CLI behavior at specific lifecycle events. Hooks provided by an extension
-must be defined in a `hooks/hooks.json` file within the extension directory.
+확장은 [훅(Hooks)](/docs/hooks)을 제공하여 특정 수명 주기 이벤트에서 Gemini CLI 동작을 가로채고 사용자 지정할 수 있습니다. 확장에서 제공하는 훅은 확장 디렉터리 내의 `hooks/hooks.json` 파일에 정의되어야 합니다.
 
-> [!IMPORTANT] Hooks are not defined directly in `gemini-extension.json`. The
-> CLI specifically looks for the `hooks/hooks.json` file.
+> [!IMPORTANT]
+> 훅은 `gemini-extension.json`에 직접 정의되지 않습니다. CLI는 구체적으로 `hooks/hooks.json` 파일을 찾습니다.
 
-### Agent Skills
+### 에이전트 기술 (Agent Skills)
 
-Extensions can bundle [Agent Skills](/docs/cli/skills) to provide specialized
-workflows. Skills must be placed in a `skills/` directory within the extension.
+확장은 [에이전트 기술](/docs/cli/skills)을 번들로 묶어 전문적인 워크플로를 제공할 수 있습니다. 기술은 확장 내의 `skills/` 디렉터리에 배치해야 합니다.
 
-**Example**
+**예시**
 
-An extension with the following structure:
+다음과 같은 구조를 가진 확장이 있다고 가정해 봅시다:
 
 ```
 .gemini/extensions/my-extension/
@@ -280,19 +223,17 @@ An extension with the following structure:
         └── SKILL.md
 ```
 
-Will expose a `security-audit` skill that the model can activate.
+이 확장은 모델이 활성화할 수 있는 `security-audit` 기술을 노출합니다.
 
-### Sub-agents
+### 서브 에이전트 (Sub-agents)
 
-> **Note: Sub-agents are currently an experimental feature.**
+> **참고: 서브 에이전트는 현재 실험적인 기능입니다.**
 
-Extensions can provide [sub-agents](/docs/core/subagents) that users can
-delegate tasks to.
+확장은 사용자가 작업을 위임할 수 있는 [서브 에이전트](/docs/core/subagents)를 제공할 수 있습니다.
 
-To bundle sub-agents with your extension, create an `agents/` directory in your
-extension's root folder and add your agent definition files (`.md`) there.
+확장에 서브 에이전트를 번들로 묶으려면 확장 루트 폴더에 `agents/` 디렉터리를 만들고 에이전트 정의 파일(`.md`)을 추가하세요.
 
-**Example**
+**예시**
 
 ```
 .gemini/extensions/my-extension/
@@ -302,35 +243,28 @@ extension's root folder and add your agent definition files (`.md`) there.
     └── database-expert.md
 ```
 
-Gemini CLI will automatically discover and load these agents when the extension
-is installed and enabled.
+Gemini CLI는 확장이 설치되고 활성화되면 이러한 에이전트를 자동으로 검색하고 로드합니다.
 
-### Conflict resolution
+### 충돌 해결
 
-Extension commands have the lowest precedence. When a conflict occurs with user
-or project commands:
+파생된 확장 명령은 가장 낮은 우선순위를 갖습니다. 사용자 또는 프로젝트 명령과 충돌이 발생할 때:
 
-1. **No conflict**: Extension command uses its natural name (e.g., `/deploy`)
-2. **With conflict**: Extension command is renamed with the extension prefix
-   (e.g., `/gcp.deploy`)
+1.  **충돌 없음**: 확장 명령은 원래 이름(예: `/deploy`)을 사용합니다.
+2.  **충돌 발생**: 확장 명령은 확장 접두사(예: `/gcp.deploy`)를 사용하여 이름이 변경됩니다.
 
-For example, if both a user and the `gcp` extension define a `deploy` command:
+예를 들어, 사용자와 `gcp` 확장이 모두 `deploy` 명령을 정의하는 경우:
 
-- `/deploy` - Executes the user's deploy command
-- `/gcp.deploy` - Executes the extension's deploy command (marked with `[gcp]`
-  tag)
+- `/deploy` - 사용자의 deploy 명령을 실행합니다.
+- `/gcp.deploy` - 확장의 deploy 명령을 실행합니다 (`[gcp]` 태그가 표시됨).
 
-## Variables
+## 변수
 
-Gemini CLI extensions allow variable substitution in both
-`gemini-extension.json` and `hooks/hooks.json`. This can be useful if e.g., you
-need the current directory to run an MCP server using an argument like
-`"args": ["${extensionPath}${/}dist${/}server.js"]`.
+Gemini CLI 확장은 `gemini-extension.json`과 `hooks/hooks.json` 모두에서 변수 대체(substitution)를 허용합니다. 예를 들어, `"args": ["${extensionPath}${/}dist${/}server.js"]`와 같은 인수를 사용하여 MCP 서버를 실행하기 위해 현재 디렉터리가 필요한 경우 유용할 수 있습니다.
 
-**Supported variables:**
+**지원되는 변수:**
 
-| variable                   | description                                                                                                                                                     |
-| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `${extensionPath}`         | The fully-qualified path of the extension in the user's filesystem e.g., '/Users/username/.gemini/extensions/example-extension'. This will not unwrap symlinks. |
-| `${workspacePath}`         | The fully-qualified path of the current workspace.                                                                                                              |
-| `${/} or ${pathSeparator}` | The path separator (differs per OS).                                                                                                                            |
+| 변수                           | 설명                                                                                                                                                             |
+| :----------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `${extensionPath}`             | 사용자 파일 시스템에서 확장의 정규화된(fully-qualified) 경로입니다. 예: '/Users/username/.gemini/extensions/example-extension'. 심볼릭 링크를 해제하지 않습니다. |
+| `${workspacePath}`             | 현재 작업 공간의 정규화된 경로입니다.                                                                                                                            |
+| `${/}` 또는 `${pathSeparator}` | 경로 구분자(OS마다 다름)입니다.                                                                                                                                  |

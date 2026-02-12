@@ -1,109 +1,91 @@
-# Integration tests
+# 통합 테스트 (Integration tests)
 
-This document provides information about the integration testing framework used
-in this project.
+이 문서는 이 프로젝트에서 사용되는 통합 테스트 프레임워크에 대한 정보를 제공합니다.
 
-## Overview
+## 개요 (Overview)
 
-The integration tests are designed to validate the end-to-end functionality of
-the Gemini CLI. They execute the built binary in a controlled environment and
-verify that it behaves as expected when interacting with the file system.
+통합 테스트는 Gemini CLI의 엔드투엔드 기능을 검증하도록 설계되었습니다. 통제된 환경에서 빌드된 바이너리를 실행하고 파일 시스템과 상호 작용할 때 예상대로 작동하는지 확인합니다.
 
-These tests are located in the `integration-tests` directory and are run using a
-custom test runner.
+이 테스트들은 `integration-tests` 디렉터리에 위치하며 사용자 지정 테스트 실행기를 사용하여 실행됩니다.
 
-## Building the tests
+## 테스트 빌드 (Building the tests)
 
-Prior to running any integration tests, you need to create a release bundle that
-you want to actually test:
+통합 테스트를 실행하기 전에 실제로 테스트하려는 릴리스 번들을 생성해야 합니다:
 
 ```bash
 npm run bundle
 ```
 
-You must re-run this command after making any changes to the CLI source code,
-but not after making changes to tests.
+CLI 소스 코드를 변경한 후에는 반드시 이 명령을 다시 실행해야 하지만, 테스트를 변경한 후에는 다시 실행할 필요가 없습니다.
 
-## Running the tests
+## 테스트 실행 (Running the tests)
 
-The integration tests are not run as part of the default `npm run test` command.
-They must be run explicitly using the `npm run test:integration:all` script.
+통합 테스트는 기본 `npm run test` 명령의 일부로 실행되지 않습니다. `npm run test:integration:all` 스크립트를 사용하여 명시적으로 실행해야 합니다.
 
-The integration tests can also be run using the following shortcut:
+통합 테스트는 다음 단축 명령을 사용하여 실행할 수도 있습니다:
 
 ```bash
 npm run test:e2e
 ```
 
-## Running a specific set of tests
+## 특정 테스트 세트 실행 (Running a specific set of tests)
 
-To run a subset of test files, you can use
-`npm run <integration test command> <file_name1> ....` where &lt;integration
-test command&gt; is either `test:e2e` or `test:integration*` and `<file_name>`
-is any of the `.test.js` files in the `integration-tests/` directory. For
-example, the following command runs `list_directory.test.js` and
-`write_file.test.js`:
+테스트 파일의 하위 집합을 실행하려면 `npm run <integration test command> <file_name1> ....`을 사용할 수 있습니다. 여기서 &lt;integration test command&gt;는 `test:e2e` 또는 `test:integration*`이며 `<file_name>`은 `integration-tests/` 디렉터리에 있는 `.test.js` 파일 중 하나입니다. 예를 들어, 다음 명령은 `list_directory.test.js`와 `write_file.test.js`를 실행합니다:
 
 ```bash
 npm run test:e2e list_directory write_file
 ```
 
-### Running a single test by name
+### 이름으로 단일 테스트 실행 (Running a single test by name)
 
-To run a single test by its name, use the `--test-name-pattern` flag:
+이름으로 단일 테스트를 실행하려면 `--test-name-pattern` 플래그를 사용하세요:
 
 ```bash
 npm run test:e2e -- --test-name-pattern "reads a file"
 ```
 
-### Regenerating model responses
+### 모델 응답 재생성 (Regenerating model responses)
 
-Some integration tests use faked out model responses, which may need to be
-regenerated from time to time as the implementations change.
+일부 통합 테스트는 가짜 모델 응답을 사용하는데, 구현이 변경됨에 따라 때때로 재생성해야 할 수 있습니다.
 
-To regenerate these golden files, set the REGENERATE_MODEL_GOLDENS environment
-variable to "true" when running the tests, for example:
+이러한 골든 파일(golden files)을 재생성하려면 테스트를 실행할 때 REGENERATE_MODEL_GOLDENS 환경 변수를 "true"로 설정하십시오. 예를 들어:
 
-**WARNING**: If running locally you should review these updated responses for
-any information about yourself or your system that gemini may have included in
-these responses.
+**경고**: 로컬에서 실행하는 경우 gemini가 이러한 응답에 포함했을 수 있는 자신 또는 시스템에 대한 정보를 검토해야 합니다.
 
 ```bash
 REGENERATE_MODEL_GOLDENS="true" npm run test:e2e
 ```
 
-**WARNING**: Make sure you run **await rig.cleanup()** at the end of your test,
-else the golden files will not be updated.
+**경고**: 테스트 마지막에 **await rig.cleanup()**을 실행해야 합니다. 그렇지 않으면 골든 파일이 업데이트되지 않습니다.
 
-### Deflaking a test
+### 테스트 안정화 (Deflaking a test)
 
-Before adding a **new** integration test, you should test it at least 5 times
-with the deflake script or workflow to make sure that it is not flaky.
+**새로운** 통합 테스트를 추가하기 전에, 안정화 스크립트나 워크플로를 사용하여 최소 5번 이상 테스트하여 불안정하지 않은지 확인해야 합니다.
 
-### Deflake script
+### 안정화 스크립트 (Deflake script)
 
 ```bash
 npm run deflake -- --runs=5 --command="npm run test:e2e -- -- --test-name-pattern '<your-new-test-name>'"
 ```
 
-#### Deflake workflow
+#### 안정화 워크플로 (Deflake workflow)
 
 ```bash
 gh workflow run deflake.yml --ref <your-branch> -f test_name_pattern="<your-test-name-pattern>"
 ```
 
-### Running all tests
+### 모든 테스트 실행 (Running all tests)
 
-To run the entire suite of integration tests, use the following command:
+전체 통합 테스트 모음을 실행하려면 다음 명령을 사용하세요:
 
 ```bash
 npm run test:integration:all
 ```
 
-### Sandbox matrix
+### 샌드박스 매트릭스 (Sandbox matrix)
 
-The `all` command will run tests for `no sandboxing`, `docker` and `podman`.
-Each individual type can be run using the following commands:
+`all` 명령은 `no sandboxing`, `docker`, `podman`에 대한 테스트를 실행합니다.
+각 개별 유형은 다음 명령을 사용하여 실행할 수 있습니다:
 
 ```bash
 npm run test:integration:sandbox:none
@@ -117,38 +99,33 @@ npm run test:integration:sandbox:docker
 npm run test:integration:sandbox:podman
 ```
 
-## Diagnostics
+## 진단 (Diagnostics)
 
-The integration test runner provides several options for diagnostics to help
-track down test failures.
+통합 테스트 실행기는 테스트 실패 원인을 추적하는 데 도움이 되는 여러 진단 옵션을 제공합니다.
 
-### Keeping test output
+### 테스트 출력 유지 (Keeping test output)
 
-You can preserve the temporary files created during a test run for inspection.
-This is useful for debugging issues with file system operations.
+검사를 위해 테스트 실행 중 생성된 임시 파일을 보존할 수 있습니다. 이는 파일 시스템 작업 관련 문제를 디버깅하는 데 유용합니다.
 
-To keep the test output set the `KEEP_OUTPUT` environment variable to `true`.
+테스트 출력을 유지하려면 `KEEP_OUTPUT` 환경 변수를 `true`로 설정하세요.
 
 ```bash
 KEEP_OUTPUT=true npm run test:integration:sandbox:none
 ```
 
-When output is kept, the test runner will print the path to the unique directory
-for the test run.
+출력이 유지되면 테스트 실행기는 테스트 실행을 위한 고유 디렉터리의 경로를 인쇄합니다.
 
-### Verbose output
+### 상세 출력 (Verbose output)
 
-For more detailed debugging, set the `VERBOSE` environment variable to `true`.
+더 자세한 디버깅을 위해 `VERBOSE` 환경 변수를 `true`로 설정하세요.
 
 ```bash
 VERBOSE=true npm run test:integration:sandbox:none
 ```
 
-When using `VERBOSE=true` and `KEEP_OUTPUT=true` in the same command, the output
-is streamed to the console and also saved to a log file within the test's
-temporary directory.
+동일한 명령에서 `VERBOSE=true`와 `KEEP_OUTPUT=true`를 사용하면 출력이 콘솔로 스트리밍되고 테스트의 임시 디렉터리 내 로그 파일에도 저장됩니다.
 
-The verbose output is formatted to clearly identify the source of the logs:
+상세 출력은 로그의 소스를 명확하게 식별하도록 형식이 지정됩니다:
 
 ```
 --- TEST: <log dir>:<test-name> ---
@@ -156,36 +133,29 @@ The verbose output is formatted to clearly identify the source of the logs:
 --- END TEST: <log dir>:<test-name> ---
 ```
 
-## Linting and formatting
+## 린팅 및 포맷팅 (Linting and formatting)
 
-To ensure code quality and consistency, the integration test files are linted as
-part of the main build process. You can also manually run the linter and
-auto-fixer.
+코드 품질과 일관성을 보장하기 위해 통합 테스트 파일은 기본 빌드 프로세스의 일부로 린트됩니다. 린터와 자동 수정기를 수동으로 실행할 수도 있습니다.
 
-### Running the linter
+### 린터 실행 (Running the linter)
 
-To check for linting errors, run the following command:
+린팅 오류를 확인하려면 다음 명령을 실행하세요:
 
 ```bash
 npm run lint
 ```
 
-You can include the `:fix` flag in the command to automatically fix any fixable
-linting errors:
+명령에 `:fix` 플래그를 포함하여 수정 가능한 린팅 오류를 자동으로 수정할 수 있습니다:
 
 ```bash
 npm run lint:fix
 ```
 
-## Directory structure
+## 디렉터리 구조 (Directory structure)
 
-The integration tests create a unique directory for each test run inside the
-`.integration-tests` directory. Within this directory, a subdirectory is created
-for each test file, and within that, a subdirectory is created for each
-individual test case.
+통합 테스트는 `.integration-tests` 디렉터리 내에 각 테스트 실행을 위한 고유 디렉터리를 생성합니다. 이 디렉터리 내에는 각 테스트 파일에 대한 하위 디렉터리가 생성되고, 그 안에는 각 개별 테스트 케이스에 대한 하위 디렉터리가 생성됩니다.
 
-This structure makes it easy to locate the artifacts for a specific test run,
-file, or case.
+이 구조 덕분에 특정 테스트 실행, 파일 또는 케이스에 대한 아티팩트를 쉽게 찾을 수 있습니다.
 
 ```
 .integration-tests/
@@ -196,16 +166,12 @@ file, or case.
             └── ...other test artifacts...
 ```
 
-## Continuous integration
+## 지속적 통합 (Continuous integration)
 
-To ensure the integration tests are always run, a GitHub Actions workflow is
-defined in `.github/workflows/chained_e2e.yml`. This workflow automatically runs
-the integrations tests for pull requests against the `main` branch, or when a
-pull request is added to a merge queue.
+통합 테스트가 항상 실행되도록 하기 위해 GitHub Actions 워크플로가 `.github/workflows/chained_e2e.yml`에 정의되어 있습니다. 이 워크플로는 `main` 브랜치에 대한 풀 리퀘스트를 위해 또는 풀 리퀘스트가 병합 대기열에 추가될 때 자동으로 통합 테스트를 실행합니다.
 
-The workflow runs the tests in different sandboxing environments to ensure
-Gemini CLI is tested across each:
+워크플로는 다양한 샌드박싱 환경에서 테스트를 실행하여 Gemini CLI가 각 환경에서 테스트되도록 합니다:
 
-- `sandbox:none`: Runs the tests without any sandboxing.
-- `sandbox:docker`: Runs the tests in a Docker container.
-- `sandbox:podman`: Runs the tests in a Podman container.
+- `sandbox:none`: 샌드박싱 없이 테스트를 실행합니다.
+- `sandbox:docker`: Docker 컨테이너에서 테스트를 실행합니다.
+- `sandbox:podman`: Podman 컨테이너에서 테스트를 실행합니다.

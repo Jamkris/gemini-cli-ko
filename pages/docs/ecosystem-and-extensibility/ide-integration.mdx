@@ -1,202 +1,150 @@
-# IDE integration
+# IDE 통합
 
-Gemini CLI can integrate with your IDE to provide a more seamless and
-context-aware experience. This integration allows the CLI to understand your
-workspace better and enables powerful features like native in-editor diffing.
+Gemini CLI는 IDE와 통합하여 보다 원활하고 컨텍스트를 인식하는 경험을 제공할 수 있습니다. 이 통합을 통해 CLI는 작업 공간을 더 잘 이해하고 기본 제공 에디터 내 Diff(차이) 기능과 같은 강력한 기능을 활성화할 수 있습니다.
 
-Currently, the supported IDEs are [Antigravity](https://antigravity.google),
-[Visual Studio Code](https://code.visualstudio.com/), and other editors that
-support VS Code extensions. To build support for other editors, see the
-[IDE Companion Extension Spec](/docs/ide-integration/ide-companion-spec).
+현재 지원되는 IDE는 [Antigravity](https://antigravity.google), [Visual Studio Code](https://code.visualstudio.com/), 그리고 VS Code 확장을 지원하는 기타 에디터들입니다. 다른 에디터에 대한 지원을 구축하려면 [IDE Companion Extension Spec](/docs/ide-integration/ide-companion-spec)을 참조하세요.
 
-## Features
+## 기능
 
-- **Workspace context:** The CLI automatically gains awareness of your workspace
-  to provide more relevant and accurate responses. This context includes:
-  - The **10 most recently accessed files** in your workspace.
-  - Your active cursor position.
-  - Any text you have selected (up to a 16KB limit; longer selections will be
-    truncated).
+- **작업 공간 컨텍스트:** CLI는 작업 공간을 자동으로 인식하여 더 관련성 있고 정확한 응답을 제공합니다. 이 컨텍스트에는 다음이 포함됩니다:
+  - 작업 공간에서 **가장 최근에 액세스한 파일 10개**.
+  - 현재 커서 위치.
+  - 선택한 텍스트 (최대 16KB 제한; 더 긴 선택 영역은 잘림).
 
-- **Native diffing:** When Gemini suggests code modifications, you can view the
-  changes directly within your IDE's native diff viewer. This allows you to
-  review, edit, and accept or reject the suggested changes seamlessly.
+- **네이티브 Diff:** Gemini가 코드 수정을 제안할 때, IDE의 네이티브 Diff 뷰어에서 변경 사항을 직접 볼 수 있습니다. 이를 통해 제안된 변경 사항을 원활하게 검토, 편집, 수락 또는 거부할 수 있습니다.
 
-- **VS Code commands:** You can access Gemini CLI features directly from the VS
-  Code Command Palette (`Cmd+Shift+P` or `Ctrl+Shift+P`):
-  - `Gemini CLI: Run`: Starts a new Gemini CLI session in the integrated
-    terminal.
-  - `Gemini CLI: Accept Diff`: Accepts the changes in the active diff editor.
-  - `Gemini CLI: Close Diff Editor`: Rejects the changes and closes the active
-    diff editor.
-  - `Gemini CLI: View Third-Party Notices`: Displays the third-party notices for
-    the extension.
+- **VS Code 명령:** VS Code 명령 팔레트(`Cmd+Shift+P` 또는 `Ctrl+Shift+P`)에서 Gemini CLI 기능에 직접 액세스할 수 있습니다:
+  - `Gemini CLI: Run`: 통합 터미널에서 새 Gemini CLI 세션을 시작합니다.
+  - `Gemini CLI: Accept Diff`: 활성 Diff 에디터의 변경 사항을 수락합니다.
+  - `Gemini CLI: Close Diff Editor`: 변경 사항을 거부하고 활성 Diff 에디터를 닫습니다.
+  - `Gemini CLI: View Third-Party Notices`: 확장에 대한 제3자 고지 사항을 표시합니다.
 
-## Installation and setup
+## 설치 및 설정
 
-There are three ways to set up the IDE integration:
+IDE 통합을 설정하는 방법에는 세 가지가 있습니다:
 
-### 1. Automatic nudge (recommended)
+### 1. 자동 알림 (권장)
 
-When you run Gemini CLI inside a supported editor, it will automatically detect
-your environment and prompt you to connect. Answering "Yes" will automatically
-run the necessary setup, which includes installing the companion extension and
-enabling the connection.
+지원되는 에디터 내부에서 Gemini CLI를 실행하면 환경을 자동으로 감지하고 연결 여부를 묻습니다. "Yes"라고 답하면 컴패니언 확장 설치 및 연결 활성화를 포함한 필요한 설정이 자동으로 실행됩니다.
 
-### 2. Manual installation from CLI
+### 2. CLI에서 수동 설치
 
-If you previously dismissed the prompt or want to install the extension
-manually, you can run the following command inside Gemini CLI:
+이전에 프롬프트를 무시했거나 확장을 수동으로 설치하려는 경우 Gemini CLI 내부에서 다음 명령을 실행할 수 있습니다:
 
 ```
 /ide install
 ```
 
-This will find the correct extension for your IDE and install it.
+이 명령은 사용 중인 IDE에 맞는 올바른 확장을 찾아 설치합니다.
 
-### 3. Manual installation from a marketplace
+### 3. 마켓플레이스에서 수동 설치
 
-You can also install the extension directly from a marketplace.
+마켓플레이스에서 확장을 직접 설치할 수도 있습니다.
 
-- **For Visual Studio Code:** Install from the
-  [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=google.gemini-cli-vscode-ide-companion).
-- **For VS Code forks:** To support forks of VS Code, the extension is also
-  published on the
-  [Open VSX Registry](https://open-vsx.org/extension/google/gemini-cli-vscode-ide-companion).
-  Follow your editor's instructions for installing extensions from this
-  registry.
+- **Visual Studio Code:** [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=google.gemini-cli-vscode-ide-companion)에서 설치하세요.
+- **VS Code 포크:** VS Code의 포크를 지원하기 위해, 확장은 [Open VSX Registry](https://open-vsx.org/extension/google/gemini-cli-vscode-ide-companion)에도 게시되어 있습니다. 해당 레지스트리에서 확장을 설치하는 방법에 대한 에디터의 지침을 따르세요.
 
-> NOTE: The "Gemini CLI Companion" extension may appear towards the bottom of
-> search results. If you don't see it immediately, try scrolling down or sorting
-> by "Newly Published".
+> 참고: "Gemini CLI Companion" 확장은 검색 결과 하단에 나타날 수 있습니다. 즉시 보이지 않으면 아래로 스크롤하거나 "최신순(Newly Published)"으로 정렬해 보세요.
 >
-> After manually installing the extension, you must run `/ide enable` in the CLI
-> to activate the integration.
+> 확장을 수동으로 설치한 후에는 CLI에서 `/ide enable`을 실행하여 통합을 활성화해야 합니다.
 
-## Usage
+## 사용법
 
-### Enabling and disabling
+### 활성화 및 비활성화
 
-You can control the IDE integration from within the CLI:
+CLI 내에서 IDE 통합을 제어할 수 있습니다:
 
-- To enable the connection to the IDE, run:
+- IDE 연결을 활성화하려면 다음을 실행하세요:
   ```
   /ide enable
   ```
-- To disable the connection, run:
+- 연결을 비활성화하려면 다음을 실행하세요:
   ```
   /ide disable
   ```
 
-When enabled, Gemini CLI will automatically attempt to connect to the IDE
-companion extension.
+활성화되면 Gemini CLI는 자동으로 IDE 컴패니언 확장에 연결을 시도합니다.
 
-### Checking the status
+### 상태 확인
 
-To check the connection status and see the context the CLI has received from the
-IDE, run:
+연결 상태를 확인하고 CLI가 IDE로부터 수신한 컨텍스트를 확인하려면 다음을 실행하세요:
 
 ```
 /ide status
 ```
 
-If connected, this command will show the IDE it's connected to and a list of
-recently opened files it is aware of.
+연결된 경우, 이 명령은 연결된 IDE와 CLI가 인식하고 있는 최근 열린 파일 목록을 표시합니다.
 
-> [!NOTE] The file list is limited to 10 recently accessed files within your
-> workspace and only includes local files on disk.)
+> [!NOTE]
+> 파일 목록은 작업 공간 내에서 최근에 액세스한 파일 10개로 제한되며 디스크의 로컬 파일만 포함됩니다.
 
-### Working with diffs
+### Diff(차이) 작업
 
-When you ask Gemini to modify a file, it can open a diff view directly in your
-editor.
+Gemini에게 파일 수정을 요청하면 에디터에서 직접 Diff 뷰를 열 수 있습니다.
 
-**To accept a diff**, you can perform any of the following actions:
+**Diff를 수락하려면** 다음 작업 중 하나를 수행할 수 있습니다:
 
-- Click the **checkmark icon** in the diff editor's title bar.
-- Save the file (e.g., with `Cmd+S` or `Ctrl+S`).
-- Open the Command Palette and run **Gemini CLI: Accept Diff**.
-- Respond with `yes` in the CLI when prompted.
+- Diff 에디터 제목 표시줄의 **체크 표시 아이콘**을 클릭합니다.
+- 파일을 저장합니다 (예: `Cmd+S` 또는 `Ctrl+S`).
+- 명령 팔레트를 열고 **Gemini CLI: Accept Diff**를 실행합니다.
+- 메시지가 표시되면 CLI에서 `yes`로 응답합니다.
 
-**To reject a diff**, you can:
+**Diff를 거부하려면** 다음을 수행할 수 있습니다:
 
-- Click the **'x' icon** in the diff editor's title bar.
-- Close the diff editor tab.
-- Open the Command Palette and run **Gemini CLI: Close Diff Editor**.
-- Respond with `no` in the CLI when prompted.
+- Diff 에디터 제목 표시줄의 **'x' 아이콘**을 클릭합니다.
+- Diff 에디터 탭을 닫습니다.
+- 명령 팔레트를 열고 **Gemini CLI: Close Diff Editor**를 실행합니다.
+- 메시지가 표시되면 CLI에서 `no`로 응답합니다.
 
-You can also **modify the suggested changes** directly in the diff view before
-accepting them.
+수락하기 전에 Diff 뷰에서 **제안된 변경 사항을 직접 수정**할 수도 있습니다.
 
-If you select ‘Allow for this session’ in the CLI, changes will no longer show
-up in the IDE as they will be auto-accepted.
+CLI에서 ‘Allow for this session(이 세션에 허용)’을 선택하면 변경 사항이 자동으로 수락되므로 더 이상 IDE에 표시되지 않습니다.
 
-## Using with sandboxing
+## 샌드박싱과 함께 사용
 
-If you are using Gemini CLI within a sandbox, please be aware of the following:
+샌드박스 내에서 Gemini CLI를 사용하는 경우 다음 사항에 유의하세요:
 
-- **On macOS:** The IDE integration requires network access to communicate with
-  the IDE companion extension. You must use a Seatbelt profile that allows
-  network access.
-- **In a Docker container:** If you run Gemini CLI inside a Docker (or Podman)
-  container, the IDE integration can still connect to the VS Code extension
-  running on your host machine. The CLI is configured to automatically find the
-  IDE server on `host.docker.internal`. No special configuration is usually
-  required, but you may need to ensure your Docker networking setup allows
-  connections from the container to the host.
+- **macOS의 경우:** IDE 통합은 IDE 컴패니언 확장과 통신하기 위해 네트워크 액세스가 필요합니다. 네트워크 액세스를 허용하는 Seatbelt 프로필을 사용해야 합니다.
+- **Docker 컨테이너의 경우:** Docker(또는 Podman) 컨테이너 내부에서 Gemini CLI를 실행하더라도 IDE 통합은 호스트 머신에서 실행 중인 VS Code 확장에 연결할 수 있습니다. CLI는 `host.docker.internal`에서 IDE 서버를 자동으로 찾도록 구성되어 있습니다. 일반적으로 특별한 구성은 필요하지 않지만, Docker 네트워킹 설정이 컨테이너에서 호스트로의 연결을 허용하는지 확인해야 할 수 있습니다.
 
-## Troubleshooting
+## 문제 해결
 
-If you encounter issues with IDE integration, here are some common error
-messages and how to resolve them.
+IDE 통합에 문제가 발생하면 다음은 몇 가지 일반적인 오류 메시지와 해결 방법입니다.
 
-### Connection errors
+### 연결 오류
 
-- **Message:**
+- **메시지:**
   `🔴 Disconnected: Failed to connect to IDE companion extension in [IDE Name]. Please ensure the extension is running. To install the extension, run /ide install.`
-  - **Cause:** Gemini CLI could not find the necessary environment variables
-    (`GEMINI_CLI_IDE_WORKSPACE_PATH` or `GEMINI_CLI_IDE_SERVER_PORT`) to connect
-    to the IDE. This usually means the IDE companion extension is not running or
-    did not initialize correctly.
-  - **Solution:**
-    1.  Make sure you have installed the **Gemini CLI Companion** extension in
-        your IDE and that it is enabled.
-    2.  Open a new terminal window in your IDE to ensure it picks up the correct
-        environment.
+  - **원인:** Gemini CLI가 IDE에 연결하는 데 필요한 환경 변수(`GEMINI_CLI_IDE_WORKSPACE_PATH` 또는 `GEMINI_CLI_IDE_SERVER_PORT`)를 찾을 수 없습니다. 이는 일반적으로 IDE 컴패니언 확장이 실행되고 있지 않거나 제대로 초기화되지 않았음을 의미합니다.
+  - **해결 방법:**
+    1.  IDE에 **Gemini CLI Companion** 확장이 설치되어 있고 활성화되어 있는지 확인하세요.
+    2.  IDE에서 새 터미널 창을 열어 올바른 환경을 가져오는지 확인하세요.
 
-- **Message:**
+- **메시지:**
   `🔴 Disconnected: IDE connection error. The connection was lost unexpectedly. Please try reconnecting by running /ide enable`
-  - **Cause:** The connection to the IDE companion was lost.
-  - **Solution:** Run `/ide enable` to try and reconnect. If the issue
-    continues, open a new terminal window or restart your IDE.
+  - **원인:** IDE 컴패니언과의 연결이 끊어졌습니다.
+  - **해결 방법:** `/ide enable`을 실행하여 다시 연결을 시도하세요. 문제가 지속되면 새 터미널 창을 열거나 IDE를 다시 시작하세요.
 
-### Configuration errors
+### 구성 오류
 
-- **Message:**
+- **메시지:**
   `🔴 Disconnected: Directory mismatch. Gemini CLI is running in a different location than the open workspace in [IDE Name]. Please run the CLI from one of the following directories: [List of directories]`
-  - **Cause:** The CLI's current working directory is outside the workspace you
-    have open in your IDE.
-  - **Solution:** `cd` into the same directory that is open in your IDE and
-    restart the CLI.
+  - **원인:** CLI의 현재 작업 디렉터리가 IDE에서 열려 있는 작업 공간 외부에 있습니다.
+  - **해결 방법:** IDE에서 열려 있는 것과 동일한 디렉터리로 `cd`한 후 CLI를 다시 시작하세요.
 
-- **Message:**
+- **메시지:**
   `🔴 Disconnected: To use this feature, please open a workspace folder in [IDE Name] and try again.`
-  - **Cause:** You have no workspace open in your IDE.
-  - **Solution:** Open a workspace in your IDE and restart the CLI.
+  - **원인:** IDE에 열려 있는 작업 공간이 없습니다.
+  - **해결 방법:** IDE에서 작업 공간을 열고 CLI를 다시 시작하세요.
 
-### General errors
+### 일반 오류
 
-- **Message:**
+- **메시지:**
   `IDE integration is not supported in your current environment. To use this feature, run Gemini CLI in one of these supported IDEs: [List of IDEs]`
-  - **Cause:** You are running Gemini CLI in a terminal or environment that is
-    not a supported IDE.
-  - **Solution:** Run Gemini CLI from the integrated terminal of a supported
-    IDE, like Antigravity or VS Code.
+  - **원인:** 지원되지 않는 IDE가 아닌 터미널이나 환경에서 Gemini CLI를 실행하고 있습니다.
+  - **해결 방법:** Antigravity나 VS Code와 같은 지원되는 IDE의 통합 터미널에서 Gemini CLI를 실행하세요.
 
-- **Message:**
+- **메시지:**
   `No installer is available for IDE. Please install the Gemini CLI Companion extension manually from the marketplace.`
-  - **Cause:** You ran `/ide install`, but the CLI does not have an automated
-    installer for your specific IDE.
-  - **Solution:** Open your IDE's extension marketplace, search for "Gemini CLI
-    Companion", and
-    [install it manually](#3-manual-installation-from-a-marketplace).
+  - **원인:** `/ide install`을 실행했지만 CLI에 특정 IDE에 대한 자동 설치 프로그램이 없습니다.
+  - **해결 방법:** IDE의 확장 마켓플레이스를 열고 "Gemini CLI Companion"을 검색하여 [수동으로 설치](#3-manual-installation-from-a-marketplace)하세요.

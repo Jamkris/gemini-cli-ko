@@ -1,27 +1,23 @@
-# Uninstalling the CLI
+# CLI 제거 (Uninstalling the CLI)
 
-Your uninstall method depends on how you ran the CLI. Follow the instructions
-for either npx or a global npm installation.
+제거 방법은 CLI를 실행한 방식에 따라 다릅니다. npx 또는 npm 전역 설치에 대한 지침을 따르세요.
 
-## Method 1: Using npx
+## 방법 1: npx 사용 시 (Method 1: Using npx)
 
-npx runs packages from a temporary cache without a permanent installation. To
-"uninstall" the CLI, you must clear this cache, which will remove gemini-cli and
-any other packages previously executed with npx.
+npx는 영구 설치 없이 임시 캐시에서 패키지를 실행합니다. CLI를 "제거"하려면 이 캐시를 지워야 하며, 이렇게 하면 gemini-cli와 npx로 이전에 실행된 다른 패키지들이 제거됩니다.
 
-The npx cache is a directory named `_npx` inside your main npm cache folder. You
-can find your npm cache path by running `npm config get cache`.
+npx 캐시는 기본 npm 캐시 폴더 내에 있는 `_npx`라는 디렉터리입니다. `npm config get cache`를 실행하여 npm 캐시 경로를 찾을 수 있습니다.
 
-**For macOS / Linux**
+**macOS / Linux**
 
 ```bash
 # The path is typically ~/.npm/_npx
 rm -rf "$(npm config get cache)/_npx"
 ```
 
-**For Windows**
+**Windows**
 
-_Command Prompt_
+_명령 프롬프트_
 
 ```cmd
 :: The path is typically %LocalAppData%\npm-cache\_npx
@@ -35,30 +31,27 @@ _PowerShell_
 Remove-Item -Path (Join-Path $env:LocalAppData "npm-cache\_npx") -Recurse -Force
 ```
 
-## Method 2: Using npm (global install)
+## 방법 2: npm 사용 시 (전역 설치)
 
-If you installed the CLI globally (e.g., `npm install -g @google/gemini-cli`),
-use the `npm uninstall` command with the `-g` flag to remove it.
+CLI를 전역으로 설치한 경우(예: `npm install -g @google/gemini-cli`), `-g` 플래그와 함께 `npm uninstall` 명령을 사용하여 제거하세요.
 
 ```bash
 npm uninstall -g @google/gemini-cli
 ```
 
-This command completely removes the package from your system.
+이 명령은 시스템에서 패키지를 완전히 제거합니다.
 
-## Method 3: Homebrew
+## 방법 3: Homebrew
 
-If you installed the CLI globally using Homebrew (e.g.,
-`brew install gemini-cli`), use the `brew uninstall` command to remove it.
+Homebrew를 사용하여 CLI를 전역으로 설치한 경우(예: `brew install gemini-cli`), `brew uninstall` 명령을 사용하여 제거하세요.
 
 ```bash
 brew uninstall gemini-cli
 ```
 
-## Method 4: MacPorts
+## 방법 4: MacPorts
 
-If you installed the CLI globally using MacPorts (e.g.,
-`sudo port install gemini-cli`), use the `port uninstall` command to remove it.
+MacPorts를 사용하여 CLI를 전역으로 설치한 경우(예: `sudo port install gemini-cli`), `port uninstall` 명령을 사용하여 제거하세요.
 
 ```bash
 sudo port uninstall gemini-cli

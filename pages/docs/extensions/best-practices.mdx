@@ -1,17 +1,14 @@
-# Extensions on Gemini CLI: Best practices
+# Gemini CLI 확장: 모범 사례
 
-This guide covers best practices for developing, securing, and maintaining
-Gemini CLI extensions.
+이 가이드는 Gemini CLI 확장을 개발, 보안 및 유지 관리하기 위한 모범 사례를 다룹니다.
 
-## Development
+## 개발
 
-Developing extensions for Gemini CLI is intended to be a lightweight, iterative
-process.
+Gemini CLI용 확장을 개발하는 것은 가볍고 반복적인 과정이 되도록 의도되었습니다.
 
-### Structure your extension
+### 확장 구조화하기
 
-While simple extensions can just be a few files, we recommend a robust structure
-for complex extensions:
+간단한 확장은 몇 개의 파일로 구성될 수 있지만, 복잡한 확장을 위해서는 견고한 구조를 권장합니다:
 
 ```
 my-extension/
@@ -24,47 +21,38 @@ my-extension/
 └── dist/
 ```
 
-- **Use TypeScript**: We strongly recommend using TypeScript for type safety and
-  better tooling.
-- **Separate source and build**: Keep your source code in `src` and build to
-  `dist`.
-- **Bundle dependencies**: If your extension has many dependencies, consider
-  bundling them (e.g., with `esbuild` or `webpack`) to reduce install time and
-  potential conflicts.
+- **TypeScript 사용**: 타입 안전성과 더 나은 도구 지원을 위해 TypeScript 사용을 강력히 권장합니다.
+- **소스와 빌드 분리**: 소스 코드는 `src`에 유지하고 `dist`로 빌드하세요.
+- **종속성 번들링**: 확장에 많은 종속성이 있는 경우, 설치 시간과 잠재적 충돌을 줄이기 위해 번들링(예: `esbuild` 또는 `webpack` 사용)을 고려하세요.
 
-### Iterate with `link`
+### `link`로 반복하기
 
-Use `gemini extensions link` to develop locally without constantly reinstalling:
+`gemini extensions link`를 사용하여 지속적으로 다시 설치하지 않고 로컬에서 개발하세요:
 
 ```bash
 cd my-extension
 gemini extensions link .
 ```
 
-Changes to your code (after rebuilding) will be immediately available in the CLI
-on restart.
+코드를 변경하고 다시 빌드하면, CLI를 재시작했을 때 변경 사항을 즉시 사용할 수 있습니다.
 
-### Use `GEMINI.md` effectively
+### `GEMINI.md` 효과적으로 사용하기
 
-Your `GEMINI.md` file provides context to the model. Keep it focused:
+`GEMINI.md` 파일은 모델에 컨텍스트를 제공합니다. 초점을 유지하세요:
 
-- **Do:** Explain high-level goals and how to use the provided tools.
-- **Don't:** Dump your entire documentation.
-- **Do:** Use clear, concise language.
+- **할 것:** 높은 수준의 목표와 제공된 도구 사용 방법을 설명하세요.
+- **하지 말 것:** 전체 문서를 쏟아붓지 마세요.
+- **할 것:** 명확하고 간결한 언어를 사용하세요.
 
-## Security
+## 보안
 
-When building a Gemini CLI extension, follow general security best practices
-(such as least privilege and input validation) to reduce risk.
+Gemini CLI 확장을 구축할 때 일반적인 보안 모범 사례(최소 권한 및 입력 유효성 검사 등)를 따 위험을 줄이세요.
 
-### Minimal permissions
+### 최소 권한
 
-When defining tools in your MCP server, only request the permissions necessary.
-Avoid giving the model broad access (like full shell access) if a more
-restricted set of tools will suffice.
+MCP 서버에서 도구를 정의할 때 필요한 권한만 요청하세요. 더 제한된 도구 세트로 충분하다면 모델에 광범위한 액세스(예: 전체 쉘 액세스)를 제공하지 마세요.
 
-If you must use powerful tools like `run_shell_command`, consider restricting
-them to specific commands in your `gemini-extension.json`:
+`run_shell_command`와 같은 강력한 도구를 사용해야 하는 경우, `gemini-extension.json`에서 특정 명령으로 제한하는 것을 고려하세요:
 
 ```json
 {
@@ -73,27 +61,22 @@ them to specific commands in your `gemini-extension.json`:
 }
 ```
 
-This ensures that even if the model tries to execute a dangerous command, it
-will be blocked at the CLI level.
+이렇게 하면 모델이 위험한 명령을 실행하려고 시도하더라도 CLI 수준에서 차단됩니다.
 
-### Validate inputs
+### 입력 유효성 검사
 
-Your MCP server is running on the user's machine. Always validate inputs to your
-tools to prevent arbitrary code execution or filesystem access outside the
-intended scope.
+MCP 서버는 사용자의 컴퓨터에서 실행됩니다. 도구에 대한 입력을 항상 검증하여 의도한 범위를 벗어난 임의 코드 실행이나 파일 시스템 액세스를 방지하세요.
 
 ```typescript
-// Good: Validating paths
+// Good: 경로 유효성 검사
 if (!path.resolve(inputPath).startsWith(path.resolve(allowedDir) + path.sep)) {
   throw new Error('Access denied');
 }
 ```
 
-### Sensitive settings
+### 민감한 설정
 
-If your extension requires API keys, use the `sensitive: true` option in
-`gemini-extension.json`. This ensures keys are stored securely in the system
-keychain and obfuscated in the UI.
+확장에 API 키가 필요한 경우 `gemini-extension.json`에서 `sensitive: true` 옵션을 사용하세요. 이렇게 하면 키가 시스템 키체인에 안전하게 저장되고 UI에서 난독화됩니다.
 
 ```json
 "settings": [
@@ -105,35 +88,30 @@ keychain and obfuscated in the UI.
 ]
 ```
 
-## Releasing
+## 배포
 
-You can upload your extension directly to GitHub to list it in the gallery.
-Gemini CLI extensions also offers support for more complicated
-[releases](/docs/extensions/releasing).
+확장을 GitHub에 직접 업로드하여 갤러리에 나열할 수 있습니다. Gemini CLI 확장은 더 복잡한 [릴리스](/docs/extensions/releasing)에 대한 지원도 제공합니다.
 
-### Semantic versioning
+### 시맨틱 버저닝 (Semantic Versioning)
 
-Follow [Semantic Versioning](https://semver.org/).
+[Semantic Versioning](https://semver.org/)을 따르세요.
 
-- **Major**: Breaking changes (renaming tools, changing arguments).
-- **Minor**: New features (new tools, commands).
-- **Patch**: Bug fixes.
+- **Major**: 호환되지 않는 변경 (도구 이름 변경, 인수 변경).
+- **Minor**: 새로운 기능 (새 도구, 명령).
+- **Patch**: 버그 수정.
 
-### Release Channels
+### 배포 채널
 
-Use git branches to manage release channels (e.g., `main` for stable, `dev` for
-bleeding edge). This allows users to choose their stability level:
+git 브랜치를 사용하여 배포 채널을 관리하세요 (예: 안정 버전은 `main`, 최신 개발 버전은 `dev`). 이를 통해 사용자는 안정성 수준을 선택할 수 있습니다:
 
 ```bash
-# Stable
+# Stable (안정 버전)
 gemini extensions install github.com/user/repo
 
-# Dev
+# Dev (개발 버전)
 gemini extensions install github.com/user/repo --ref dev
 ```
 
-### Clean artifacts
+### 아티팩트 정리
 
-If you are using GitHub Releases, ensure your release artifacts only contain the
-necessary files (`dist/`, `gemini-extension.json`, `package.json`). Exclude
-`node_modules` (users will install them) and `src/` to keep downloads small.
+GitHub Releases를 사용하는 경우 릴리스 아티팩트에 필요한 파일(`dist/`, `gemini-extension.json`, `package.json`)만 포함되어 있는지 확인하세요. 다운로드 크기를 작게 유지하기 위해 `node_modules`(사용자가 설치함)와 `src/`는 제외하세요.

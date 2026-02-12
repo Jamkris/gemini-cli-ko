@@ -1,131 +1,123 @@
-# Observability with OpenTelemetry
+# OpenTelemetry를 통한 관찰 가능성
 
-Learn how to enable and setup OpenTelemetry for Gemini CLI.
+Gemini CLI에서 OpenTelemetry를 활성화하고 설정하는 방법을 알아보세요.
 
-- [Observability with OpenTelemetry](#observability-with-opentelemetry)
-  - [Key benefits](#key-benefits)
-  - [OpenTelemetry integration](#opentelemetry-integration)
-  - [Configuration](#configuration)
-  - [Google Cloud telemetry](#google-cloud-telemetry)
-    - [Prerequisites](#prerequisites)
-    - [Authenticating with CLI Credentials](#authenticating-with-cli-credentials)
-    - [Direct export (recommended)](#direct-export-recommended)
-    - [Collector-based export (advanced)](#collector-based-export-advanced)
-    - [Monitoring Dashboards](#monitoring-dashboards)
-  - [Local telemetry](#local-telemetry)
-    - [File-based output (recommended)](#file-based-output-recommended)
-    - [Collector-based export (advanced)](#collector-based-export-advanced-1)
-  - [Logs and metrics](#logs-and-metrics)
-    - [Logs](#logs)
-      - [Sessions](#sessions)
-      - [Approval Mode](#approval-mode)
-      - [Tools](#tools)
-      - [Files](#files)
+- [OpenTelemetry를 통한 관찰 가능성](#observability-with-opentelemetry)
+  - [주요 이점](#key-benefits)
+  - [OpenTelemetry 통합](#opentelemetry-integration)
+  - [구성](#configuration)
+  - [Google Cloud 텔레메트리](#google-cloud-telemetry)
+    - [전제 조건](#prerequisites)
+    - [CLI 자격 증명으로 인증하기](#authenticating-with-cli-credentials)
+    - [직접 내보내기 (권장)](#direct-export-recommended)
+    - [수집기 기반 내보내기 (고급)](#collector-based-export-advanced)
+    - [모니터링 대시보드](#monitoring-dashboards)
+  - [로컬 텔레메트리](#local-telemetry)
+    - [파일 기반 출력 (권장)](#file-based-output-recommended)
+    - [수집기 기반 내보내기 (고급)](#collector-based-export-advanced-1)
+  - [로그 및 메트릭](#logs-and-metrics)
+    - [로그](#logs)
+      - [세션](#sessions)
+      - [승인 모드](#approval-mode)
+      - [도구](#tools)
+      - [파일](#files)
       - [API](#api)
-      - [Model routing](#model-routing)
-      - [Chat and streaming](#chat-and-streaming)
-      - [Resilience](#resilience)
-      - [Extensions](#extensions)
-      - [Agent runs](#agent-runs)
+      - [모델 라우팅](#model-routing)
+      - [채팅 및 스트리밍](#chat-and-streaming)
+      - [복원력](#resilience)
+      - [확장](#extensions)
+      - [에이전트 실행](#agent-runs)
       - [IDE](#ide)
       - [UI](#ui)
-    - [Metrics](#metrics)
-      - [Custom](#custom)
-        - [Sessions](#sessions-1)
-        - [Tools](#tools-1)
+    - [메트릭](#metrics)
+      - [사용자 지정](#custom)
+        - [세션](#sessions-1)
+        - [도구](#tools-1)
         - [API](#api-1)
-        - [Token usage](#token-usage)
-        - [Files](#files-1)
-        - [Chat and streaming](#chat-and-streaming-1)
-        - [Model routing](#model-routing-1)
-        - [Agent runs](#agent-runs-1)
+        - [토큰 사용량](#token-usage)
+        - [파일](#files-1)
+        - [채팅 및 스트리밍](#chat-and-streaming-1)
+        - [모델 라우팅](#model-routing-1)
+        - [에이전트 실행](#agent-runs-1)
         - [UI](#ui-1)
-        - [Performance](#performance)
-      - [GenAI semantic convention](#genai-semantic-convention)
+        - [성능](#performance)
+      - [GenAI 의미 규칙](#genai-semantic-convention)
 
-## Key benefits
+## 주요 이점
 
-- **🔍 Usage analytics**: Understand interaction patterns and feature adoption
-  across your team
-- **⚡ Performance monitoring**: Track response times, token consumption, and
-  resource utilization
-- **🐛 Real-time debugging**: Identify bottlenecks, failures, and error patterns
-  as they occur
-- **📊 Workflow optimization**: Make informed decisions to improve
-  configurations and processes
-- **🏢 Enterprise governance**: Monitor usage across teams, track costs, ensure
-  compliance, and integrate with existing monitoring infrastructure
+- **🔍 사용량 분석**: 팀 전체의 상호 작용 패턴 및 기능 채택 이해
+- **⚡ 성능 모니터링**: 응답 시간, 토큰 소비 및 리소스 활용률 추적
+- **🐛 실시간 디버깅**: 병목 현상, 실패 및 오류 패턴 발생 즉시 식별
+- **📊 워크플로 최적화**: 구성 및 프로세스 개선을 위한 정보에 입각한 의사 결정
+- **🏢 엔터프라이즈 거버넌스**: 팀 간 사용량 모니터링, 비용 추적, 규정 준수 보장 및 기존 모니터링 인프라와의 통합
 
-## OpenTelemetry integration
+## OpenTelemetry 통합
 
-Built on **[OpenTelemetry]** — the vendor-neutral, industry-standard
-observability framework — Gemini CLI's observability system provides:
+공급업체 중립적인 산업 표준 관찰 가능성 프레임워크인 **[OpenTelemetry]**를 기반으로 구축된
+Gemini CLI의 관찰 가능성 시스템은 다음을 제공합니다:
 
-- **Universal compatibility**: Export to any OpenTelemetry backend (Google
-  Cloud, Jaeger, Prometheus, Datadog, etc.)
-- **Standardized data**: Use consistent formats and collection methods across
-  your toolchain
-- **Future-proof integration**: Connect with existing and future observability
-  infrastructure
-- **No vendor lock-in**: Switch between backends without changing your
-  instrumentation
+- **범용 호환성**: 모든 OpenTelemetry 백엔드(Google Cloud, Jaeger, Prometheus,
+  Datadog 등)로 내보내기
+- **표준화된 데이터**: 툴체인 전반에서 일관된 형식 및 수집 방법 사용
+- **미래 지향적 통합**: 기존 및 미래의 관찰 가능성 인프라와 연결
+- **공급업체 종속성 없음**: 계측을 변경하지 않고 백엔드 간 전환
 
 [OpenTelemetry]: https://opentelemetry.io/
 
-## Configuration
+## 구성
 
-All telemetry behavior is controlled through your `.gemini/settings.json` file.
-Environment variables can be used to override the settings in the file.
+모든 텔레메트리 동작은 `.gemini/settings.json` 파일을 통해 제어됩니다. 환경 변수를 사용하여
+파일의 설정을 재정의할 수 있습니다.
 
-| Setting        | Environment Variable             | Description                                         | Values            | Default                 |
-| -------------- | -------------------------------- | --------------------------------------------------- | ----------------- | ----------------------- |
-| `enabled`      | `GEMINI_TELEMETRY_ENABLED`       | Enable or disable telemetry                         | `true`/`false`    | `false`                 |
-| `target`       | `GEMINI_TELEMETRY_TARGET`        | Where to send telemetry data                        | `"gcp"`/`"local"` | `"local"`               |
-| `otlpEndpoint` | `GEMINI_TELEMETRY_OTLP_ENDPOINT` | OTLP collector endpoint                             | URL string        | `http://localhost:4317` |
-| `otlpProtocol` | `GEMINI_TELEMETRY_OTLP_PROTOCOL` | OTLP transport protocol                             | `"grpc"`/`"http"` | `"grpc"`                |
-| `outfile`      | `GEMINI_TELEMETRY_OUTFILE`       | Save telemetry to file (overrides `otlpEndpoint`)   | file path         | -                       |
-| `logPrompts`   | `GEMINI_TELEMETRY_LOG_PROMPTS`   | Include prompts in telemetry logs                   | `true`/`false`    | `true`                  |
-| `useCollector` | `GEMINI_TELEMETRY_USE_COLLECTOR` | Use external OTLP collector (advanced)              | `true`/`false`    | `false`                 |
-| `useCliAuth`   | `GEMINI_TELEMETRY_USE_CLI_AUTH`  | Use CLI credentials for telemetry (GCP target only) | `true`/`false`    | `false`                 |
+| 설정           | 환경 변수                        | 설명                                            | 값                | 기본값                  |
+| -------------- | -------------------------------- | ----------------------------------------------- | ----------------- | ----------------------- |
+| `enabled`      | `GEMINI_TELEMETRY_ENABLED`       | 텔레메트리 활성화 또는 비활성화                 | `true`/`false`    | `false`                 |
+| `target`       | `GEMINI_TELEMETRY_TARGET`        | 텔레메트리 데이터를 보낼 위치                   | `"gcp"`/`"local"` | `"local"`               |
+| `otlpEndpoint` | `GEMINI_TELEMETRY_OTLP_ENDPOINT` | OTLP 수집기 엔드포인트                          | URL 문자열        | `http://localhost:4317` |
+| `otlpProtocol` | `GEMINI_TELEMETRY_OTLP_PROTOCOL` | OTLP 전송 프로토콜                              | `"grpc"`/`"http"` | `"grpc"`                |
+| `outfile`      | `GEMINI_TELEMETRY_OUTFILE`       | 파일에 텔레메트리 저장 (`otlpEndpoint` 재정의)  | 파일 경로         | -                       |
+| `logPrompts`   | `GEMINI_TELEMETRY_LOG_PROMPTS`   | 텔레메트리 로그에 프롬프트 포함                 | `true`/`false`    | `true`                  |
+| `useCollector` | `GEMINI_TELEMETRY_USE_COLLECTOR` | 외부 OTLP 수집기 사용 (고급)                    | `true`/`false`    | `false`                 |
+| `useCliAuth`   | `GEMINI_TELEMETRY_USE_CLI_AUTH`  | 텔레메트리에 CLI 자격 증명 사용 (GCP 대상 전용) | `true`/`false`    | `false`                 |
 
-**Note on boolean environment variables:** For the boolean settings (`enabled`,
-`logPrompts`, `useCollector`), setting the corresponding environment variable to
-`true` or `1` will enable the feature. Any other value will disable it.
+**부울 환경 변수에 대한 참고 사항:** 부울 설정(`enabled`, `logPrompts`,
+`useCollector`)의 경우 해당 환경 변수를 `true` 또는 `1`로 설정하면 기능이 활성화됩니다.
+그 외의 값은 기능을 비활성화합니다.
 
-For detailed information about all configuration options, see the
-[Configuration guide](/docs/get-started/configuration).
+모든 구성 옵션에 대한 자세한 정보는 [구성 가이드](/docs/get-started/configuration)를
+참조하세요.
 
-## Google Cloud telemetry
+## Google Cloud 텔레메트리
 
-### Prerequisites
+### 전제 조건
 
-Before using either method below, complete these steps:
+아래 방법 중 하나를 사용하기 전에 다음 단계를 완료하세요:
 
-1. Set your Google Cloud project ID:
-   - For telemetry in a separate project from inference:
+1. Google Cloud 프로젝트 ID 설정:
+   - 추론과 별도의 프로젝트에서 텔레메트리를 사용하는 경우:
      ```bash
      export OTLP_GOOGLE_CLOUD_PROJECT="your-telemetry-project-id"
      ```
-   - For telemetry in the same project as inference:
+   - 추론과 동일한 프로젝트에서 텔레메트리를 사용하는 경우:
      ```bash
      export GOOGLE_CLOUD_PROJECT="your-project-id"
      ```
 
-2. Authenticate with Google Cloud:
-   - If using a user account:
+2. Google Cloud 인증:
+   - 사용자 계정을 사용하는 경우:
      ```bash
      gcloud auth application-default login
      ```
-   - If using a service account:
+   - 서비스 계정을 사용하는 경우:
      ```bash
      export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/service-account.json"
      ```
-3. Make sure your account or service account has these IAM roles:
-   - Cloud Trace Agent
-   - Monitoring Metric Writer
-   - Logs Writer
+3. 계정 또는 서비스 계정에 다음 IAM 역할이 있는지 확인하세요:
+   - Cloud Trace Agent (Cloud Trace 에이전트)
+   - Monitoring Metric Writer (모니터링 메트릭 작성자)
+   - Logs Writer (로그 작성자)
 
-4. Enable the required Google Cloud APIs (if not already enabled):
+4. 필요한 Google Cloud API 활성화 (아직 활성화되지 않은 경우):
    ```bash
    gcloud services enable \
      cloudtrace.googleapis.com \
@@ -134,15 +126,13 @@ Before using either method below, complete these steps:
      --project="$OTLP_GOOGLE_CLOUD_PROJECT"
    ```
 
-### Authenticating with CLI Credentials
+### CLI 자격 증명으로 인증하기
 
-By default, the telemetry collector for Google Cloud uses Application Default
-Credentials (ADC). However, you can configure it to use the same OAuth
-credentials that you use to log in to the Gemini CLI. This is useful in
-environments where you don't have ADC set up.
+기본적으로 Google Cloud용 텔레메트리 수집기는 ADC(애플리케이션 기본 자격 증명)를 사용합니다.
+그러나 Gemini CLI에 로그인할 때 사용하는 것과 동일한 OAuth 자격 증명을 사용하도록 구성할 수
+있습니다. 이는 ADC가 설정되지 않은 환경에서 유용합니다.
 
-To enable this, set the `useCliAuth` property in your `telemetry` settings to
-`true`:
+이를 활성화하려면 `telemetry` 설정에서 `useCliAuth` 속성을 `true`로 설정하세요:
 
 ```json
 {
@@ -154,19 +144,19 @@ To enable this, set the `useCliAuth` property in your `telemetry` settings to
 }
 ```
 
-**Important:**
+**중요:**
 
-- This setting requires the use of **Direct Export** (in-process exporters).
-- It **cannot** be used with `useCollector: true`. If you enable both, telemetry
-  will be disabled and an error will be logged.
-- The CLI will automatically use your credentials to authenticate with Google
-  Cloud Trace, Metrics, and Logging APIs.
+- 이 설정은 **직접 내보내기** (in-process exporters)를 사용해야 합니다.
+- `useCollector: true`와 함께 **사용할 수 없습니다**. 둘 다 활성화하면 텔레메트리가
+  비활성화되고 오류가 기록됩니다.
+- CLI는 자동으로 자격 증명을 사용하여 Google Cloud Trace, Metrics 및 Logging API에
+  인증합니다.
 
-### Direct export (recommended)
+### 직접 내보내기 (권장)
 
-Sends telemetry directly to Google Cloud services. No collector needed.
+텔레메트리를 Google Cloud 서비스로 직접 보냅니다. 수집기가 필요하지 않습니다.
 
-1. Enable telemetry in your `.gemini/settings.json`:
+1. `.gemini/settings.json`에서 텔레메트리 활성화:
    ```json
    {
      "telemetry": {
@@ -175,19 +165,19 @@ Sends telemetry directly to Google Cloud services. No collector needed.
      }
    }
    ```
-2. Run Gemini CLI and send prompts.
-3. View logs and metrics:
-   - Open the Google Cloud Console in your browser after sending prompts:
-     - Logs: https://console.cloud.google.com/logs/
-     - Metrics: https://console.cloud.google.com/monitoring/metrics-explorer
-     - Traces: https://console.cloud.google.com/traces/list
+2. Gemini CLI를 실행하고 프롬프트를 보냅니다.
+3. 로그 및 메트릭 보기:
+   - 프롬프트를 보낸 후 브라우저에서 Google Cloud Console을 엽니다:
+     - 로그: https://console.cloud.google.com/logs/
+     - 메트릭: https://console.cloud.google.com/monitoring/metrics-explorer
+     - 추적: https://console.cloud.google.com/traces/list
 
-### Collector-based export (advanced)
+### 수집기 기반 내보내기 (고급)
 
-For custom processing, filtering, or routing, use an OpenTelemetry collector to
-forward data to Google Cloud.
+사용자 지정 처리, 필터링 또는 라우팅을 위해 OpenTelemetry 수집기를 사용하여 데이터를
+Google Cloud로 전달합니다.
 
-1. Configure your `.gemini/settings.json`:
+1. `.gemini/settings.json` 구성:
    ```json
    {
      "telemetry": {
@@ -197,33 +187,31 @@ forward data to Google Cloud.
      }
    }
    ```
-2. Run the automation script:
+2. 자동화 스크립트 실행:
    ```bash
    npm run telemetry -- --target=gcp
    ```
-   This will:
-   - Start a local OTEL collector that forwards to Google Cloud
-   - Configure your workspace
-   - Provide links to view traces, metrics, and logs in Google Cloud Console
-   - Save collector logs to `~/.gemini/tmp/<projectHash>/otel/collector-gcp.log`
-   - Stop collector on exit (e.g. `Ctrl+C`)
-3. Run Gemini CLI and send prompts.
-4. View logs and metrics:
-   - Open the Google Cloud Console in your browser after sending prompts:
-     - Logs: https://console.cloud.google.com/logs/
-     - Metrics: https://console.cloud.google.com/monitoring/metrics-explorer
-     - Traces: https://console.cloud.google.com/traces/list
-   - Open `~/.gemini/tmp/<projectHash>/otel/collector-gcp.log` to view local
-     collector logs.
+   이 작업은 다음을 수행합니다:
+   - Google Cloud로 전달하는 로컬 OTEL 수집기 시작
+   - 작업 공간 구성
+   - Google Cloud Console에서 추적, 메트릭 및 로그를 볼 수 있는 링크 제공
+   - 수집기 로그를 `~/.gemini/tmp/<projectHash>/otel/collector-gcp.log`에 저장
+   - 종료 시 수집기 중지 (예: `Ctrl+C`)
+3. Gemini CLI를 실행하고 프롬프트를 보냅니다.
+4. 로그 및 메트릭 보기:
+   - 프롬프트를 보낸 후 브라우저에서 Google Cloud Console을 엽니다:
+     - 로그: https://console.cloud.google.com/logs/
+     - 메트릭: https://console.cloud.google.com/monitoring/metrics-explorer
+     - 추적: https://console.cloud.google.com/traces/list
+   - `~/.gemini/tmp/<projectHash>/otel/collector-gcp.log`를 열어 로컬 수집기 로그 확인.
 
-### Monitoring Dashboards
+### 모니터링 대시보드
 
-Gemini CLI provides a pre-configured
-[Google Cloud Monitoring](https://cloud.google.com/monitoring) dashboard to
-visualize your telemetry.
+Gemini CLI는 텔레메트리를 시각화하기 위해 미리 구성된
+[Google Cloud Monitoring](https://cloud.google.com/monitoring) 대시보드를 제공합니다.
 
-This dashboard can be found under **Google Cloud Monitoring Dashboard
-Templates** as "**Gemini CLI Monitoring**".
+이 대시보드는 **Google Cloud Monitoring 대시보드 템플릿**에서 "**Gemini CLI Monitoring**"으로
+찾을 수 있습니다.
 
 ![Gemini CLI Monitoring Dashboard Overview](/docs/assets/monitoring-dashboard-overview.png)
 
@@ -231,16 +219,16 @@ Templates** as "**Gemini CLI Monitoring**".
 
 ![Gemini CLI Monitoring Dashboard Logs](/docs/assets/monitoring-dashboard-logs.png)
 
-To learn more, check out this blog post:
-[Instant insights: Gemini CLI’s new pre-configured monitoring dashboards](https://cloud.google.com/blog/topics/developers-practitioners/instant-insights-gemini-clis-new-pre-configured-monitoring-dashboards/).
+자세한 내용은 블로그 게시물을 확인하세요:
+[즉각적인 통찰력: Gemini CLI의 새로운 사전 구성된 모니터링 대시보드](https://cloud.google.com/blog/topics/developers-practitioners/instant-insights-gemini-clis-new-pre-configured-monitoring-dashboards/).
 
-## Local telemetry
+## 로컬 텔레메트리
 
-For local development and debugging, you can capture telemetry data locally:
+로컬 개발 및 디버깅을 위해 로컬에서 텔레메트리 데이터를 캡처할 수 있습니다:
 
-### File-based output (recommended)
+### 파일 기반 출력 (권장)
 
-1. Enable telemetry in your `.gemini/settings.json`:
+1. `.gemini/settings.json`에서 텔레메트리 활성화:
    ```json
    {
      "telemetry": {
@@ -251,45 +239,43 @@ For local development and debugging, you can capture telemetry data locally:
      }
    }
    ```
-2. Run Gemini CLI and send prompts.
-3. View logs and metrics in the specified file (e.g., `.gemini/telemetry.log`).
+2. Gemini CLI를 실행하고 프롬프트를 보냅니다.
+3. 지정된 파일(예: `.gemini/telemetry.log`)에서 로그 및 메트릭을 확인합니다.
 
-### Collector-based export (advanced)
+### 수집기 기반 내보내기 (고급)
 
-1. Run the automation script:
+1. 자동화 스크립트 실행:
    ```bash
    npm run telemetry -- --target=local
    ```
-   This will:
-   - Download and start Jaeger and OTEL collector
-   - Configure your workspace for local telemetry
-   - Provide a Jaeger UI at http://localhost:16686
-   - Save logs/metrics to `~/.gemini/tmp/<projectHash>/otel/collector.log`
-   - Stop collector on exit (e.g. `Ctrl+C`)
-2. Run Gemini CLI and send prompts.
-3. View traces at http://localhost:16686 and logs/metrics in the collector log
-   file.
+   이 작업은 다음을 수행합니다:
+   - Jaeger 및 OTEL 수집기 다운로드 및 시작
+   - 로컬 텔레메트리를 위한 작업 공간 구성
+   - http://localhost:16686 에서 Jaeger UI 제공
+   - 로그/메트릭을 `~/.gemini/tmp/<projectHash>/otel/collector.log`에 저장
+   - 종료 시 수집기 중지 (예: `Ctrl+C`)
+2. Gemini CLI를 실행하고 프롬프트를 보냅니다.
+3. http://localhost:16686 에서 추적을 확인하고 수집기 로그 파일에서 로그/메트릭을
+   확인합니다.
 
-## Logs and metrics
+## 로그 및 메트릭
 
-The following section describes the structure of logs and metrics generated for
-Gemini CLI.
+다음 섹션에서는 Gemini CLI에 대해 생성된 로그 및 메트릭의 구조를 설명합니다.
 
-The `session.id`, `installation.id`, and `user.email` (available only when
-authenticated with a Google account) are included as common attributes on all
-logs and metrics.
+`session.id`, `installation.id`, 및 `user.email`(Google 계정으로 인증된 경우에만
+사용 가능)은 모든 로그 및 메트릭에 공통 속성으로 포함됩니다.
 
-### Logs
+### 로그
 
-Logs are timestamped records of specific events. The following events are logged
-for Gemini CLI, grouped by category.
+로그는 특정 이벤트의 타임스탬프가 있는 기록입니다. Gemini CLI에 대해 다음 이벤트가 기록되며,
+범주별로 그룹화됩니다.
 
-#### Sessions
+#### 세션
 
-Captures startup configuration and user prompt submissions.
+시작 구성 및 사용자 프롬프트 제출을 캡처합니다.
 
-- `gemini_cli.config`: Emitted once at startup with the CLI configuration.
-  - **Attributes**:
+- `gemini_cli.config`: CLI 구성과 함께 시작 시 한 번 방출됩니다.
+  - **속성**:
     - `model` (string)
     - `embedding_model` (string)
     - `sandbox_enabled` (boolean)
@@ -305,65 +291,65 @@ Captures startup configuration and user prompt submissions.
     - `extensions` (string)
     - `extension_ids` (string)
     - `extension_count` (int)
-    - `mcp_tools` (string, if applicable)
-    - `mcp_tools_count` (int, if applicable)
-    - `output_format` ("text", "json", or "stream-json")
+    - `mcp_tools` (string, 해당되는 경우)
+    - `mcp_tools_count` (int, 해당되는 경우)
+    - `output_format` ("text", "json", 또는 "stream-json")
 
-- `gemini_cli.user_prompt`: Emitted when a user submits a prompt.
-  - **Attributes**:
+- `gemini_cli.user_prompt`: 사용자가 프롬프트를 제출할 때 방출됩니다.
+  - **속성**:
     - `prompt_length` (int)
     - `prompt_id` (string)
-    - `prompt` (string; excluded if `telemetry.logPrompts` is `false`)
+    - `prompt` (string; `telemetry.logPrompts`가 `false`인 경우 제외됨)
     - `auth_type` (string)
 
-#### Approval Mode
+#### 승인 모드
 
-Tracks changes and duration of approval modes.
+승인 모드의 변경 및 기간을 추적합니다.
 
-##### Lifecycle
+##### 수명 주기
 
-- `approval_mode_switch`: Approval mode was changed.
-  - **Attributes**:
+- `approval_mode_switch`: 승인 모드가 변경되었습니다.
+  - **속성**:
     - `from_mode` (string)
     - `to_mode` (string)
 
-- `approval_mode_duration`: Duration spent in an approval mode.
-  - **Attributes**:
+- `approval_mode_duration`: 승인 모드에서 보낸 시간입니다.
+  - **속성**:
     - `mode` (string)
     - `duration_ms` (int)
 
-##### Execution
+##### 실행
 
-These events track the execution of an approval mode, such as Plan Mode.
+이 이벤트는 계획 모드와 같은 승인 모드의 실행을 추적합니다.
 
-- `plan_execution`: A plan was executed and the session switched from plan mode
-  to active execution.
-  - **Attributes**:
+- `plan_execution`: 계획이 실행되었고 세션이 계획 모드에서 활성 실행으로 전환되었습니다.
+  - **속성**:
     - `approval_mode` (string)
 
-#### Tools
+#### 도구
 
-Captures tool executions, output truncation, and Edit behavior.
+도구 실행, 출력 잘림 및 편집 동작을 캡처합니다.
 
-- `gemini_cli.tool_call`: Emitted for each tool (function) call.
-  - **Attributes**:
+- `gemini_cli.tool_call`: 각 도구(함수) 호출에 대해 방출됩니다.
+  - **속성**:
     - `function_name`
     - `function_args`
     - `duration_ms`
     - `success` (boolean)
-    - `decision` ("accept", "reject", "auto_accept", or "modify", if applicable)
-    - `error` (if applicable)
-    - `error_type` (if applicable)
+    - `decision` ("accept", "reject", "auto_accept", 또는 "modify", 해당되는
+      경우)
+    - `error` (해당되는 경우)
+    - `error_type` (해당되는 경우)
     - `prompt_id` (string)
-    - `tool_type` ("native" or "mcp")
-    - `mcp_server_name` (string, if applicable)
-    - `extension_name` (string, if applicable)
-    - `extension_id` (string, if applicable)
-    - `content_length` (int, if applicable)
-    - `metadata` (if applicable)
+    - `tool_type` ("native" 또는 "mcp")
+    - `mcp_server_name` (string, 해당되는 경우)
+    - `extension_name` (string, 해당되는 경우)
+    - `extension_id` (string, 해당되는 경우)
+    - `content_length` (int, 해당되는 경우)
+    - `metadata` (해당되는 경우)
 
-- `gemini_cli.tool_output_truncated`: Output of a tool call was truncated.
-  - **Attributes**:
+- `gemini_cli.tool_output_truncated`: 도구 호출의 출력이 잘렸습니다.
+  - **속성**:
     - `tool_name` (string)
     - `original_content_length` (int)
     - `truncated_content_length` (int)
@@ -371,18 +357,17 @@ Captures tool executions, output truncation, and Edit behavior.
     - `lines` (int)
     - `prompt_id` (string)
 
-- `gemini_cli.edit_strategy`: Edit strategy chosen.
-  - **Attributes**:
+- `gemini_cli.edit_strategy`: 선택된 편집 전략입니다.
+  - **속성**:
     - `strategy` (string)
 
-- `gemini_cli.edit_correction`: Edit correction result.
-  - **Attributes**:
+- `gemini_cli.edit_correction`: 편집 수정 결과입니다.
+  - **속성**:
     - `correction` ("success" | "failure")
 
-- `gen_ai.client.inference.operation.details`: This event provides detailed
-  information about the GenAI operation, aligned with [OpenTelemetry GenAI
-  semantic conventions for events].
-  - **Attributes**:
+- `gen_ai.client.inference.operation.details`: 이 이벤트는 [OpenTelemetry GenAI
+  이벤트 의미 규칙]에 맞춰 GenAI 작업에 대한 자세한 정보를 제공합니다.
+  - **속성**:
     - `gen_ai.request.model` (string)
     - `gen_ai.provider.name` (string)
     - `gen_ai.operation.name` (string)
@@ -399,12 +384,12 @@ Captures tool executions, output truncation, and Edit behavior.
     - `server.address` (string)
     - `server.port` (int)
 
-#### Files
+#### 파일
 
-Tracks file operations performed by tools.
+도구가 수행한 파일 작업을 추적합니다.
 
-- `gemini_cli.file_operation`: Emitted for each file operation.
-  - **Attributes**:
+- `gemini_cli.file_operation`: 각 파일 작업에 대해 방출됩니다.
+  - **속성**:
     - `tool_name` (string)
     - `operation` ("create" | "read" | "update")
     - `lines` (int, optional)
@@ -414,16 +399,16 @@ Tracks file operations performed by tools.
 
 #### API
 
-Captures Gemini API requests, responses, and errors.
+Gemini API 요청, 응답 및 오류를 캡처합니다.
 
-- `gemini_cli.api_request`: Request sent to Gemini API.
-  - **Attributes**:
+- `gemini_cli.api_request`: Gemini API로 전송된 요청입니다.
+  - **속성**:
     - `model` (string)
     - `prompt_id` (string)
     - `request_text` (string, optional)
 
-- `gemini_cli.api_response`: Response received from Gemini API.
-  - **Attributes**:
+- `gemini_cli.api_response`: Gemini API로부터 받은 응답입니다.
+  - **속성**:
     - `model` (string)
     - `status_code` (int|string)
     - `duration_ms` (int)
@@ -438,8 +423,8 @@ Captures Gemini API requests, responses, and errors.
     - `auth_type` (string)
     - `finish_reasons` (array of strings)
 
-- `gemini_cli.api_error`: API request failed.
-  - **Attributes**:
+- `gemini_cli.api_error`: API 요청이 실패했습니다.
+  - **속성**:
     - `model` (string)
     - `error` (string)
     - `error_type` (string)
@@ -448,25 +433,24 @@ Captures Gemini API requests, responses, and errors.
     - `prompt_id` (string)
     - `auth_type` (string)
 
-- `gemini_cli.malformed_json_response`: `generateJson` response could not be
-  parsed.
-  - **Attributes**:
+- `gemini_cli.malformed_json_response`: `generateJson` 응답을 파싱할 수 없습니다.
+  - **속성**:
     - `model` (string)
 
-#### Model routing
+#### 모델 라우팅
 
-- `gemini_cli.slash_command`: A slash command was executed.
-  - **Attributes**:
+- `gemini_cli.slash_command`: 슬래시 명령이 실행되었습니다.
+  - **속성**:
     - `command` (string)
     - `subcommand` (string, optional)
     - `status` ("success" | "error")
 
-- `gemini_cli.slash_command.model`: Model was selected via slash command.
-  - **Attributes**:
+- `gemini_cli.slash_command.model`: 슬래시 명령을 통해 모델이 선택되었습니다.
+  - **속성**:
     - `model_name` (string)
 
-- `gemini_cli.model_routing`: Model router made a decision.
-  - **Attributes**:
+- `gemini_cli.model_routing`: 모델 라우터가 결정을 내렸습니다.
+  - **속성**:
     - `decision_model` (string)
     - `decision_source` (string)
     - `routing_latency_ms` (int)
@@ -474,101 +458,102 @@ Captures Gemini API requests, responses, and errors.
     - `failed` (boolean)
     - `error_message` (string, optional)
 
-#### Chat and streaming
+#### 채팅 및 스트리밍
 
-- `gemini_cli.chat_compression`: Chat context was compressed.
-  - **Attributes**:
+- `gemini_cli.chat_compression`: 채팅 컨텍스트가 압축되었습니다.
+  - **속성**:
     - `tokens_before` (int)
     - `tokens_after` (int)
 
-- `gemini_cli.chat.invalid_chunk`: Invalid chunk received from a stream.
-  - **Attributes**:
+- `gemini_cli.chat.invalid_chunk`: 스트림에서 잘못된 청크를 받았습니다.
+  - **속성**:
     - `error.message` (string, optional)
 
-- `gemini_cli.chat.content_retry`: Retry triggered due to a content error.
-  - **Attributes**:
+- `gemini_cli.chat.content_retry`: 콘텐츠 오류로 인해 재시도가 트리거되었습니다.
+  - **속성**:
     - `attempt_number` (int)
     - `error_type` (string)
     - `retry_delay_ms` (int)
     - `model` (string)
 
-- `gemini_cli.chat.content_retry_failure`: All content retries failed.
-  - **Attributes**:
+- `gemini_cli.chat.content_retry_failure`: 모든 콘텐츠 재시도가 실패했습니다.
+  - **속성**:
     - `total_attempts` (int)
     - `final_error_type` (string)
     - `total_duration_ms` (int, optional)
     - `model` (string)
 
-- `gemini_cli.conversation_finished`: Conversation session ended.
-  - **Attributes**:
+- `gemini_cli.conversation_finished`: 대화 세션이 종료되었습니다.
+  - **속성**:
     - `approvalMode` (string)
     - `turnCount` (int)
 
-- `gemini_cli.next_speaker_check`: Next speaker determination.
-  - **Attributes**:
+- `gemini_cli.next_speaker_check`: 다음 화자 결정.
+  - **속성**:
     - `prompt_id` (string)
     - `finish_reason` (string)
     - `result` (string)
 
-#### Resilience
+#### 복원력
 
-Records fallback mechanisms for models and network operations.
+모델 및 네트워크 작업에 대한 대체 메커니즘을 기록합니다.
 
-- `gemini_cli.flash_fallback`: Switched to a flash model as fallback.
-  - **Attributes**:
+- `gemini_cli.flash_fallback`: 대체 방편으로 flash 모델로 전환했습니다.
+  - **속성**:
     - `auth_type` (string)
 
-- `gemini_cli.ripgrep_fallback`: Switched to grep as fallback for file search.
-  - **Attributes**:
+- `gemini_cli.ripgrep_fallback`: 파일 검색을 위한 대체 방편으로 grep으로 전환했습니다.
+  - **속성**:
     - `error` (string, optional)
 
-- `gemini_cli.web_fetch_fallback_attempt`: Attempted web-fetch fallback.
-  - **Attributes**:
+- `gemini_cli.web_fetch_fallback_attempt`: 웹 가져오기(web-fetch) 대체 방편을
+  시도했습니다.
+  - **속성**:
     - `reason` ("private_ip" | "primary_failed")
 
-#### Extensions
+#### 확장
 
-Tracks extension lifecycle and settings changes.
+확장 수명 주기 및 설정 변경을 추적합니다.
 
-- `gemini_cli.extension_install`: An extension was installed.
-  - **Attributes**:
+- `gemini_cli.extension_install`: 확장이 설치되었습니다.
+  - **속성**:
     - `extension_name` (string)
     - `extension_version` (string)
     - `extension_source` (string)
     - `status` (string)
 
-- `gemini_cli.extension_uninstall`: An extension was uninstalled.
-  - **Attributes**:
+- `gemini_cli.extension_uninstall`: 확장이 제거되었습니다.
+  - **속성**:
     - `extension_name` (string)
     - `status` (string)
 
-- `gemini_cli.extension_enable`: An extension was enabled.
-  - **Attributes**:
+- `gemini_cli.extension_enable`: 확장이 활성화되었습니다.
+  - **속성**:
     - `extension_name` (string)
     - `setting_scope` (string)
 
-- `gemini_cli.extension_disable`: An extension was disabled.
-  - **Attributes**:
+- `gemini_cli.extension_disable`: 확장이 비활성화되었습니다.
+  - **속성**:
     - `extension_name` (string)
     - `setting_scope` (string)
 
-- `gemini_cli.extension_update`: An extension was updated.
-  - **Attributes**:
+- `gemini_cli.extension_update`: 확장이 업데이트되었습니다.
+  - **속성**:
     - `extension_name` (string)
     - `extension_version` (string)
     - `extension_previous_version` (string)
     - `extension_source` (string)
     - `status` (string)
 
-#### Agent runs
+#### 에이전트 실행
 
-- `gemini_cli.agent.start`: Agent run started.
-  - **Attributes**:
+- `gemini_cli.agent.start`: 에이전트 실행이 시작되었습니다.
+  - **속성**:
     - `agent_id` (string)
     - `agent_name` (string)
 
-- `gemini_cli.agent.finish`: Agent run finished.
-  - **Attributes**:
+- `gemini_cli.agent.finish`: 에이전트 실행이 완료되었습니다.
+  - **속성**:
     - `agent_id` (string)
     - `agent_name` (string)
     - `duration_ms` (int)
@@ -577,270 +562,261 @@ Tracks extension lifecycle and settings changes.
 
 #### IDE
 
-Captures IDE connectivity and conversation lifecycle events.
+IDE 컴패니언 연결 및 대화 수명 주기 이벤트를 캡처합니다.
 
-- `gemini_cli.ide_connection`: IDE companion connection.
-  - **Attributes**:
+- `gemini_cli.ide_connection`: IDE 컴패니언 연결.
+  - **속성**:
     - `connection_type` (string)
 
 #### UI
 
-Tracks terminal rendering issues and related signals.
+터미널 렌더링 문제 및 관련 신호를 추적합니다.
 
-- `kitty_sequence_overflow`: Terminal kitty control sequence overflow.
-  - **Attributes**:
+- `kitty_sequence_overflow`: 터미널 kitty 제어 시퀀스 오버플로.
+  - **속성**:
     - `sequence_length` (int)
     - `truncated_sequence` (string)
 
-### Metrics
+### 메트릭
 
-Metrics are numerical measurements of behavior over time.
+메트릭은 시간에 따른 동작의 수치 측정값입니다.
 
-#### Custom
+#### 사용자 지정
 
-##### Sessions
+##### 세션
 
-Counts CLI sessions at startup.
+시작 시 CLI 세션을 계산합니다.
 
-- `gemini_cli.session.count` (Counter, Int): Incremented once per CLI startup.
+- `gemini_cli.session.count` (Counter, Int): CLI 시작 당 한 번씩 증가합니다.
 
-##### Tools
+##### 도구
 
-Measures tool usage and latency.
+도구 사용량 및 지연 시간을 측정합니다.
 
-- `gemini_cli.tool.call.count` (Counter, Int): Counts tool calls.
-  - **Attributes**:
+- `gemini_cli.tool.call.count` (Counter, Int): 도구 호출을 계산합니다.
+  - **속성**:
     - `function_name`
     - `success` (boolean)
-    - `decision` (string: "accept", "reject", "modify", or "auto_accept", if
-      applicable)
-    - `tool_type` (string: "mcp" or "native", if applicable)
+    - `decision` (string: "accept", "reject", "modify", 또는 "auto_accept",
+      해당되는 경우)
+    - `tool_type` (string: "mcp" 또는 "native", 해당되는 경우)
 
-- `gemini_cli.tool.call.latency` (Histogram, ms): Measures tool call latency.
-  - **Attributes**:
+- `gemini_cli.tool.call.latency` (Histogram, ms): 도구 호출 지연 시간을
+  측정합니다.
+  - **속성**:
     - `function_name`
 
 ##### API
 
-Tracks API request volume and latency.
+API 요청 양과 지연 시간을 추적합니다.
 
-- `gemini_cli.api.request.count` (Counter, Int): Counts all API requests.
-  - **Attributes**:
+- `gemini_cli.api.request.count` (Counter, Int): 모든 API 요청을 계산합니다.
+  - **속성**:
     - `model`
     - `status_code`
-    - `error_type` (if applicable)
+    - `error_type` (해당되는 경우)
 
-- `gemini_cli.api.request.latency` (Histogram, ms): Measures API request
-  latency.
-  - **Attributes**:
+- `gemini_cli.api.request.latency` (Histogram, ms): API 요청 지연 시간을
+  측정합니다.
+  - **속성**:
     - `model`
-  - Note: Overlaps with `gen_ai.client.operation.duration` (GenAI conventions).
+  - 참고: `gen_ai.client.operation.duration`(GenAI 규칙)과 겹칩니다.
 
-##### Token usage
+##### 토큰 사용량
 
-Tracks tokens used by model and type.
+모델 및 유형별로 사용된 토큰을 추적합니다.
 
-- `gemini_cli.token.usage` (Counter, Int): Counts tokens used.
-  - **Attributes**:
+- `gemini_cli.token.usage` (Counter, Int): 사용된 토큰을 계산합니다.
+  - **속성**:
     - `model`
-    - `type` ("input", "output", "thought", "cache", or "tool")
-  - Note: Overlaps with `gen_ai.client.token.usage` for `input`/`output`.
+    - `type` ("input", "output", "thought", "cache", 또는 "tool")
+  - 참고: `input`/`output`에 대해 `gen_ai.client.token.usage`와 겹칩니다.
 
-##### Files
+##### 파일
 
-Counts file operations with basic context.
+기본 컨텍스트와 함께 파일 작업을 계산합니다.
 
-- `gemini_cli.file.operation.count` (Counter, Int): Counts file operations.
-  - **Attributes**:
+- `gemini_cli.file.operation.count` (Counter, Int): 파일 작업을 계산합니다.
+  - **속성**:
     - `operation` ("create", "read", "update")
     - `lines` (Int, optional)
     - `mimetype` (string, optional)
     - `extension` (string, optional)
     - `programming_language` (string, optional)
 
-- `gemini_cli.lines.changed` (Counter, Int): Number of lines changed (from file
-  diffs).
-  - **Attributes**:
+- `gemini_cli.lines.changed` (Counter, Int): 변경된 줄 수(파일 diff에서).
+  - **속성**:
     - `function_name`
-    - `type` ("added" or "removed")
+    - `type` ("added" 또는 "removed")
 
-##### Chat and streaming
+##### 채팅 및 스트리밍
 
-Resilience counters for compression, invalid chunks, and retries.
+압축, 잘못된 청크 및 재시도에 대한 복원력 카운터입니다.
 
-- `gemini_cli.chat_compression` (Counter, Int): Counts chat compression
-  operations.
-  - **Attributes**:
+- `gemini_cli.chat_compression` (Counter, Int): 채팅 압축 작업을 계산합니다.
+  - **속성**:
     - `tokens_before` (Int)
     - `tokens_after` (Int)
 
-- `gemini_cli.chat.invalid_chunk.count` (Counter, Int): Counts invalid chunks
-  from streams.
+- `gemini_cli.chat.invalid_chunk.count` (Counter, Int): 스트림에서 잘못된 청크를
+  계산합니다.
 
-- `gemini_cli.chat.content_retry.count` (Counter, Int): Counts retries due to
-  content errors.
+- `gemini_cli.chat.content_retry.count` (Counter, Int): 콘텐츠 오류로 인한 재시도를
+  계산합니다.
 
-- `gemini_cli.chat.content_retry_failure.count` (Counter, Int): Counts requests
-  where all content retries failed.
+- `gemini_cli.chat.content_retry_failure.count` (Counter, Int): 모든 콘텐츠 재시도가
+  실패한 요청을 계산합니다.
 
-##### Model routing
+##### 모델 라우팅
 
-Routing latency/failures and slash-command selections.
+라우팅 지연 시간/실패 및 슬래시 명령 선택입니다.
 
-- `gemini_cli.slash_command.model.call_count` (Counter, Int): Counts model
-  selections via slash command.
-  - **Attributes**:
+- `gemini_cli.slash_command.model.call_count` (Counter, Int): 슬래시 명령을 통한
+  모델 선택을 계산합니다.
+  - **속성**:
     - `slash_command.model.model_name` (string)
 
-- `gemini_cli.model_routing.latency` (Histogram, ms): Model routing decision
-  latency.
-  - **Attributes**:
+- `gemini_cli.model_routing.latency` (Histogram, ms): 모델 라우팅 결정 지연
+  시간입니다.
+  - **속성**:
     - `routing.decision_model` (string)
     - `routing.decision_source` (string)
 
-- `gemini_cli.model_routing.failure.count` (Counter, Int): Counts model routing
-  failures.
-  - **Attributes**:
+- `gemini_cli.model_routing.failure.count` (Counter, Int): 모델 라우팅 실패를
+  계산합니다.
+  - **속성**:
     - `routing.decision_source` (string)
     - `routing.error_message` (string)
 
-##### Agent runs
+##### 에이전트 실행
 
-Agent lifecycle metrics: runs, durations, and turns.
+에이전트 수명 주기 메트릭: 실행, 기간 및 턴.
 
-- `gemini_cli.agent.run.count` (Counter, Int): Counts agent runs.
-  - **Attributes**:
+- `gemini_cli.agent.run.count` (Counter, Int): 에이전트 실행을 계산합니다.
+  - **속성**:
     - `agent_name` (string)
     - `terminate_reason` (string)
 
-- `gemini_cli.agent.duration` (Histogram, ms): Agent run durations.
-  - **Attributes**:
+- `gemini_cli.agent.duration` (Histogram, ms): 에이전트 실행 기간입니다.
+  - **속성**:
     - `agent_name` (string)
 
-- `gemini_cli.agent.turns` (Histogram, turns): Turns taken per agent run.
-  - **Attributes**:
+- `gemini_cli.agent.turns` (Histogram, turns): 에이전트 실행 당 턴 수입니다.
+  - **속성**:
     - `agent_name` (string)
 
-##### Approval Mode
+##### 승인 모드
 
-###### Execution
+###### 실행
 
-These metrics track the adoption and usage of specific approval workflows, such
-as Plan Mode.
+이 메트릭은 계획 모드와 같은 특정 승인 워크플로의 채택 및 사용을 추적합니다.
 
-- `gemini_cli.plan.execution.count` (Counter, Int): Counts plan executions.
-  - **Attributes**:
+- `gemini_cli.plan.execution.count` (Counter, Int): 계획 실행을 계산합니다.
+  - **속성**:
     - `approval_mode` (string)
 
 ##### UI
 
-UI stability signals such as flicker count.
+깜박임 횟수와 같은 UI 안정성 신호입니다.
 
-- `gemini_cli.ui.flicker.count` (Counter, Int): Counts UI frames that flicker
-  (render taller than terminal).
+- `gemini_cli.ui.flicker.count` (Counter, Int): 깜박이는(터미널보다 높게 렌더링된)
+  UI 프레임을 계산합니다.
 
-##### Performance
+##### 성능
 
-Optional performance monitoring for startup, CPU/memory, and phase timing.
+시작, CPU/메모리 및 단계 타이밍에 대한 선택적 성능 모니터링입니다.
 
-- `gemini_cli.startup.duration` (Histogram, ms): CLI startup time by phase.
-  - **Attributes**:
+- `gemini_cli.startup.duration` (Histogram, ms): 단계별 CLI 시작 시간입니다.
+  - **속성**:
     - `phase` (string)
     - `details` (map, optional)
 
-- `gemini_cli.memory.usage` (Histogram, bytes): Memory usage.
-  - **Attributes**:
+- `gemini_cli.memory.usage` (Histogram, bytes): 메모리 사용량입니다.
+  - **속성**:
     - `memory_type` ("heap_used", "heap_total", "external", "rss")
     - `component` (string, optional)
 
-- `gemini_cli.cpu.usage` (Histogram, percent): CPU usage percentage.
-  - **Attributes**:
+- `gemini_cli.cpu.usage` (Histogram, percent): CPU 사용량 백분율입니다.
+  - **속성**:
     - `component` (string, optional)
 
-- `gemini_cli.tool.queue.depth` (Histogram, count): Number of tools in the
-  execution queue.
+- `gemini_cli.tool.queue.depth` (Histogram, count): 실행 대기열에 있는 도구 수.
 
-- `gemini_cli.tool.execution.breakdown` (Histogram, ms): Tool time by phase.
-  - **Attributes**:
+- `gemini_cli.tool.execution.breakdown` (Histogram, ms): 단계별 도구 시간입니다.
+  - **속성**:
     - `function_name` (string)
     - `phase` ("validation", "preparation", "execution", "result_processing")
 
-- `gemini_cli.api.request.breakdown` (Histogram, ms): API request time by phase.
-  - **Attributes**:
+- `gemini_cli.api.request.breakdown` (Histogram, ms): 단계별 API 요청 시간입니다.
+  - **속성**:
     - `model` (string)
     - `phase` ("request_preparation", "network_latency", "response_processing",
       "token_processing")
 
-- `gemini_cli.token.efficiency` (Histogram, ratio): Token efficiency metrics.
-  - **Attributes**:
+- `gemini_cli.token.efficiency` (Histogram, ratio): 토큰 효율성 메트릭입니다.
+  - **속성**:
     - `model` (string)
     - `metric` (string)
     - `context` (string, optional)
 
-- `gemini_cli.performance.score` (Histogram, score): Composite performance
-  score.
-  - **Attributes**:
+- `gemini_cli.performance.score` (Histogram, score): 종합 성능 점수입니다.
+  - **속성**:
     - `category` (string)
     - `baseline` (number, optional)
 
-- `gemini_cli.performance.regression` (Counter, Int): Regression detection
-  events.
-  - **Attributes**:
+- `gemini_cli.performance.regression` (Counter, Int): 퇴행 감지 이벤트입니다.
+  - **속성**:
     - `metric` (string)
     - `severity` ("low", "medium", "high")
     - `current_value` (number)
     - `baseline_value` (number)
 
-- `gemini_cli.performance.regression.percentage_change` (Histogram, percent):
-  Percent change from baseline when regression detected.
-  - **Attributes**:
+- `gemini_cli.performance.regression.percentage_change` (Histogram, percent): 퇴행이
+  감지되었을 때 기준선 대비 변화율입니다.
+  - **속성**:
     - `metric` (string)
     - `severity` ("low", "medium", "high")
     - `current_value` (number)
     - `baseline_value` (number)
 
-- `gemini_cli.performance.baseline.comparison` (Histogram, percent): Comparison
-  to baseline.
-  - **Attributes**:
+- `gemini_cli.performance.baseline.comparison` (Histogram, percent): 기준선과의
+  비교입니다.
+  - **속성**:
     - `metric` (string)
     - `category` (string)
     - `current_value` (number)
     - `baseline_value` (number)
 
-#### GenAI semantic convention
+#### GenAI 의미 규칙
 
-The following metrics comply with [OpenTelemetry GenAI semantic conventions] for
-standardized observability across GenAI applications:
+다음 메트릭은 GenAI 애플리케이션 전반의 표준화된 관찰 가능성을 위해 [OpenTelemetry
+GenAI 의미 규칙]을 준수합니다:
 
-- `gen_ai.client.token.usage` (Histogram, token): Number of input and output
-  tokens used per operation.
-  - **Attributes**:
-    - `gen_ai.operation.name` (string): The operation type (e.g.,
-      "generate_content", "chat")
-    - `gen_ai.provider.name` (string): The GenAI provider ("gcp.gen_ai" or
+- `gen_ai.client.token.usage` (Histogram, token): 작업 당 사용된 입력 및 출력 토큰
+  수입니다.
+  - **속성**:
+    - `gen_ai.operation.name` (string): 작업 유형 (예: "generate_content",
+      "chat")
+    - `gen_ai.provider.name` (string): GenAI 공급자 ("gcp.gen_ai" 또는
       "gcp.vertex_ai")
-    - `gen_ai.token.type` (string): The token type ("input" or "output")
-    - `gen_ai.request.model` (string, optional): The model name used for the
-      request
-    - `gen_ai.response.model` (string, optional): The model name that generated
-      the response
-    - `server.address` (string, optional): GenAI server address
-    - `server.port` (int, optional): GenAI server port
+    - `gen_ai.token.type` (string): 토큰 유형 ("input" 또는 "output")
+    - `gen_ai.request.model` (string, optional): 요청에 사용된 모델 이름
+    - `gen_ai.response.model` (string, optional): 응답을 생성한 모델 이름
+    - `server.address` (string, optional): GenAI 서버 주소
+    - `server.port` (int, optional): GenAI 서버 포트
 
-- `gen_ai.client.operation.duration` (Histogram, s): GenAI operation duration in
-  seconds.
-  - **Attributes**:
-    - `gen_ai.operation.name` (string): The operation type (e.g.,
-      "generate_content", "chat")
-    - `gen_ai.provider.name` (string): The GenAI provider ("gcp.gen_ai" or
+- `gen_ai.client.operation.duration` (Histogram, s): 초 단위의 GenAI 작업
+  기간입니다.
+  - **속성**:
+    - `gen_ai.operation.name` (string): 작업 유형 (예: "generate_content",
+      "chat")
+    - `gen_ai.provider.name` (string): GenAI 공급자 ("gcp.gen_ai" 또는
       "gcp.vertex_ai")
-    - `gen_ai.request.model` (string, optional): The model name used for the
-      request
-    - `gen_ai.response.model` (string, optional): The model name that generated
-      the response
-    - `server.address` (string, optional): GenAI server address
-    - `server.port` (int, optional): GenAI server port
-    - `error.type` (string, optional): Error type if the operation failed
+    - `gen_ai.request.model` (string, optional): 요청에 사용된 모델 이름
+    - `gen_ai.response.model` (string, optional): 응답을 생성한 모델 이름
+    - `server.address` (string, optional): GenAI 서버 주소
+    - `server.port` (int, optional): GenAI 서버 포트
+    - `error.type` (string, optional): 작업이 실패한 경우 오류 유형
 
-[OpenTelemetry GenAI semantic conventions]: https://github.com/open-telemetry/semantic-conventions/blob/main/docs/gen-ai/gen-ai-metrics.md
-[OpenTelemetry GenAI semantic conventions for events]: https://github.com/open-telemetry/semantic-conventions/blob/8b4f210f43136e57c1f6f47292eb6d38e3bf30bb/docs/gen-ai/gen-ai-events.md
+[OpenTelemetry GenAI 의미 규칙]: https://github.com/open-telemetry/semantic-conventions/blob/main/docs/gen-ai/gen-ai-metrics.md
+[OpenTelemetry GenAI 이벤트 의미 규칙]: https://github.com/open-telemetry/semantic-conventions/blob/8b4f210f43136e57c1f6f47292eb6d38e3bf30bb/docs/gen-ai/gen-ai-events.md

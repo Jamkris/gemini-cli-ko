@@ -1,32 +1,28 @@
-# Writing hooks for Gemini CLI
+# Gemini CLI용 훅 작성하기 (Writing hooks for Gemini CLI)
 
-This guide will walk you through creating hooks for Gemini CLI, from a simple
-logging hook to a comprehensive workflow assistant.
+이 가이드는 간단한 로깅 훅부터 포괄적인 워크플로우 지원까지 Gemini CLI용 훅을 만드는 과정을 안내합니다.
 
-## Prerequisites
+## 전제 조건 (Prerequisites)
 
-Before you start, make sure you have:
+시작하기 전에 다음 사항을 확인하세요.
 
-- Gemini CLI installed and configured
-- Basic understanding of shell scripting or JavaScript/Node.js
-- Familiarity with JSON for hook input/output
+- Gemini CLI 설치 및 구성 완료
+- 쉘 스크립팅 또는 JavaScript/Node.js에 대한 기본적인 이해
+- 훅 입력/출력을 위한 JSON에 대한 친숙함
 
-## Quick start
+## 빠른 시작 (Quick start)
 
-Let's create a simple hook that logs all tool executions to understand the
-basics.
+기본적인 이해를 돕기 위해 모든 도구 실행을 로깅하는 간단한 훅을 만들어 보겠습니다.
 
-**Crucial Rule:** Always write logs to `stderr`. Write only the final JSON to
-`stdout`.
+**중요한 규칙:** 로그는 항상 `stderr`에 작성하세요. 최종 JSON만 `stdout`에 작성해야 합니다.
 
-### Step 1: Create your hook script
+### 1단계: 훅 스크립트 만들기
 
-Create a directory for hooks and a simple logging script.
+훅을 위한 디렉터리와 간단한 로깅 스크립트를 만듭니다.
 
-> **Note**:
+> **참고**:
 >
-> This example uses `jq` to parse JSON. If you don't have it installed, you can
-> perform similar logic using Node.js or Python.
+> 이 예제는 `jq`를 사용하여 JSON을 파싱합니다. `jq`가 설치되어 있지 않다면 Node.js나 Python을 사용하여 유사한 로직을 수행할 수 있습니다.
 
 ```bash
 mkdir -p .gemini/hooks
@@ -52,21 +48,20 @@ EOF
 chmod +x .gemini/hooks/log-tools.sh
 ```
 
-## Exit Code Strategies
+## 종료 코드 전략 (Exit Code Strategies)
 
-There are two ways to control or block an action in Gemini CLI:
+Gemini CLI에서 작업을 제어하거나 차단하는 두 가지 방법이 있습니다.
 
-| Strategy                   | Exit Code | Implementation                                                     | Best For                                                    |
-| :------------------------- | :-------- | :----------------------------------------------------------------- | :---------------------------------------------------------- |
-| **Structured (Idiomatic)** | `0`       | Return a JSON object like `{"decision": "deny", "reason": "..."}`. | Production hooks, custom user feedback, and complex logic.  |
-| **Emergency Brake**        | `2`       | Print the error message to `stderr` and exit.                      | Simple security gates, script errors, or rapid prototyping. |
+| 전략                | 종료 코드 | 구현                                                                   | 용도                                                  |
+| :------------------ | :-------- | :--------------------------------------------------------------------- | :---------------------------------------------------- |
+| **구조적 (관용적)** | `0`       | `{"decision": "deny", "reason": "..."}`와 같은 JSON 객체를 반환합니다. | 프로덕션 훅, 사용자 정의 피드백, 복잡한 로직.         |
+| **비상 정지**       | `2`       | 에러 메시지를 `stderr`에 출력하고 종료합니다.                          | 간단한 보안 게이트, 스크립트 오류, 빠른 프로토타이핑. |
 
-## Practical examples
+## 실용적인 예제 (Practical examples)
 
-### Security: Block secrets in commits
+### 보안: 커밋 시 비밀 정보 차단 (Security: Block secrets in commits)
 
-Prevent committing files containing API keys or passwords. Note that we use
-**Exit Code 0** to provide a structured denial message to the agent.
+API 키나 비밀번호가 포함된 파일을 커밋하지 못하도록 방지합니다. 에이전트에게 구조화된 거부 메시지를 제공하기 위해 **종료 코드 0**을 사용한다는 점에 유의하세요.
 
 **`.gemini/hooks/block-secrets.sh`:**
 
@@ -98,9 +93,9 @@ echo '{"decision": "allow"}'
 exit 0
 ```
 
-### Dynamic context injection (Git History)
+### 동적 컨텍스트 주입 (Git 기록) (Dynamic context injection)
 
-Add relevant project context before each agent interaction.
+각 에이전트 상호 작용 전에 관련 프로젝트 컨텍스트를 추가합니다.
 
 **`.gemini/hooks/inject-context.sh`:**
 
@@ -121,10 +116,9 @@ cat <<EOF
 EOF
 ```
 
-### RAG-based Tool Filtering (BeforeToolSelection)
+### RAG 기반 도구 필터링 (BeforeToolSelection)
 
-Use `BeforeToolSelection` to intelligently reduce the tool space. This example
-uses a Node.js script to check the user's prompt and allow only relevant tools.
+`BeforeToolSelection`을 사용하여 지능적으로 도구 공간을 줄이세요. 이 예제는 Node.js 스크립트를 사용하여 사용자의 프롬프트를 확인하고 관련 도구만 허용합니다.
 
 **`.gemini/hooks/filter-tools.js`:**
 
@@ -204,30 +198,25 @@ main().catch((err) => {
 }
 ```
 
-> **TIP**
+> **팁 (TIP)**
 >
-> **Union Aggregation Strategy**: `BeforeToolSelection` is unique in that it
-> combines the results of all matching hooks. If you have multiple filtering
-> hooks, the agent will receive the **union** of all whitelisted tools. Only
-> using `mode: "NONE"` will override other hooks to disable all tools.
+> **통합 집계 전략 (Union Aggregation Strategy)**: `BeforeToolSelection`은 일치하는 모든 훅의 결과를 결합한다는 점에서 독특합니다. 여러 필터링 훅이 있는 경우 에이전트는 허용된 모든 도구의 **합집합(union)**을 받게 됩니다. `mode: "NONE"`을 사용하는 경우에만 다른 훅을 무시하고 모든 도구를 비활성화합니다.
 
-## Complete example: Smart Development Workflow Assistant
+## 전체 예제: 스마트 개발 워크플로우 어시스턴트 (Complete example: Smart Development Workflow Assistant)
 
-This comprehensive example demonstrates all hook events working together. We
-will build a system that maintains memory, filters tools, and checks for
-security.
+이 포괄적인 예제는 모든 훅 이벤트가 함께 작동하는 방식을 보여줍니다. 메모리를 유지하고, 도구를 필터링하고, 보안을 확인하는 시스템을 구축할 것입니다.
 
-### Architecture
+### 아키텍처 (Architecture)
 
-1. **SessionStart**: Load project memories.
-2. **BeforeAgent**: Inject memories into context.
-3. **BeforeToolSelection**: Filter tools based on intent.
-4. **BeforeTool**: Scan for secrets.
-5. **AfterModel**: Record interactions.
-6. **AfterAgent**: Validate final response quality (Retry).
-7. **SessionEnd**: Consolidate memories.
+1. **SessionStart**: 프로젝트 메모리를 로드합니다.
+2. **BeforeAgent**: 메모리를 컨텍스트에 주입합니다.
+3. **BeforeToolSelection**: 의도에 따라 도구를 필터링합니다.
+4. **BeforeTool**: 비밀 정보를 검사합니다.
+5. **AfterModel**: 상호 작용을 기록합니다.
+6. **AfterAgent**: 최종 응답 품질을 검증합니다 (재시도).
+7. **SessionEnd**: 메모리를 통합합니다.
 
-### Configuration (`.gemini/settings.json`)
+### 구성 (`.gemini/settings.json`)
 
 ```json
 {
@@ -320,12 +309,11 @@ security.
 }
 ```
 
-### Hook Scripts
+### 훅 스크립트 (Hook Scripts)
 
-> **Note**: For brevity, these scripts use `console.error` for logging and
-> standard `console.log` for JSON output.
+> **참고**: 간결함을 위해 이 스크립트들은 로깅에 `console.error`를 사용하고 JSON 출력에 표준 `console.log`를 사용합니다.
 
-#### 1. Initialize (`init.js`)
+#### 1. 초기화 (`init.js`)
 
 ```javascript
 #!/usr/bin/env node
@@ -340,7 +328,7 @@ console.log(
 );
 ```
 
-#### 2. Inject Memories (`inject-memories.js`)
+#### 2. 메모리 주입 (`inject-memories.js`)
 
 ```javascript
 #!/usr/bin/env node
@@ -363,7 +351,7 @@ async function main() {
 main();
 ```
 
-#### 3. Security Check (`security.js`)
+#### 3. 보안 검사 (`security.js`)
 
 ```javascript
 #!/usr/bin/env node
@@ -385,7 +373,7 @@ if (content.includes('SECRET_KEY')) {
 console.log(JSON.stringify({ decision: 'allow' }));
 ```
 
-#### 4. Record Interaction (`record.js`)
+#### 4. 상호 작용 기록 (`record.js`)
 
 ```javascript
 #!/usr/bin/env node
@@ -411,7 +399,7 @@ fs.appendFileSync(
 console.log(JSON.stringify({}));
 ```
 
-#### 5. Validate Response (`validate.js`)
+#### 5. 응답 검증 (`validate.js`)
 
 ```javascript
 #!/usr/bin/env node
@@ -434,7 +422,7 @@ if (!response.includes('Summary:')) {
 console.log(JSON.stringify({ decision: 'allow' }));
 ```
 
-#### 6. Consolidate Memories (`consolidate.js`)
+#### 6. 메모리 통합 (`consolidate.js`)
 
 ```javascript
 #!/usr/bin/env node
@@ -442,9 +430,6 @@ console.log(JSON.stringify({ decision: 'allow' }));
 console.error('Consolidating memories for session end...');
 ```
 
-## Packaging as an extension
+## 확장 프로그램으로 패키징하기 (Packaging as an extension)
 
-While project-level hooks are great for specific repositories, you can share
-your hooks across multiple projects by packaging them as a
-[Gemini CLI extension](https://www.google.com/search?q=../extensions/index.md).
-This provides version control, easy distribution, and centralized management.
+프로젝트 수준의 훅은 특정 리포지토리에 적합하지만, 훅을 [Gemini CLI 확장 프로그램](https://www.google.com/search?q=../extensions/index.md)으로 패키징하여 여러 프로젝트에서 공유할 수 있습니다. 이를 통해 버전 관리, 쉬운 배포 및 중앙 집중식 관리가 가능합니다.

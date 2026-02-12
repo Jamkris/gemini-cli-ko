@@ -1,35 +1,24 @@
-# Latest stable release: v0.27.0
+# 최신 안정 릴리스: v0.27.0
 
-Released: February 3, 2026
+릴리스 날짜: 2026년 2월 3일
 
-For most users, our latest stable release is the recommended release. Install
-the latest stable version with:
+대부분의 사용자에게는 최신 안정 릴리스(stable release)를 권장합니다.
+다음 명령으로 최신 안정 버전을 설치하세요:
 
 ```
 npm install -g @google/gemini-cli
 ```
 
-## Highlights
+## 주요 사항 (Highlights)
 
-- **Event-Driven Architecture:** The CLI now uses an event-driven scheduler for
-  tool execution, improving performance and responsiveness. This includes
-  migrating non-interactive flows and sub-agents to the new scheduler.
-- **Enhanced User Experience:** This release introduces several UI/UX
-  improvements, including queued tool confirmations and the ability to expand
-  and collapse large pasted text blocks. The `Settings` dialog has been improved
-  to reduce jitter and preserve focus.
-- **Agent and Skill Improvements:** Agent Skills have been promoted to a stable
-  feature. Sub-agents now use a JSON schema for input and are tracked by an
-  `AgentRegistry`.
-- **New `/rewind` Command:** A new `/rewind` command has been implemented to
-  allow users to go back in their session history.
-- **Improved Shell and File Handling:** The shell tool's output format has been
-  optimized, and the CLI now gracefully handles disk-full errors during chat
-  recording. A bug in detecting already added paths has been fixed.
-- **Linux Clipboard Support:** Image pasting capabilities for Wayland and X11 on
-  Linux have been added.
+- **이벤트 기반 아키텍처:** CLI가 이제 도구 실행을 위해 이벤트 기반 스케줄러를 사용하여 성능과 응답성을 향상시켰습니다. 여기에는 비대화형 흐름과 서브 에이전트를 새로운 스케줄러로 마이그레이션하는 작업이 포함됩니다.
+- **향상된 사용자 경험:** 이번 릴리스에서는 큐에 대기 중인 도구 확인, 붙여넣은 대형 텍스트 블록 확장 및 축소 기능 등 여러 UI/UX 개선 사항이 도입되었습니다. `설정(Settings)` 대화 상자가 개선되어 끊김 현상이 줄고 포커스가 유지됩니다.
+- **에이전트 및 기술 개선 사항:** 에이전트 기술(Agent Skills)이 안정적인 기능으로 승격되었습니다. 서브 에이전트는 이제 입력을 위해 JSON 스키마를 사용하며 `AgentRegistry`에 의해 추적됩니다.
+- **새로운 `/rewind` 명령:** 사용자가 세션 기록에서 이전 시점으로 돌아갈 수 있는 새로운 `/rewind` 명령이 구현되었습니다.
+- **향상된 셸 및 파일 처리:** 셸 도구의 출력 형식이 최적화되었으며, CLI는 이제 채팅 기록 중 디스크가 가득 찼을 때 발생하는 오류를 안전하게 처리합니다. 이미 추가된 경로를 감지할 때 발생하던 버그가 수정되었습니다.
+- **Linux 클립보드 지원:** Linux의 Wayland 및 X11에 대한 이미지 붙여넣기 기능이 추가되었습니다.
 
-## What's Changed
+## 변경 사항 (What's Changed)
 
 - remove fireAgent and beforeAgent hook by @ishaanxgupta in
   [#16919](https://github.com/google-gemini/gemini-cli/pull/16919)

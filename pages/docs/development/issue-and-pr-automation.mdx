@@ -1,134 +1,86 @@
-# Automation and triage processes
+# 자동화 및 분류 프로세스 (Automation and triage processes)
 
-This document provides a detailed overview of the automated processes we use to
-manage and triage issues and pull requests. Our goal is to provide prompt
-feedback and ensure that contributions are reviewed and integrated efficiently.
-Understanding this automation will help you as a contributor know what to expect
-and how to best interact with our repository bots.
+이 문서는 이슈 및 풀 리퀘스트를 관리하고 분류하는 데 사용하는 자동화 프로세스에 대한 자세한 개요를 제공합니다. 우리의 목표는 신속한 피드백을 제공하고 기여가 효율적으로 검토되고 통합되도록 하는 것입니다. 이 자동화를 이해하면 기여자가 무엇을 예상해야 하는지, 저장소 봇과 가장 잘 상호 작용하는 방법을 알 수 있습니다.
 
-## Guiding principle: Issues and pull requests
+## 기본 원칙: 이슈 및 풀 리퀘스트 (Guiding principle: Issues and pull requests)
 
-First and foremost, almost every Pull Request (PR) should be linked to a
-corresponding Issue. The issue describes the "what" and the "why" (the bug or
-feature), while the PR is the "how" (the implementation). This separation helps
-us track work, prioritize features, and maintain clear historical context. Our
-automation is built around this principle.
+무엇보다도 거의 모든 풀 리퀘스트(PR)는 해당 이슈에 연결되어야 합니다. 이슈는 "무엇"과 "왜"(버그 또는 기능)를 설명하고 PR은 "어떻게"(구현)를 설명합니다. 이러한 분리는 작업을 추적하고 기능의 우선순위를 지정하며 명확한 기록 컨텍스트를 유지하는 데 도움이 됩니다. 우리의 자동화는 이 원칙을 중심으로 구축되었습니다.
 
-> **Note:** Issues tagged as "🔒Maintainers only" are reserved for project
-> maintainers. We will not accept pull requests related to these issues.
+> **참고:** "🔒Maintainers only"로 태그된 이슈는 프로젝트 유지 관리자 전용입니다. 이러한 이슈와 관련된 풀 리퀘스트는 수락하지 않습니다.
 
 ---
 
-## Detailed automation workflows
+## 상세 자동화 워크플로 (Detailed automation workflows)
 
-Here is a breakdown of the specific automation workflows that run in our
-repository.
+다음은 리포지토리에서 실행되는 특정 자동화 워크플로에 대한 분석입니다.
 
-### 1. When you open an issue: `Automated Issue Triage`
+### 1. 이슈를 열 때: `자동 이슈 분류` (Automated Issue Triage)
 
-This is the first bot you will interact with when you create an issue. Its job
-is to perform an initial analysis and apply the correct labels.
+이것은 이슈를 생성할 때 상호 작용하게 될 첫 번째 봇입니다. 봇의 역할은 초기 분석을 수행하고 올바른 라벨을 적용하는 것입니다.
 
-- **Workflow File**: `.github/workflows/gemini-automated-issue-triage.yml`
-- **When it runs**: Immediately after an issue is created or reopened.
-- **What it does**:
-  - It uses a Gemini model to analyze the issue's title and body against a
-    detailed set of guidelines.
-  - **Applies one `area/*` label**: Categorizes the issue into a functional area
-    of the project (e.g., `area/ux`, `area/models`, `area/platform`).
-  - **Applies one `kind/*` label**: Identifies the type of issue (e.g.,
-    `kind/bug`, `kind/enhancement`, `kind/question`).
-  - **Applies one `priority/*` label**: Assigns a priority from P0 (critical) to
-    P3 (low) based on the described impact.
-  - **May apply `status/need-information`**: If the issue lacks critical details
-    (like logs or reproduction steps), it will be flagged for more information.
-  - **May apply `status/need-retesting`**: If the issue references a CLI version
-    that is more than six versions old, it will be flagged for retesting on a
-    current version.
-- **What you should do**:
-  - Fill out the issue template as completely as possible. The more detail you
-    provide, the more accurate the triage will be.
-  - If the `status/need-information` label is added, please provide the
-    requested details in a comment.
+- **워크플로 파일**: `.github/workflows/gemini-automated-issue-triage.yml`
+- **실행 시점**: 이슈가 생성되거나 다시 열린 직후.
+- **수행 작업**:
+  - Gemini 모델을 사용하여 자세한 지침에 따라 이슈의 제목과 본문을 분석합니다.
+  - **하나의 `area/*` 라벨 적용**: 프로젝트의 기능 영역(예: `area/ux`, `area/models`, `area/platform`)으로 이슈를 분류합니다.
+  - **하나의 `kind/*` 라벨 적용**: 이슈 유형(예: `kind/bug`, `kind/enhancement`, `kind/question`)을 식별합니다.
+  - **하나의 `priority/*` 라벨 적용**: 설명된 영향을 기반으로 P0(심각)에서 P3(낮음)까지 우선순위를 지정합니다.
+  - **`status/need-information` 적용 가능**: 이슈에 중요한 세부 정보(로그 또는 재현 단계 등)가 없는 경우 추가 정보를 위해 플래그가 지정됩니다.
+  - **`status/need-retesting` 적용 가능**: 이슈가 6개 버전 이상 지난 CLI 버전을 참조하는 경우 최신 버전에서의 재테스트를 위해 플래그가 지정됩니다.
+- **수행해야 할 작업**:
+  - 이슈 템플릿을 최대한 완전하게 작성하십시오. 세부 정보를 많이 제공할수록 분류가 더 정확해집니다.
+  - `status/need-information` 라벨이 추가되면 댓글에 요청된 세부 정보를 제공해 주세요.
 
-### 2. When you open a pull request: `Continuous Integration (CI)`
+### 2. 풀 리퀘스트를 열 때: `지속적 통합 (CI)` (Continuous Integration)
 
-This workflow ensures that all changes meet our quality standards before they
-can be merged.
+이 워크플로는 모든 변경 사항이 병합되기 전에 품질 표준을 충족하는지 확인합니다.
 
-- **Workflow File**: `.github/workflows/ci.yml`
-- **When it runs**: On every push to a pull request.
-- **What it does**:
-  - **Lint**: Checks that your code adheres to our project's formatting and
-    style rules.
-  - **Test**: Runs our full suite of automated tests across macOS, Windows, and
-    Linux, and on multiple Node.js versions. This is the most time-consuming
-    part of the CI process.
-  - **Post Coverage Comment**: After all tests have successfully passed, a bot
-    will post a comment on your PR. This comment provides a summary of how well
-    your changes are covered by tests.
-- **What you should do**:
-  - Ensure all CI checks pass. A green checkmark ✅ will appear next to your
-    commit when everything is successful.
-  - If a check fails (a red "X" ❌), click the "Details" link next to the failed
-    check to view the logs, identify the problem, and push a fix.
+- **워크플로 파일**: `.github/workflows/ci.yml`
+- **실행 시점**: 풀 리퀘스트에 푸시할 때마다.
+- **수행 작업**:
+  - **Lint**: 코드가 프로젝트의 포맷팅 및 스타일 규칙을 준수하는지 확인합니다.
+  - **Test**: macOS, Windows, Linux 및 여러 Node.js 버전에서 전체 자동화 테스트 제품군을 실행합니다. 이는 CI 프로세스에서 가장 시간이 많이 걸리는 부분입니다.
+  - **Post Coverage Comment**: 모든 테스트가 성공적으로 통과된 후 봇이 PR에 댓글을 게시합니다. 이 댓글은 변경 사항이 테스트에 의해 얼마나 잘 커버되는지에 대한 요약을 제공합니다.
+- **수행해야 할 작업**:
+  - 모든 CI 검사가 통과하는지 확인합니다. 모든 것이 성공하면 커밋 옆에 녹색 체크 표시 ✅가 나타납니다.
+  - 검사가 실패하면(빨간색 "X" ❌), 실패한 검사 옆의 "Details" 링크를 클릭하여 로그를 보고 문제를 식별한 후 수정 사항을 푸시합니다.
 
-### 3. Ongoing triage for pull requests: `PR Auditing and Label Sync`
+### 3. 풀 리퀘스트에 대한 지속적인 분류: `PR 감사 및 라벨 동기화` (PR Auditing and Label Sync)
 
-This workflow runs periodically to ensure all open PRs are correctly linked to
-issues and have consistent labels.
+이 워크플로는 주기적으로 실행되어 모든 열려 있는 PR이 이슈에 올바르게 연결되어 있고 일관된 라벨을 가지고 있는지 확인합니다.
 
-- **Workflow File**: `.github/workflows/gemini-scheduled-pr-triage.yml`
-- **When it runs**: Every 15 minutes on all open pull requests.
-- **What it does**:
-  - **Checks for a linked issue**: The bot scans your PR description for a
-    keyword that links it to an issue (e.g., `Fixes #123`, `Closes #456`).
-  - **Adds `status/need-issue`**: If no linked issue is found, the bot will add
-    the `status/need-issue` label to your PR. This is a clear signal that an
-    issue needs to be created and linked.
-  - **Synchronizes labels**: If an issue _is_ linked, the bot ensures the PR's
-    labels perfectly match the issue's labels. It will add any missing labels
-    and remove any that don't belong, and it will remove the `status/need-issue`
-    label if it was present.
-- **What you should do**:
-  - **Always link your PR to an issue.** This is the most important step. Add a
-    line like `Resolves #<issue-number>` to your PR description.
-  - This will ensure your PR is correctly categorized and moves through the
-    review process smoothly.
+- **워크플로 파일**: `.github/workflows/gemini-scheduled-pr-triage.yml`
+- **실행 시점**: 모든 열려 있는 풀 리퀘스트에 대해 15분마다.
+- **수행 작업**:
+  - **연결된 이슈 확인**: 봇은 PR 설명에서 이슈에 연결하는 키워드(예: `Fixes #123`, `Closes #456`)를 검색합니다.
+  - **`status/need-issue` 추가**: 연결된 이슈가 없는 경우 봇은 PR에 `status/need-issue` 라벨을 추가합니다. 이는 이슈가 생성되고 연결되어야 한다는 명확한 신호입니다.
+  - **라벨 동기화**: 이슈가 _연결되어 있는_ 경우 봇은 PR의 라벨이 이슈의 라벨과 완벽하게 일치하는지 확인합니다. 누락된 라벨을 추가하고 속하지 않는 라벨을 제거하며, `status/need-issue` 라벨이 있었던 경우 이를 제거합니다.
+- **수행해야 할 작업**:
+  - **항상 PR을 이슈에 연결하십시오.** 이것이 가장 중요한 단계입니다. PR 설명에 `Resolves #<issue-number>`와 같은 줄을 추가하십시오.
+  - 이렇게 하면 PR이 올바르게 분류되고 검토 프로세스가 원활하게 진행됩니다.
 
-### 4. Ongoing triage for issues: `Scheduled Issue Triage`
+### 4. 이슈에 대한 지속적인 분류: `예약된 이슈 분류` (Scheduled Issue Triage)
 
-This is a fallback workflow to ensure that no issue gets missed by the triage
-process.
+이것은 분류 프로세스에서 누락되는 이슈가 없도록 보장하는 폴백 워크플로입니다.
 
-- **Workflow File**: `.github/workflows/gemini-scheduled-issue-triage.yml`
-- **When it runs**: Every hour on all open issues.
-- **What it does**:
-  - It actively seeks out issues that either have no labels at all or still have
-    the `status/need-triage` label.
-  - It then triggers the same powerful Gemini-based analysis as the initial
-    triage bot to apply the correct labels.
-- **What you should do**:
-  - You typically don't need to do anything. This workflow is a safety net to
-    ensure every issue is eventually categorized, even if the initial triage
-    fails.
+- **워크플로 파일**: `.github/workflows/gemini-scheduled-issue-triage.yml`
+- **실행 시점**: 모든 열려 있는 이슈에 대해 1시간마다.
+- **수행 작업**:
+  - 라벨이 전혀 없거나 여전히 `status/need-triage` 라벨이 있는 이슈를 적극적으로 찾습니다.
+  - 그런 다음 초기 분류 봇과 동일한 강력한 Gemini 기반 분석을 트리거하여 올바른 라벨을 적용합니다.
+- **수행해야 할 작업**:
+  - 일반적으로 아무것도 할 필요가 없습니다. 이 워크플로는 초기 분류가 실패하더라도 모든 이슈가 결국 분류되도록 보장하는 안전망입니다.
 
-### 5. Release automation
+### 5. 릴리스 자동화 (Release automation)
 
-This workflow handles the process of packaging and publishing new versions of
-the Gemini CLI.
+이 워크플로는 Gemini CLI의 새 버전을 패키징하고 게시하는 프로세스를 처리합니다.
 
-- **Workflow File**: `.github/workflows/release-manual.yml`
-- **When it runs**: On a daily schedule for "nightly" releases, and manually for
-  official patch/minor releases.
-- **What it does**:
-  - Automatically builds the project, bumps the version numbers, and publishes
-    the packages to npm.
-  - Creates a corresponding release on GitHub with generated release notes.
-- **What you should do**:
-  - As a contributor, you don't need to do anything for this process. You can be
-    confident that once your PR is merged into the `main` branch, your changes
-    will be included in the very next nightly release.
+- **워크플로 파일**: `.github/workflows/release-manual.yml`
+- **실행 시점**: "nightly" 릴리스의 경우 매일 일정에 따라, 공식 패치/마이너 릴리스의 경우 수동으로.
+- **수행 작업**:
+  - 프로젝트를 자동으로 빌드하고 버전 번호를 올린 다음 패키지를 npm에 게시합니다.
+  - 생성된 릴리스 노트와 함께 GitHub에 해당 릴리스를 생성합니다.
+- **수행해야 할 작업**:
+  - 기여자로서 이 프로세스에 대해 아무것도 할 필요가 없습니다. PR이 `main` 브랜치에 병합되면 다음 번 nightly 릴리스에 변경 사항이 포함될 것을 확신할 수 있습니다.
 
-We hope this detailed overview is helpful. If you have any questions about our
-automation or processes, please don't hesitate to ask!
+이 자세한 개요가 도움이 되기를 바랍니다. 자동화 또는 프로세스에 대해 질문이 있으시면 주저하지 말고 물어봐 주세요!

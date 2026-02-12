@@ -1,100 +1,98 @@
-# Headless mode
+# 헤드리스 모드
 
-Headless mode allows you to run Gemini CLI programmatically from command line
-scripts and automation tools without any interactive UI. This is ideal for
-scripting, automation, CI/CD pipelines, and building AI-powered tools.
+헤드리스 모드를 사용하면 대화형 UI 없이 명령줄 스크립트 및 자동화 도구에서 프로그래밍 방식으로
+Gemini CLI를 실행할 수 있습니다. 이는 스크립팅, 자동화, CI/CD 파이프라인 및 AI 기반 도구 구축에 이상적입니다.
 
-- [Headless Mode](#headless-mode)
-  - [Overview](#overview)
-  - [Basic Usage](#basic-usage)
-    - [Direct Prompts](#direct-prompts)
-    - [Stdin Input](#stdin-input)
-    - [Combining with File Input](#combining-with-file-input)
-  - [Output Formats](#output-formats)
-    - [Text Output (Default)](#text-output-default)
-    - [JSON Output](#json-output)
-      - [Response Schema](#response-schema)
-      - [Example Usage](#example-usage)
-    - [Streaming JSON Output](#streaming-json-output)
-      - [When to Use Streaming JSON](#when-to-use-streaming-json)
-      - [Event Types](#event-types)
-      - [Basic Usage](#basic-usage)
-      - [Example Output](#example-output)
-      - [Processing Stream Events](#processing-stream-events)
-      - [Real-World Examples](#real-world-examples)
-    - [File Redirection](#file-redirection)
-  - [Configuration Options](#configuration-options)
-  - [Examples](#examples)
-    - [Code review](#code-review)
-    - [Generate commit messages](#generate-commit-messages)
-    - [API documentation](#api-documentation)
-    - [Batch code analysis](#batch-code-analysis)
-    - [Code review](#code-review-1)
-    - [Log analysis](#log-analysis)
-    - [Release notes generation](#release-notes-generation)
-    - [Model and tool usage tracking](#model-and-tool-usage-tracking)
-  - [Resources](#resources)
+- [헤드리스 모드](#headless-mode)
+  - [개요](#overview)
+  - [기본 사용법](#basic-usage)
+    - [직접 프롬프트](#direct-prompts)
+    - [Stdin 입력](#stdin-input)
+    - [파일 입력과 결합](#combining-with-file-input)
+  - [출력 형식](#output-formats)
+    - [텍스트 출력 (기본값)](#text-output-default)
+    - [JSON 출력](#json-output)
+      - [응답 스키마](#response-schema)
+      - [사용 예시](#example-usage)
+    - [스트리밍 JSON 출력](#streaming-json-output)
+      - [스트리밍 JSON을 사용하는 경우](#when-to-use-streaming-json)
+      - [이벤트 유형](#event-types)
+      - [기본 사용법](#basic-usage)
+      - [출력 예시](#example-output)
+      - [스트림 이벤트 처리](#processing-stream-events)
+      - [실제 예시](#real-world-examples)
+    - [파일 리디렉션](#file-redirection)
+  - [구성 옵션](#configuration-options)
+  - [예시](#examples)
+    - [코드 리뷰](#code-review)
+    - [커밋 메시지 생성](#generate-commit-messages)
+    - [API 문서화](#api-documentation)
+    - [일괄 코드 분석](#batch-code-analysis)
+    - [로그 분석](#log-analysis)
+    - [릴리스 노트 생성](#release-notes-generation)
+    - [모델 및 도구 사용 추적](#model-and-tool-usage-tracking)
+  - [리소스](#resources)
 
-## Overview
+## 개요
 
-The headless mode provides a headless interface to Gemini CLI that:
+헤드리스 모드는 다음과 같은 Gemini CLI에 대한 헤드리스 인터페이스를 제공합니다:
 
-- Accepts prompts via command line arguments or stdin
-- Returns structured output (text or JSON)
-- Supports file redirection and piping
-- Enables automation and scripting workflows
-- Provides consistent exit codes for error handling
+- 명령줄 인수 또는 stdin을 통해 프롬프트를 받습니다.
+- 구조화된 출력(텍스트 또는 JSON)을 반환합니다.
+- 파일 리디렉션 및 파이핑을 지원합니다.
+- 자동화 및 스크립팅 워크플로를 활성화합니다.
+- 오류 처리를 위한 일관된 종료 코드를 제공합니다.
 
-## Basic usage
+## 기본 사용법
 
-### Direct prompts
+### 직접 프롬프트
 
-Use the `--prompt` (or `-p`) flag to run in headless mode:
+`--prompt` (또는 `-p`) 플래그를 사용하여 헤드리스 모드로 실행합니다:
 
 ```bash
 gemini --prompt "What is machine learning?"
 ```
 
-### Stdin input
+### Stdin 입력
 
-Pipe input to Gemini CLI from your terminal:
+터미널에서 Gemini CLI로 입력을 파이프합니다:
 
 ```bash
 echo "Explain this code" | gemini
 ```
 
-### Combining with file input
+### 파일 입력과 결합
 
-Read from files and process with Gemini:
+파일에서 읽고 Gemini로 처리합니다:
 
 ```bash
 cat README.md | gemini --prompt "Summarize this documentation"
 ```
 
-## Output formats
+## 출력 형식
 
-### Text output (default)
+### 텍스트 출력 (기본값)
 
-Standard human-readable output:
+표준 사람이 읽을 수 있는 출력:
 
 ```bash
 gemini -p "What is the capital of France?"
 ```
 
-Response format:
+응답 형식:
 
 ```
 The capital of France is Paris.
 ```
 
-### JSON output
+### JSON 출력
 
-Returns structured data including response, statistics, and metadata. This
-format is ideal for programmatic processing and automation scripts.
+응답, 통계 및 메타데이터를 포함한 구조화된 데이터를 반환합니다.
+이 형식은 프로그래밍 방식 처리 및 자동화 스크립트에 이상적입니다.
 
-#### Response schema
+#### 응답 스키마
 
-The JSON output follows this high-level structure:
+JSON 출력은 다음의 상위 수준 구조를 따릅니다:
 
 ```json
 {
@@ -140,13 +138,13 @@ The JSON output follows this high-level structure:
 }
 ```
 
-#### Example usage
+#### 사용 예시
 
 ```bash
 gemini -p "What is the capital of France?" --output-format json
 ```
 
-Response:
+응답:
 
 ```json
 {
@@ -218,37 +216,34 @@ Response:
 }
 ```
 
-### Streaming JSON output
+### 스트리밍 JSON 출력
 
-Returns real-time events as newline-delimited JSON (JSONL). Each significant
-action (initialization, messages, tool calls, results) emits immediately as it
-occurs. This format is ideal for monitoring long-running operations, building
-UIs with live progress, and creating automation pipelines that react to events.
+실시간 이벤트를 줄바꿈으로 구분된 JSON(JSONL)으로 반환합니다. 각 중요한 작업(초기화, 메시지, 도구 호출, 결과)은
+발생 즉시 방출됩니다. 이 형식은 장기 실행 작업을 모니터링하고, 실시간 진행 상황을 보여주는 UI를 구축하고,
+이벤트에 반응하는 자동화 파이프라인을 만드는 데 이상적입니다.
 
-#### When to use streaming JSON
+#### 스트리밍 JSON을 사용하는 경우
 
-Use `--output-format stream-json` when you need:
+`--output-format stream-json`은 다음과 같은 경우에 사용하세요:
 
-- **Real-time progress monitoring** - See tool calls and responses as they
-  happen
-- **Event-driven automation** - React to specific events (e.g., tool failures)
-- **Live UI updates** - Build interfaces showing AI agent activity in real-time
-- **Detailed execution logs** - Capture complete interaction history with
-  timestamps
-- **Pipeline integration** - Stream events to logging/monitoring systems
+- **실시간 진행 상황 모니터링** - 도구 호출 및 응답이 발생하는 즉시 확인
+- **이벤트 기반 자동화** - 특정 이벤트(예: 도구 실패)에 반응
+- **실시간 UI 업데이트** - AI 에이전트 활동을 실시간으로 보여주는 인터페이스 구축
+- **상세 실행 로그** - 타임스탬프와 함께 완전한 상호 작용 기록 캡처
+- **파이프라인 통합** - 로깅/모니터링 시스템으로 이벤트 스트리밍
 
-#### Event types
+#### 이벤트 유형
 
-The streaming format emits 6 event types:
+스트리밍 형식은 6가지 이벤트 유형을 방출합니다:
 
-1. **`init`** - Session starts (includes session_id, model)
-2. **`message`** - User prompts and assistant responses
-3. **`tool_use`** - Tool call requests with parameters
-4. **`tool_result`** - Tool execution results (success/error)
-5. **`error`** - Non-fatal errors and warnings
-6. **`result`** - Final session outcome with aggregated stats
+1. **`init`** - 세션 시작 (session_id, 모델 포함)
+2. **`message`** - 사용자 프롬프트 및 어시스턴트 응답
+3. **`tool_use`** - 매개변수가 포함된 도구 호출 요청
+4. **`tool_result`** - 도구 실행 결과 (성공/오류)
+5. **`error`** - 치명적이지 않은 오류 및 경고
+6. **`result`** - 집계된 통계가 포함된 최종 세션 결과
 
-#### Basic usage
+#### 기본 사용법
 
 ```bash
 # Stream events to console
@@ -261,9 +256,9 @@ gemini --output-format stream-json --prompt "Analyze this code" > events.jsonl
 gemini --output-format stream-json --prompt "List files" | jq -r '.type'
 ```
 
-#### Example output
+#### 출력 예시
 
-Each line is a complete JSON event:
+각 줄은 완전한 JSON 이벤트입니다:
 
 ```jsonl
 {"type":"init","timestamp":"2025-10-10T12:00:00.000Z","session_id":"abc123","model":"gemini-2.0-flash-exp"}
@@ -274,9 +269,9 @@ Each line is a complete JSON event:
 {"type":"result","status":"success","stats":{"total_tokens":250,"input_tokens":50,"output_tokens":200,"duration_ms":3000,"tool_calls":1},"timestamp":"2025-10-10T12:00:05.000Z"}
 ```
 
-### File redirection
+### 파일 리디렉션
 
-Save output to files or pipe to other commands:
+출력을 파일에 저장하거나 다른 명령으로 파이프합니다:
 
 ```bash
 # Save to file
@@ -292,47 +287,46 @@ gemini -p "Explain microservices" | wc -w
 gemini -p "List programming languages" | grep -i "python"
 ```
 
-## Configuration options
+## 구성 옵션
 
-Key command-line options for headless usage:
+헤드리스 사용을 위한 주요 명령줄 옵션:
 
-| Option                  | Description                        | Example                                            |
-| ----------------------- | ---------------------------------- | -------------------------------------------------- |
-| `--prompt`, `-p`        | Run in headless mode               | `gemini -p "query"`                                |
-| `--output-format`       | Specify output format (text, json) | `gemini -p "query" --output-format json`           |
-| `--model`, `-m`         | Specify the Gemini model           | `gemini -p "query" -m gemini-2.5-flash`            |
-| `--debug`, `-d`         | Enable debug mode                  | `gemini -p "query" --debug`                        |
-| `--include-directories` | Include additional directories     | `gemini -p "query" --include-directories src,docs` |
-| `--yolo`, `-y`          | Auto-approve all actions           | `gemini -p "query" --yolo`                         |
-| `--approval-mode`       | Set approval mode                  | `gemini -p "query" --approval-mode auto_edit`      |
+| 옵션                    | 설명                        | 예시                                               |
+| ----------------------- | --------------------------- | -------------------------------------------------- |
+| `--prompt`, `-p`        | 헤드리스 모드에서 실행      | `gemini -p "query"`                                |
+| `--output-format`       | 출력 형식 지정 (text, json) | `gemini -p "query" --output-format json`           |
+| `--model`, `-m`         | Gemini 모델 지정            | `gemini -p "query" -m gemini-2.5-flash`            |
+| `--debug`, `-d`         | 디버그 모드 활성화          | `gemini -p "query" --debug`                        |
+| `--include-directories` | 추가 디렉터리 포함          | `gemini -p "query" --include-directories src,docs` |
+| `--yolo`, `-y`          | 모든 작업 자동 수락         | `gemini -p "query" --yolo`                         |
+| `--approval-mode`       | 승인 모드 설정              | `gemini -p "query" --approval-mode auto_edit`      |
 
-For complete details on all available configuration options, settings files, and
-environment variables, see the
-[Configuration Guide](/docs/get-started/configuration).
+사용 가능한 모든 구성 옵션, 설정 파일 및 환경 변수에 대한 전체 세부 정보는
+[구성 가이드](/docs/get-started/configuration)를 참조하세요.
 
-## Examples
+## 예시
 
-#### Code review
+#### 코드 리뷰
 
 ```bash
 cat src/auth.py | gemini -p "Review this authentication code for security issues" > security-review.txt
 ```
 
-#### Generate commit messages
+#### 커밋 메시지 생성
 
 ```bash
 result=$(git diff --cached | gemini -p "Write a concise commit message for these changes" --output-format json)
 echo "$result" | jq -r '.response'
 ```
 
-#### API documentation
+#### API 문서화
 
 ```bash
 result=$(cat api/routes.js | gemini -p "Generate OpenAPI spec for these routes" --output-format json)
 echo "$result" | jq -r '.response' > openapi.json
 ```
 
-#### Batch code analysis
+#### 일괄 코드 분석
 
 ```bash
 for file in src/*.py; do
@@ -343,20 +337,20 @@ for file in src/*.py; do
 done
 ```
 
-#### Code review
+#### 코드 리뷰
 
 ```bash
 result=$(git diff origin/main...HEAD | gemini -p "Review these changes for bugs, security issues, and code quality" --output-format json)
 echo "$result" | jq -r '.response' > pr-review.json
 ```
 
-#### Log analysis
+#### 로그 분석
 
 ```bash
 grep "ERROR" /var/log/app.log | tail -20 | gemini -p "Analyze these errors and suggest root cause and fixes" > error-analysis.txt
 ```
 
-#### Release notes generation
+#### 릴리스 노트 생성
 
 ```bash
 result=$(git log --oneline v1.0.0..HEAD | gemini -p "Generate release notes from these commits" --output-format json)
@@ -365,7 +359,7 @@ echo "$response"
 echo "$response" >> CHANGELOG.md
 ```
 
-#### Model and tool usage tracking
+#### 모델 및 도구 사용 추적
 
 ```bash
 result=$(gemini -p "Explain this database schema" --include-directories db --output-format json)
@@ -379,10 +373,9 @@ echo "Recent usage trends:"
 tail -5 usage.log
 ```
 
-## Resources
+## 리소스
 
-- [CLI Configuration](/docs/get-started/configuration) - Complete configuration
-  guide
-- [Authentication](/docs/get-started/authentication) - Setup authentication
-- [Commands](/docs/cli/commands) - Interactive commands reference
-- [Tutorials](/docs/cli/tutorials) - Step-by-step automation guides
+- [CLI 구성](/docs/get-started/configuration) - 전체 구성 가이드
+- [인증](/docs/get-started/authentication) - 인증 설정
+- [명령](/docs/reference/command-reference) - 대화형 명령 참조
+- [튜토리얼](/docs/tutorials/index) - 단계별 자동화 가이드

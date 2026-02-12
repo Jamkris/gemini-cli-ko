@@ -1,103 +1,70 @@
-# How to contribute
+# 기여 방법 (How to contribute)
 
-We would love to accept your patches and contributions to this project. This
-document includes:
+여러분의 패치와 프로젝트 기여를 기꺼이 환영합니다. 이 문서는 다음 내용을 포함합니다:
 
-- **[Before you begin](#before-you-begin):** Essential steps to take before
-  becoming a Gemini CLI contributor.
-- **[Code contribution process](#code-contribution-process):** How to contribute
-  code to Gemini CLI.
-- **[Development setup and workflow](#development-setup-and-workflow):** How to
-  set up your development environment and workflow.
-- **[Documentation contribution process](#documentation-contribution-process):**
-  How to contribute documentation to Gemini CLI.
+- **[시작하기 전에](#before-you-begin):** Gemini CLI 기여자가 되기 위해 취해야 할 필수 단계.
+- **[코드 기여 프로세스](#code-contribution-process):** Gemini CLI에 코드를 기여하는 방법.
+- **[개발 설정 및 워크플로](#development-setup-and-workflow):** 개발 환경 및 워크플로를 설정하는 방법.
+- **[문서 기여 프로세스](#documentation-contribution-process):** Gemini CLI 문서에 기여하는 방법.
 
-We're looking forward to seeing your contributions!
+여러분의 많은 기여를 기다리고 있습니다!
 
-## Before you begin
+## 시작하기 전에 (Before you begin)
 
-### Sign our Contributor License Agreement
+### Contributor License Agreement 서명
 
-Contributions to this project must be accompanied by a
-[Contributor License Agreement](https://cla.developers.google.com/about) (CLA).
-You (or your employer) retain the copyright to your contribution; this simply
-gives us permission to use and redistribute your contributions as part of the
-project.
+이 프로젝트에 기여하려면 [Contributor License Agreement](https://cla.developers.google.com/about) (CLA)에 서명해야 합니다. 귀하(또는 귀하의 고용주)는 기여에 대한 저작권을 보유하며, 이는 단지 당사가 귀하의 기여를 프로젝트의 일부로 사용하고 재배포할 수 있는 권한을 부여하는 것입니다.
 
-If you or your current employer have already signed the Google CLA (even if it
-was for a different project), you probably don't need to do it again.
+귀하 또는 현재 고용주가 이미 Google CLA에 서명했다면(다른 프로젝트에 대한 것이더라도), 다시 서명할 필요는 없을 것입니다.
 
-Visit <https://cla.developers.google.com/> to see your current agreements or to
-sign a new one.
+<https://cla.developers.google.com/>을 방문하여 현재 계약을 확인하거나 새 계약에 서명하십시오.
 
-### Review our Community Guidelines
+### 커뮤니티 가이드라인 확인
 
-This project follows
-[Google's Open Source Community Guidelines](https://opensource.google/conduct/).
+이 프로젝트는 [Google의 오픈 소스 커뮤니티 가이드라인](https://opensource.google/conduct/)을 준수합니다.
 
-## Code contribution process
+## 코드 기여 프로세스 (Code contribution process)
 
-### Get started
+### 시작하기
 
-The process for contributing code is as follows:
+코드를 기여하는 과정은 다음과 같습니다:
 
-1.  **Find an issue** that you want to work on. If an issue is tagged as
-    `🔒Maintainers only`, this means it is reserved for project maintainers. We
-    will not accept pull requests related to these issues. In the near future,
-    we will explicitly mark issues looking for contributions using the
-    `help-wanted` label. If you believe an issue is a good candidate for
-    community contribution, please leave a comment on the issue. A maintainer
-    will review it and apply the `help-wanted` label if appropriate. Only
-    maintainers should attempt to add the `help-wanted` label to an issue.
-2.  **Fork the repository** and create a new branch.
-3.  **Make your changes** in the `packages/` directory.
-4.  **Ensure all checks pass** by running `npm run preflight`.
-5.  **Open a pull request** with your changes.
+1.  **작업할 이슈 찾기:** 작업하려는 이슈를 찾습니다. 이슈에 `🔒Maintainers only` 태그가 지정되어 있으면 프로젝트 유지 관리자 전용임을 의미합니다. 이러한 이슈와 관련된 풀 리퀘스트는 수락하지 않습니다. 가까운 시일 내에 `help-wanted` 라벨을 사용하여 기여를 찾는 이슈를 명시적으로 표시할 예정입니다. 이슈가 커뮤니티 기여에 적절하다고 생각되면 이슈에 댓글을 남겨주세요. 유지 관리자가 검토 후 적절한 경우 `help-wanted` 라벨을 적용할 것입니다. 유지 관리자만 이슈에 `help-wanted` 라벨을 추가해야 합니다.
+2.  **저장소 포크** 후 새 브랜치 생성.
+3.  `packages/` 디렉터리에서 **변경 사항 작성**.
+4.  `npm run preflight`를 실행하여 **모든 검사 통과 확인**.
+5.  변경 사항으로 **풀 리퀘스트 열기**.
 
-### Code reviews
+### 코드 리뷰
 
-All submissions, including submissions by project members, require review. We
-use [GitHub pull requests](https://docs.github.com/articles/about-pull-requests)
-for this purpose.
+프로젝트 멤버의 제출을 포함한 모든 제출은 리뷰가 필요합니다. 이를 위해 [GitHub pull requests](https://docs.github.com/articles/about-pull-requests)를 사용합니다.
 
-If your pull request involves changes to `packages/cli` (the frontend), we
-recommend running our automated frontend review tool. **Note: This tool is
-currently experimental.** It helps detect common React anti-patterns, testing
-issues, and other frontend-specific best practices that are easy to miss.
+풀 리퀘스트가 `packages/cli` (프런트엔드) 변경을 포함하는 경우, 자동화된 프런트엔드 리뷰 도구를 실행하는 것을 권장합니다. **참고: 이 도구는 현재 실험적입니다.** 일반적인 React 안티 패턴, 테스트 문제 및 놓치기 쉬운 기타 프런트엔드 관련 모범 사례를 감지하는 데 도움이 됩니다.
 
-To run the review tool, enter the following command from within Gemini CLI:
+리뷰 도구를 실행하려면 Gemini CLI 내에서 다음 명령을 입력하세요:
 
 ```text
 /review-frontend <PR_NUMBER>
 ```
 
-Replace `<PR_NUMBER>` with your pull request number. Authors are encouraged to
-run this on their own PRs for self-review, and reviewers should use it to
-augment their manual review process.
+`<PR_NUMBER>`를 풀 리퀘스트 번호로 바꾸세요. 작성자는 자체 리뷰를 위해 자신의 PR에서 실행하는 것이 좋으며, 리뷰어는 수동 리뷰 프로세스를 보강하기 위해 사용해야 합니다.
 
-### Self assigning issues
+### 이슈 자체 할당
 
-To assign an issue to yourself, simply add a comment with the text `/assign`.
-The comment must contain only that text and nothing else. This command will
-assign the issue to you, provided it is not already assigned.
+이슈를 자신에게 할당하려면 `/assign`이라는 텍스트가 포함된 댓글을 추가하기만 하면 됩니다. 댓글에는 해당 텍스트만 포함되어야 하며 다른 내용은 없어야 합니다. 이 명령은 이미 할당되지 않은 경우 이슈를 귀하에게 할당합니다.
 
-Please note that you can have a maximum of 3 issues assigned to you at any given
-time.
+언제든지 최대 3개의 이슈만 자신에게 할당할 수 있습니다.
 
-### Pull request guidelines
+### 풀 리퀘스트 가이드라인
 
-To help us review and merge your PRs quickly, please follow these guidelines.
-PRs that do not meet these standards may be closed.
+PR을 신속하게 검토하고 병합할 수 있도록 다음 가이드라인을 따르십시오. 이 기준을 충족하지 않는 PR은 닫힐 수 있습니다.
 
-#### 1. Link to an existing issue
+#### 1. 기존 이슈에 연결
 
-All PRs should be linked to an existing issue in our tracker. This ensures that
-every change has been discussed and is aligned with the project's goals before
-any code is written.
+모든 PR은 트래커의 기존 이슈에 연결되어야 합니다. 이는 코드가 작성되기 전에 모든 변경 사항이 논의되고 프로젝트의 목표와 일치하는지 확인하기 위함입니다.
 
-- **For bug fixes:** The PR should be linked to the bug report issue.
-- **For features:** The PR should be linked to the feature request or proposal
-  issue that has been approved by a maintainer.
+- **버그 수정의 경우:** PR은 버그 보고서 이슈에 연결되어야 합니다.
+- **기능의 경우:** PR은 유지 관리자가 승인한 기능 요청 또는 제안 이슈에 연결되어야 합니다.
 
 If an issue for your change doesn't exist, we will automatically close your PR
 along with a comment reminding you to associate the PR with an issue. The ideal
@@ -131,101 +98,77 @@ style checks.
 
 #### 5. Update documentation
 
-If your PR introduces a user-facing change (e.g., a new command, a modified
-flag, or a change in behavior), you must also update the relevant documentation
-in the `/docs` directory.
+만약 PR이 사용자에게 영향을 미치는 변화(예: 새 명령, 수정된 플래그, 동작 변경 등)를 도입한다면, `/docs` 디렉터리의 관련 문서도 업데이트해야 합니다.
 
-See more about writing documentation:
-[Documentation contribution process](#documentation-contribution-process).
+문서 작성에 대한 자세한 내용:
+[문서 기여 프로세스](#documentation-contribution-process).
 
-#### 6. Write clear commit messages and a good PR description
+#### 6. 명확한 커밋 메시지와 좋은 PR 설명 작성
 
-Your PR should have a clear, descriptive title and a detailed description of the
-changes. Follow the [Conventional Commits](https://www.conventionalcommits.org/)
-standard for your commit messages.
+PR은 명확하고 설명적인 제목, 그리고 변경 사항에 대한 자세한 설명을 가져야 합니다. 커밋 메시지에 대해 [Conventional Commits](https://www.conventionalcommits.org/) 표준을 따르십시오.
 
-- **Good PR title:** `feat(cli): Add --json flag to 'config get' command`
-- **Bad PR title:** `Made some changes`
+- **좋은 PR 제목:** `feat(cli): Add --json flag to 'config get' command`
+- **나쁜 PR 제목:** `Made some changes`
 
-In the PR description, explain the "why" behind your changes and link to the
-relevant issue (e.g., `Fixes #123`).
+PR 설명에서 변경의 "이유"를 설명하고 관련 이슈를 연결하세요 (예: `Fixes #123`).
 
-### Forking
+### 포크 (Forking)
 
-If you are forking the repository you will be able to run the Build, Test and
-Integration test workflows. However in order to make the integration tests run
-you'll need to add a
-[GitHub Repository Secret](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository)
-with a value of `GEMINI_API_KEY` and set that to a valid API key that you have
-available. Your key and secret are private to your repo; no one without access
-can see your key and you cannot see any secrets related to this repo.
+저장소를 포크하면 빌드, 테스트 및 통합 테스트 워크플로를 실행할 수 있습니다. 그러나 통합 테스트를 실행하려면 `GEMINI_API_KEY` 값으로 [GitHub Repository Secret](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository)을 추가하고 사용 가능한 유효한 API 키로 설정해야 합니다. 키와 시크릿은 귀하의 저장소에 비공개입니다. 액세스 권한이 없는 사람은 귀하의 키를 볼 수 없으며 귀하도 이 저장소와 관련된 어떤 시크릿도 볼 수 없습니다.
 
-Additionally you will need to click on the `Actions` tab and enable workflows
-for your repository, you'll find it's the large blue button in the center of the
-screen.
+추가로 `Actions` 탭을 클릭하고 저장소에 대한 워크플로를 활성화해야 합니다. 화면 중앙의 큰 파란색 버튼입니다.
 
-### Development setup and workflow
+### 개발 설정 및 워크플로 (Development setup and workflow)
 
-This section guides contributors on how to build, modify, and understand the
-development setup of this project.
+이 섹션은 기여자들이 프로젝트의 개발 설정을 빌드, 수정 및 이해하는 방법을 안내합니다.
 
-### Setting up the development environment
+### 개발 환경 설정 (Setting up the development environment)
 
-**Prerequisites:**
+**필수 조건:**
 
 1.  **Node.js**:
-    - **Development:** Please use Node.js `~20.19.0`. This specific version is
-      required due to an upstream development dependency issue. You can use a
-      tool like [nvm](https://github.com/nvm-sh/nvm) to manage Node.js versions.
-    - **Production:** For running the CLI in a production environment, any
-      version of Node.js `>=20` is acceptable.
+    - **개발:** Node.js `~20.19.0`을 사용해 주세요. 이 특정 버전은 업스트림 개발 종속성 문제로 인해 필요합니다. [nvm](https://github.com/nvm-sh/nvm)과 같은 도구를 사용하여 Node.js 버전을 관리할 수 있습니다.
+    - **프로덕션:** 프로덕션 환경에서 CLI를 실행할 때는 `>=20` 버전의 Node.js를 사용할 수 있습니다.
 2.  **Git**
 
-### Build process
+### 빌드 프로세스 (Build process)
 
-To clone the repository:
+저장소를 복제하려면:
 
 ```bash
-git clone https://github.com/google-gemini/gemini-cli.git # Or your fork's URL
+git clone https://github.com/google-gemini/gemini-cli.git # 또는 포크의 URL
 cd gemini-cli
 ```
 
-To install dependencies defined in `package.json` as well as root dependencies:
+`package.json`에 정의된 종속성 및 루트 종속성을 설치하려면:
 
 ```bash
 npm install
 ```
 
-To build the entire project (all packages):
+전체 프로젝트(모든 패키지)를 빌드하려면:
 
 ```bash
 npm run build
 ```
 
-This command typically compiles TypeScript to JavaScript, bundles assets, and
-prepares the packages for execution. Refer to `scripts/build.js` and
-`package.json` scripts for more details on what happens during the build.
+이 명령은 일반적으로 TypeScript를 JavaScript로 컴파일하고, 자산을 번들링하며, 실행을 위해 패키지를 준비합니다. 빌드 중에 어떤 일이 발생하는지에 대한 자세한 내용은 `scripts/build.js` 및 `package.json` 스크립트를 참조하십시오.
 
-### Enabling sandboxing
+### 샌드박싱 활성화 (Enabling sandboxing)
 
-[Sandboxing](#sandboxing) is highly recommended and requires, at a minimum,
-setting `GEMINI_SANDBOX=true` in your `~/.env` and ensuring a sandboxing
-provider (e.g. `macOS Seatbelt`, `docker`, or `podman`) is available. See
-[Sandboxing](#sandboxing) for details.
+[샌드박싱](#sandboxing)은 강력하게 권장되며 최소한 `~/.env`에 `GEMINI_SANDBOX=true`를 설정하고 샌드박싱 제공자 (예: `macOS Seatbelt`, `docker`, 또는 `podman`)가 사용 가능한지 확인해야 합니다. 자세한 내용은 [샌드박싱](#sandboxing)을 참조하세요.
 
-To build both the `gemini` CLI utility and the sandbox container, run
-`build:all` from the root directory:
+`gemini` CLI 유틸리티와 샌드박스 컨테이너를 모두 빌드하려면 루트 디렉터리에서 `build:all`을 실행하세요:
 
 ```bash
 npm run build:all
 ```
 
-To skip building the sandbox container, you can use `npm run build` instead.
+샌드박스 컨테이너 빌드를 건너뛰려면 대신 `npm run build`를 사용할 수 있습니다.
 
-### Running the CLI
+### CLI 실행 (Running the CLI)
 
-To start the Gemini CLI from the source code (after building), run the following
-command from the root directory:
+소스 코드에서 (빌드 후) Gemini CLI를 시작하려면 루트 디렉터리에서 다음 명령을 실행하세요:
 
 ```bash
 npm start
@@ -255,32 +198,29 @@ comprehensive check, it is recommended to run `npm run preflight`.
 #### Integration tests
 
 The integration tests are designed to validate the end-to-end functionality of
-the Gemini CLI. They are not run as part of the default `npm run test` command.
+통합 테스트는 기본 `npm run test` 명령의 일부로 실행되지 않습니다.
 
-To run the integration tests, use the following command:
+통합 테스트를 실행하려면 다음 명령을 사용하세요:
 
 ```bash
 npm run test:e2e
 ```
 
-For more detailed information on the integration testing framework, please see
-the [Integration Tests documentation](/docs/integration-tests.md).
+통합 테스트 프레임워크에 대한 자세한 내용은 [통합 테스트 문서](/docs/integration-tests.md)를 참조하십시오.
 
-### Linting and preflight checks
+### 린팅 및 프리플라이트 검사 (Linting and preflight checks)
 
-To ensure code quality and formatting consistency, run the preflight check:
+코드 품질과 포맷 일관성을 보장하려면 프리플라이트 검사를 실행하세요:
 
 ```bash
 npm run preflight
 ```
 
-This command will run ESLint, Prettier, all tests, and other checks as defined
-in the project's `package.json`.
+이 명령은 ESLint, Prettier, 모든 테스트 및 프로젝트의 `package.json`에 정의된 기타 검사를 실행합니다.
 
-_ProTip_
+_프로 팁 (ProTip)_
 
-after cloning create a git precommit hook file to ensure your commits are always
-clean.
+클론 후 git precommit 훅 파일을 생성하여 커밋이 항상 깨끗한지 확인하십시오.
 
 ```bash
 echo "
@@ -292,69 +232,54 @@ fi
 " > .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
 ```
 
-#### Formatting
+#### 포맷팅 (Formatting)
 
-To separately format the code in this project by running the following command
-from the root directory:
+프로젝트 코드를 별도로 포맷팅하려면 루트 디렉터리에서 다음 명령을 실행하세요:
 
 ```bash
 npm run format
 ```
 
-This command uses Prettier to format the code according to the project's style
-guidelines.
+이 명령은 Prettier를 사용하여 프로젝트의 스타일 가이드라인에 따라 코드를 포맷합니다.
 
-#### Linting
+#### 린팅 (Linting)
 
-To separately lint the code in this project, run the following command from the
-root directory:
+프로젝트 코드를 별도로 린트하려면 루트 디렉터리에서 다음 명령을 실행하세요:
 
 ```bash
 npm run lint
 ```
 
-### Coding conventions
+### 코딩 규칙 (Coding conventions)
 
-- Please adhere to the coding style, patterns, and conventions used throughout
-  the existing codebase.
-- Consult
-  [GEMINI.md](https://github.com/google-gemini/gemini-cli/blob/main/GEMINI.md)
-  (typically found in the project root) for specific instructions related to
-  AI-assisted development, including conventions for React, comments, and Git
-  usage.
-- **Imports:** Pay special attention to import paths. The project uses ESLint to
-  enforce restrictions on relative imports between packages.
+- 기존 코드베이스 전체에서 사용되는 코딩 스타일, 패턴 및 규칙을 준수하십시오.
+- AI 지원 개발과 관련된 특정 지침(React, 주석 및 Git 사용 규칙 포함)은 [GEMINI.md](https://github.com/google-gemini/gemini-cli/blob/main/GEMINI.md) (일반적으로 프로젝트 루트에 있음)를 참조하십시오.
+- **임포트:** 임포트 경로에 특별히 주의하십시오. 이 프로젝트는 ESLint를 사용하여 패키지 간의 상대적 임포트에 제한을 둡니다.
 
-### Project structure
+### 프로젝트 구조 (Project structure)
 
-- `packages/`: Contains the individual sub-packages of the project.
-  - `a2a-server`: A2A server implementation for the Gemini CLI. (Experimental)
-  - `cli/`: The command-line interface.
-  - `core/`: The core backend logic for the Gemini CLI.
-  - `test-utils` Utilities for creating and cleaning temporary file systems for
-    testing.
-  - `vscode-ide-companion/`: The Gemini CLI Companion extension pairs with
-    Gemini CLI.
-- `docs/`: Contains all project documentation.
-- `scripts/`: Utility scripts for building, testing, and development tasks.
+- `packages/`: 프로젝트의 개별 하위 패키지를 포함합니다.
+  - `a2a-server`: Gemini CLI용 A2A 서버 구현. (실험적)
+  - `cli/`: 명령줄 인터페이스.
+  - `core/`: Gemini CLI의 핵심 백엔드 로직.
+  - `test-utils`: 테스트용 임시 파일 시스템 생성 및 정리를 위한 유틸리티.
+  - `vscode-ide-companion/`: Gemini CLI와 짝을 이루는 Gemini CLI Companion 확장.
+- `docs/`: 모든 프로젝트 문서를 포함합니다.
+- `scripts/`: 빌드, 테스트 및 개발 작업을 위한 유틸리티 스크립트.
 
-For more detailed architecture, see `docs/architecture.md`.
+더 자세한 아키텍처는 `docs/architecture.md`를 참조하십시오.
 
-### Debugging
+### 디버깅 (Debugging)
 
 #### VS Code
 
-0.  Run the CLI to interactively debug in VS Code with `F5`
-1.  Start the CLI in debug mode from the root directory:
+0.  `F5`를 눌러 VS Code에서 대화형으로 CLI를 디버그합니다.
+1.  루트 디렉터리에서 디버그 모드로 CLI를 시작합니다:
     ```bash
     npm run debug
     ```
-    This command runs `node --inspect-brk dist/gemini.js` within the
-    `packages/cli` directory, pausing execution until a debugger attaches. You
-    can then open `chrome://inspect` in your Chrome browser to connect to the
-    debugger.
-2.  In VS Code, use the "Attach" launch configuration (found in
-    `.vscode/launch.json`).
+    이 명령은 `packages/cli` 디렉터리 내에서 `node --inspect-brk dist/gemini.js`를 실행하여 디버거가 연결될 때까지 실행을 일시 중지합니다. 그런 다음 Chrome 브라우저에서 `chrome://inspect`를 열어 디버거에 연결할 수 있습니다.
+2.  VS Code에서 "Attach" 시작 구성(`.vscode/launch.json`에 있음)을 사용합니다.
 
 Alternatively, you can use the "Launch Program" configuration in VS Code if you
 prefer to launch the currently open file directly, but 'F5' is generally
@@ -373,89 +298,52 @@ specific debug settings.
 ### React DevTools
 
 To debug the CLI's React-based UI, you can use React DevTools. Ink, the library
-used for the CLI's interface, is compatible with React DevTools version 4.x.
+CLI 인터페이스에 사용되는 버전은 React DevTools 버전 4.x와 호환됩니다.
 
-1.  **Start the Gemini CLI in development mode:**
+1.  **개발 모드에서 Gemini CLI 시작:**
 
     ```bash
     DEV=true npm start
     ```
 
-2.  **Install and run React DevTools version 4.28.5 (or the latest compatible
-    4.x version):**
+2.  **React DevTools 버전 4.28.5 (또는 최신 호환 4.x 버전) 설치 및 실행:**
 
-    You can either install it globally:
+    전역으로 설치할 수 있습니다:
 
     ```bash
     npm install -g react-devtools@4.28.5
     react-devtools
     ```
 
-    Or run it directly using npx:
+    또는 npx를 사용하여 직접 실행:
 
     ```bash
     npx react-devtools@4.28.5
     ```
 
-    Your running CLI application should then connect to React DevTools.
+    실행 중인 CLI 애플리케이션이 React DevTools에 연결되어야 합니다.
     ![](/docs/assets/connected_devtools.png)
 
-### Sandboxing
+### 샌드박싱 (Sandboxing)
 
 #### macOS Seatbelt
 
-On macOS, `gemini` uses Seatbelt (`sandbox-exec`) under a `permissive-open`
-profile (see `packages/cli/src/utils/sandbox-macos-permissive-open.sb`) that
-restricts writes to the project folder but otherwise allows all other operations
-and outbound network traffic ("open") by default. You can switch to a
-`restrictive-closed` profile (see
-`packages/cli/src/utils/sandbox-macos-restrictive-closed.sb`) that declines all
-operations and outbound network traffic ("closed") by default by setting
-`SEATBELT_PROFILE=restrictive-closed` in your environment or `.env` file.
-Available built-in profiles are `{permissive,restrictive}-{open,closed,proxied}`
-(see below for proxied networking). You can also switch to a custom profile
-`SEATBELT_PROFILE=<profile>` if you also create a file
-`.gemini/sandbox-macos-<profile>.sb` under your project settings directory
-`.gemini`.
+macOS에서 `gemini`는 기본적으로 프로젝트 폴더에 대한 쓰기를 제한하지만, 다른 모든 작업과 아웃바운드 네트워크 트래픽("open")을 허용하는 `permissive-open` 프로필(`packages/cli/src/utils/sandbox-macos-permissive-open.sb` 참조) 하에서 Seatbelt(`sandbox-exec`)를 사용합니다. 환경 변수나 `.env` 파일에 `SEATBELT_PROFILE=restrictive-closed`를 설정하여 기본적으로 모든 작업과 아웃바운드 네트워크 트래픽("closed")을 거부하는 `restrictive-closed` 프로필(`packages/cli/src/utils/sandbox-macos-restrictive-closed.sb` 참조)로 전환할 수 있습니다.
+사용 가능한 내장 프로필은 `{permissive,restrictive}-{open,closed,proxied}`입니다 (프록시 네트워킹은 아래 참조). 또한 프로젝트 설정 디렉터리 `.gemini` 아래에 `.gemini/sandbox-macos-<profile>.sb` 파일을 생성하면 사용자 정의 프로필 `SEATBELT_PROFILE=<profile>`로 전환할 수도 있습니다.
 
-#### Container-based sandboxing (all platforms)
+#### 컨테이너 기반 샌드박싱 (모든 플랫폼)
 
-For stronger container-based sandboxing on macOS or other platforms, you can set
-`GEMINI_SANDBOX=true|docker|podman|<command>` in your environment or `.env`
-file. The specified command (or if `true` then either `docker` or `podman`) must
-be installed on the host machine. Once enabled, `npm run build:all` will build a
-minimal container ("sandbox") image and `npm start` will launch inside a fresh
-instance of that container. The first build can take 20-30s (mostly due to
-downloading of the base image) but after that both build and start overhead
-should be minimal. Default builds (`npm run build`) will not rebuild the
-sandbox.
+macOS 또는 다른 플랫폼에서 더 강력한 컨테이너 기반 샌드박싱을 사용하려면 환경 변수나 `.env` 파일에 `GEMINI_SANDBOX=true|docker|podman|<command>`를 설정할 수 있습니다. 지정된 명령(또는 `true`인 경우 `docker` 또는 `podman`)은 호스트 머신에 설치되어 있어야 합니다. 활성화되면 `npm run build:all`은 최소한의 컨테이너("샌드박스") 이미지를 빌드하고 `npm start`는 해당 컨테이너의 새 인스턴스 내에서 실행됩니다. 첫 번째 빌드는 20-30초 걸릴 수 있지만(주로 기본 이미지 다운로드로 인해), 그 후 빌드 및 시작 오버헤드는 거의 없어야 합니다. 기본 빌드(`npm run build`)는 샌드박스를 다시 빌드하지 않습니다.
 
-Container-based sandboxing mounts the project directory (and system temp
-directory) with read-write access and is started/stopped/removed automatically
-as you start/stop Gemini CLI. Files created within the sandbox should be
-automatically mapped to your user/group on host machine. You can easily specify
-additional mounts, ports, or environment variables by setting
-`SANDBOX_{MOUNTS,PORTS,ENV}` as needed. You can also fully customize the sandbox
-for your projects by creating the files `.gemini/sandbox.Dockerfile` and/or
-`.gemini/sandbox.bashrc` under your project settings directory (`.gemini`) and
-running `gemini` with `BUILD_SANDBOX=1` to trigger building of your custom
-sandbox.
+컨테이너 기반 샌드박싱은 프로젝트 디렉터리(및 시스템 임시 디렉터리)를 읽기-쓰기 액세스로 마운트하며 Gemini CLI를 시작/중지할 때 자동으로 시작/중지/제거됩니다. 샌드박스 내에서 생성된 파일은 호스트 머신의 사용자/그룹에 자동으로 매핑되어야 합니다. 필요에 따라 `SANDBOX_{MOUNTS,PORTS,ENV}`를 설정하여 추가 마운트, 포트 또는 환경 변수를 쉽게 지정할 수 있습니다. 또한 프로젝트 설정 디렉터리(`.gemini`) 아래에 `.gemini/sandbox.Dockerfile` 및/또는 `.gemini/sandbox.bashrc` 파일을 만들고 `BUILD_SANDBOX=1`로 `gemini`를 실행하여 사용자 정의 샌드박스 빌드를 트리거함으로써 프로젝트에 맞게 샌드박스를 완벽하게 사용자 정의할 수 있습니다.
 
-#### Proxied networking
+#### 프록시 네트워킹 (Proxied networking)
 
-All sandboxing methods, including macOS Seatbelt using `*-proxied` profiles,
-support restricting outbound network traffic through a custom proxy server that
-can be specified as `GEMINI_SANDBOX_PROXY_COMMAND=<command>`, where `<command>`
-must start a proxy server that listens on `:::8877` for relevant requests. See
-`docs/examples/proxy-script.md` for a minimal proxy that only allows `HTTPS`
-connections to `example.com:443` (e.g. `curl https://example.com`) and declines
-all other requests. The proxy is started and stopped automatically alongside the
-sandbox.
+`*-proxied` 프로필을 사용하는 macOS Seatbelt를 포함한 모든 샌드박싱 방법은 `GEMINI_SANDBOX_PROXY_COMMAND=<command>`로 지정할 수 있는 사용자 정의 프록시 서버를 통해 아웃바운드 네트워크 트래픽을 제한하는 것을 지원합니다. 여기서 `<command>`는 관련 요청에 대해 `:::8877`에서 수신 대기하는 프록시 서버를 시작해야 합니다. `example.com:443`에 대한 `HTTPS` 연결만 허용하고(예: `curl https://example.com`) 다른 모든 요청은 거부하는 최소 프록시에 대해서는 `docs/examples/proxy-script.md`를 참조하십시오. 프록시는 샌드박스와 함께 자동으로 시작되고 중지됩니다.
 
-### Manual publish
+### 수동 게시 (Manual publish)
 
-We publish an artifact for each commit to our internal registry. But if you need
-to manually cut a local build, then run the following commands:
+내부 레지스트리에 각 커밋에 대한 아티팩트를 게시합니다. 그러나 로컬 빌드를 수동으로 컷해야 하는 경우 다음 명령을 실행하십시오:
 
 ```
 npm run clean
@@ -465,14 +353,13 @@ npm run prerelease:dev
 npm publish --workspaces
 ```
 
-## Documentation contribution process
+## 문서 기여 프로세스 (Documentation contribution process)
 
-Our documentation must be kept up-to-date with our code contributions. We want
-our documentation to be clear, concise, and helpful to our users. We value:
+문서는 코드 기여와 함께 최신 상태로 유지되어야 합니다. 우리는 문서가 사용자에게 명확하고 간결하며 도움이 되기를 원합니다. 우리는 다음을 중요하게 생각합니다:
 
-- **Clarity:** Use simple and direct language. Avoid jargon where possible.
-- **Accuracy:** Ensure all information is correct and up-to-date.
-- **Completeness:** Cover all aspects of a feature or topic.
+- **명확성:** 간단하고 직접적인 언어를 사용합니다. 가능한 경우 전문 용어를 피하십시오.
+- **정확성:** 모든 정보가 정확하고 최신 상태인지 확인하십시오.
+- **완전성:** 기능이나 주제의 모든 측면을 다룹니다.
 - **Examples:** Provide practical examples to help users understand how to use
   Gemini CLI.
 
@@ -511,44 +398,39 @@ Please refer to it for guidance on writing style, tone, and formatting.
 - Use sentence case for headings.
 - Write in second person ("you") when addressing the reader.
 - Use present tense.
-- Keep paragraphs short and focused.
-- Use code blocks with appropriate language tags for syntax highlighting.
-- Include practical examples whenever possible.
+- 단락을 짧고 집중적으로 유지하십시오.
+- 구문 강조를 위해 적절한 언어 태그가 있는 코드 블록을 사용하십시오.
+- 가능한 경우 실용적인 예제를 포함합니다.
 
-### Linting and formatting
+### 린팅 및 포맷팅 (Linting and formatting)
 
-We use `prettier` to enforce a consistent style across our documentation. The
-`npm run preflight` command will check for any linting issues.
+우리는 `prettier`를 사용하여 문서 전체에 일관된 스타일을 적용합니다. `npm run preflight` 명령은 린팅 문제를 확인합니다.
 
-You can also run the linter and formatter separately:
+린터와 포맷터를 별도로 실행할 수도 있습니다:
 
-- `npm run lint` - Check for linting issues
-- `npm run format` - Auto-format markdown files
-- `npm run lint:fix` - Auto-fix linting issues where possible
+- `npm run lint` - 린팅 문제 확인
+- `npm run format` - 마크다운 파일 자동 포맷
+- `npm run lint:fix` - 가능한 경우 린팅 문제 자동 수정
 
-Please make sure your contributions are free of linting errors before submitting
-a pull request.
+풀 리퀘스트를 제출하기 전에 기여 내용에 린팅 오류가 없는지 확인하십시오.
 
-### Before you submit
+### 제출하기 전에
 
-Before submitting your documentation pull request, please:
+문서 풀 리퀘스트를 제출하기 전에 다음을 수행하십시오:
 
-1. Run `npm run preflight` to ensure all checks pass.
-2. Review your changes for clarity and accuracy.
-3. Check that all links work correctly.
-4. Ensure any code examples are tested and functional.
-5. Sign the
-   [Contributor License Agreement (CLA)](https://cla.developers.google.com/) if
-   you haven't already.
+1. `npm run preflight`를 실행하여 모든 검사가 통과하는지 확인합니다.
+2. 명확성과 정확성을 위해 변경 사항을 검토합니다.
+3. 모든 링크가 올바르게 작동하는지 확인합니다.
+4. 모든 코드 예제가 테스트되고 작동하는지 확인합니다.
+5. 아직 서명하지 않은 경우 [Contribution License Agreement (CLA)](https://cla.developers.google.com/)에 서명합니다.
 
-### Need help?
+### 도움이 필요하신가요?
 
-If you have questions about contributing documentation:
+문서 기여에 대해 질문이 있는 경우:
 
-- Check our [FAQ](/docs/faq.md).
-- Review existing documentation for examples.
-- Open [an issue](https://github.com/google-gemini/gemini-cli/issues) to discuss
-  your proposed changes.
-- Reach out to the maintainers.
+- [FAQ](/docs/faq.md)를 확인하십시오.
+- 기존 문서에서 예제를 검토하십시오.
+- [이슈](https://github.com/google-gemini/gemini-cli/issues)를 열어 제안된 변경 사항을 논의하십시오.
+- 유지 관리자에게 문의하십시오.
 
-We appreciate your contributions to making Gemini CLI documentation better!
+Gemini CLI 문서를 더 좋게 만들기 위한 여러분의 기여에 감사드립니다!

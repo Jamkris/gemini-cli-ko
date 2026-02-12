@@ -1,158 +1,115 @@
-# Gemini CLI: Quotas and pricing
+# Gemini CLI: 할당량 및 가격 책정
 
-Gemini CLI offers a generous free tier that covers many individual developers'
-use cases. For enterprise or professional usage, or if you need higher limits,
-several options are available depending on your authentication account type.
+Gemini CLI는 많은 개인 개발자의 사용 사례를 다루는 넉넉한 무료 등급을 제공합니다. 기업이나 전문가용으로 사용하거나 더 높은 한도가 필요한 경우, 인증 계정 유형에 따라 여러 옵션을 사용할 수 있습니다.
 
-See [privacy and terms](/docs/tos-privacy) for details on the Privacy Policy and
-Terms of Service.
+개인정보 처리방침 및 서비스 약관에 대한 자세한 내용은 [약관 및 개인 정보 보호](/docs/tos-privacy)를 참조하세요.
 
-> **Note:** Published prices are list price; additional negotiated commercial
-> discounting may apply.
+> **참고:** 게시된 가격은 정가이며, 추가 협의된 상용 할인이 적용될 수 있습니다.
 
-This article outlines the specific quotas and pricing applicable to Gemini CLI
-when using different authentication methods.
+이 문서에서는 다양한 인증 방법을 사용할 때 Gemini CLI에 적용되는 특정 할당량 및 가격 책정에 대해 설명합니다.
 
-Generally, there are three categories to choose from:
+일반적으로 선택할 수 있는 세 가지 범주가 있습니다:
 
-- Free Usage: Ideal for experimentation and light use.
-- Paid Tier (fixed price): For individual developers or enterprises who need
-  more generous daily quotas and predictable costs.
-- Pay-As-You-Go: The most flexible option for professional use, long-running
-  tasks, or when you need full control over your usage.
+- **무료 사용 (Free Usage):** 실험 및 가벼운 사용에 적합합니다.
+- **유료 등급 (Paid Tier - 고정 가격):** 더 넉넉한 일일 할당량과 예측 가능한 비용이 필요한 개인 개발자 또는 기업을 위한 옵션입니다.
+- **종량제 (Pay-As-You-Go):** 전문가용, 장기 실행 작업 또는 사용량에 대한 완전한 제어가 필요할 때 가장 유연한 옵션입니다.
 
-## Free usage
+## 무료 사용 (Free Usage)
 
-Your journey begins with a generous free tier, perfect for experimentation and
-light use.
+실험 및 가벼운 사용에 완벽한 넉넉한 무료 등급으로 여정을 시작할 수 있습니다.
 
-Your free usage limits depend on your authorization type.
+무료 사용 한도는 인증 유형에 따라 다릅니다.
 
-### Log in with Google (Gemini Code Assist for individuals)
+### Google로 로그인 (개인용 Gemini Code Assist)
 
-For users who authenticate by using their Google account to access Gemini Code
-Assist for individuals. This includes:
+Google 계정을 사용하여 인증하고 개인용 Gemini Code Assist에 액세스하는 사용자의 경우입니다. 여기에는 다음이 포함됩니다:
 
-- 1000 model requests / user / day
-- 60 model requests / user / minute
-- Model requests will be made across the Gemini model family as determined by
-  Gemini CLI.
+- 1000 모델 요청 / 사용자 / 일
+- 60 모델 요청 / 사용자 / 분
+- 모델 요청은 Gemini CLI에 의해 결정된 Gemini 모델 제품군 전체에 걸쳐 이루어집니다.
 
-Learn more at
-[Gemini Code Assist for Individuals Limits](https://developers.google.com/gemini-code-assist/resources/quotas#quotas-for-agent-mode-gemini-cli).
+자세한 내용은 [개인용 Gemini Code Assist 한도](https://developers.google.com/gemini-code-assist/resources/quotas#quotas-for-agent-mode-gemini-cli)를 참조하세요.
 
-### Log in with Gemini API Key (unpaid)
+### Gemini API 키로 로그인 (무료)
 
-If you are using a Gemini API key, you can also benefit from a free tier. This
-includes:
+Gemini API 키를 사용하는 경우에도 무료 등급 혜택을 받을 수 있습니다. 여기에는 다음이 포함됩니다:
 
-- 250 model requests / user / day
-- 10 model requests / user / minute
-- Model requests to Flash model only.
+- 250 모델 요청 / 사용자 / 일
+- 10 모델 요청 / 사용자 / 분
+- Flash 모델에 대한 요청만 가능합니다.
 
-Learn more at
-[Gemini API Rate Limits](https://ai.google.dev/gemini-api/docs/rate-limits).
+자세한 내용은 [Gemini API 속도 제한](https://ai.google.dev/gemini-api/docs/rate-limits)을 참조하세요.
 
-### Log in with Vertex AI (Express Mode)
+### Vertex AI로 로그인 (Express 모드)
 
-Vertex AI offers an Express Mode without the need to enable billing. This
-includes:
+Vertex AI는 결제를 활성화할 필요 없이 Express 모드를 제공합니다. 여기에는 다음이 포함됩니다:
 
-- 90 days before you need to enable billing.
-- Quotas and models are variable and specific to your account.
+- 결제를 활성화하기 전 90일 동안 사용 가능.
+- 할당량 및 모델은 가변적이며 계정에 따라 다릅니다.
 
-Learn more at
-[Vertex AI Express Mode Limits](https://cloud.google.com/vertex-ai/generative-ai/docs/start/express-mode/overview#quotas).
+자세한 내용은 [Vertex AI Express 모드 한도](https://cloud.google.com/vertex-ai/generative-ai/docs/start/express-mode/overview#quotas)를 참조하세요.
 
-## Paid tier: Higher limits for a fixed cost
+## 유료 등급: 고정 비용으로 더 높은 한도 (Paid Tier)
 
-If you use up your initial number of requests, you can continue to benefit from
-Gemini CLI by upgrading to one of the following subscriptions:
+초기 요청 수를 모두 사용한 경우, 다음 구독 중 하나로 업그레이드하여 Gemini CLI의 혜택을 계속 이용할 수 있습니다:
 
-- [Google AI Pro and AI Ultra](https://gemini.google/subscriptions/). This is
-  recommended for individual developers. Quotas and pricing are based on a fixed
-  price subscription.
+- [Google AI Pro 및 AI Ultra](https://gemini.google/subscriptions/). 이 옵션은 개인 개발자에게 권장됩니다. 할당량 및 가격은 고정 가격 구독을 기반으로 합니다.
 
-  For predictable costs, you can log in with Google.
+  예측 가능한 비용을 위해 Google로 로그인할 수 있습니다.
 
-  Learn more at
-  [Gemini Code Assist Quotas and Limits](https://developers.google.com/gemini-code-assist/resources/quotas)
+  자세한 내용은 [Gemini Code Assist 할당량 및 한도](https://developers.google.com/gemini-code-assist/resources/quotas)를 참조하세요.
 
-- [Purchase a Gemini Code Assist Subscription through Google Cloud ](https://cloud.google.com/gemini/docs/codeassist/overview)
-  by signing up in the Google Cloud console. Learn more at
-  [Set up Gemini Code Assist](https://cloud.google.com/gemini/docs/discover/set-up-gemini).
+- Google Cloud 콘솔에 가입하여 [Google Cloud를 통해 Gemini Code Assist 구독을 구매](https://cloud.google.com/gemini/docs/codeassist/overview)하세요. 자세한 내용은 [Gemini Code Assist 설정](https://cloud.google.com/gemini/docs/discover/set-up-gemini)을 참조하세요.
 
-  Quotas and pricing are based on a fixed price subscription with assigned
-  license seats. For predictable costs, you can sign in with Google.
+  할당량 및 가격은 할당된 라이선스 사용자가 있는 고정 가격 구독을 기반으로 합니다. 예측 가능한 비용을 위해 Google로 로그인할 수 있습니다.
 
-  This includes:
-  - Gemini Code Assist Standard edition:
-    - 1500 model requests / user / day
-    - 120 model requests / user / minute
-  - Gemini Code Assist Enterprise edition:
-    - 2000 model requests / user / day
-    - 120 model requests / user / minute
-  - Model requests will be made across the Gemini model family as determined by
-    Gemini CLI.
+  여기에는 다음이 포함됩니다:
+  - Gemini Code Assist Standard 에디션:
+    - 1500 모델 요청 / 사용자 / 일
+    - 120 모델 요청 / 사용자 / 분
+  - Gemini Code Assist Enterprise 에디션:
+    - 2000 모델 요청 / 사용자 / 일
+    - 120 모델 요청 / 사용자 / 분
+  - 모델 요청은 Gemini CLI에 의해 결정된 Gemini 모델 제품군 전체에 걸쳐 이루어집니다.
 
-  [Learn more about Gemini Code Assist Standard and Enterprise license limits](https://developers.google.com/gemini-code-assist/resources/quotas#quotas-for-agent-mode-gemini-cli).
+  [Gemini Code Assist Standard 및 Enterprise 라이선스 한도에 대해 자세히 알아보기](https://developers.google.com/gemini-code-assist/resources/quotas#quotas-for-agent-mode-gemini-cli).
 
-## Pay as you go
+## 종량제 (Pay as you go)
 
-If you hit your daily request limits or exhaust your Gemini Pro quota even after
-upgrading, the most flexible solution is to switch to a pay-as-you-go model,
-where you pay for the specific amount of processing you use. This is the
-recommended path for uninterrupted access.
+업그레이드 후에도 일일 요청 한도에 도달하거나 Gemini Pro 할당량을 모두 소진한 경우, 가장 유연한 해결책은 사용한 만큼 비용을 지불하는 종량제 모델로 전환하는 것입니다. 이는 중단 없는 액세스를 위한 권장 경로입니다.
 
-To do this, log in using a Gemini API key or Vertex AI.
+이를 위해서는 Gemini API 키 또는 Vertex AI를 사용하여 로그인하세요.
 
-- Vertex AI (Regular Mode):
-  - Quota: Governed by a dynamic shared quota system or pre-purchased
-    provisioned throughput.
-  - Cost: Based on model and token usage.
+- Vertex AI (일반 모드):
+  - 할당량: 동적 공유 할당량 시스템 또는 사전 구매된 프로비저닝 처리량(provisioned throughput)에 의해 관리됩니다.
+  - 비용: 모델 및 토큰 사용량에 따라 달라집니다.
 
-Learn more at
-[Vertex AI Dynamic Shared Quota](https://cloud.google.com/vertex-ai/generative-ai/docs/resources/dynamic-shared-quota)
-and [Vertex AI Pricing](https://cloud.google.com/vertex-ai/pricing).
+자세한 내용은 [Vertex AI 동적 공유 할당량](https://cloud.google.com/vertex-ai/generative-ai/docs/resources/dynamic-shared-quota) 및 [Vertex AI 가격 책정](https://cloud.google.com/vertex-ai/pricing)을 참조하세요.
 
-- Gemini API key:
-  - Quota: Varies by pricing tier.
-  - Cost: Varies by pricing tier and model/token usage.
+- Gemini API 키:
+  - 할당량: 요금제에 따라 다릅니다.
+  - 비용: 요금제 및 모델/토큰 사용량에 따라 다릅니다.
 
-Learn more at
-[Gemini API Rate Limits](https://ai.google.dev/gemini-api/docs/rate-limits),
-[Gemini API Pricing](https://ai.google.dev/gemini-api/docs/pricing)
+자세한 내용은 [Gemini API 속도 제한](https://ai.google.dev/gemini-api/docs/rate-limits), [Gemini API 가격 책정](https://ai.google.dev/gemini-api/docs/pricing)을 참조하세요.
 
-It’s important to highlight that when using an API key, you pay per token/call.
-This can be more expensive for many small calls with few tokens, but it's the
-only way to ensure your workflow isn't interrupted by quota limits.
+API 키를 사용할 때는 토큰/호출 당 비용을 지불한다는 점을 강조하는 것이 중요합니다. 토큰 수가 적은 작은 호출이 많을 경우 비용이 많이 들 수 있지만, 할당량 한도로 인해 워크플로가 중단되지 않도록 보장하는 유일한 방법입니다.
 
-## Gemini for workspace plans
+## Gemini for Workspace 요금제
 
-These plans currently apply only to the use of Gemini web-based products
-provided by Google-based experiences (for example, the Gemini web app or the
-Flow video editor). These plans do not apply to the API usage which powers the
-Gemini CLI. Supporting these plans is under active consideration for future
-support.
+이 요금제는 현재 Google 기반 경험(예: Gemini 웹 앱 또는 Flow 비디오 편집기)에서 제공하는 Gemini 웹 기반 제품 사용에만 적용됩니다. 이 요금제는 Gemini CLI를 구동하는 API 사용에는 적용되지 않습니다. 향후 지원을 위해 이 요금제 지원을 적극적으로 검토 중입니다.
 
-## Tips to avoid high costs
+## 높은 비용을 피하기 위한 팁
 
-When using a Pay as you Go API key, be mindful of your usage to avoid unexpected
-costs.
+종량제 API 키를 사용할 때는 예상치 못한 비용이 발생하지 않도록 사용량에 유의하세요.
 
-- Don't blindly accept every suggestion, especially for computationally
-  intensive tasks like refactoring large codebases.
-- Be intentional with your prompts and commands. You are paying per call, so
-  think about the most efficient way to get the job done.
+- 대규모 코드베이스 리팩터링과 같이 계산 집약적인 작업의 경우, 모든 제안을 무조건 수락하지 마세요.
+- 프롬프트와 명령을 의도적으로 사용하세요. 호출 당 비용을 지불하므로 작업을 완료하는 가장 효율적인 방법에 대해 생각해 보세요.
 
-## Gemini API vs. Vertex
+## Gemini API 대 Vertex
 
-- Gemini API (gemini developer api): This is the fastest way to use the Gemini
-  models directly.
-- Vertex AI: This is the enterprise-grade platform for building, deploying, and
-  managing Gemini models with specific security and control requirements.
+- **Gemini API (Gemini 개발자 API):** Gemini 모델을 직접 사용하는 가장 빠른 방법입니다.
+- **Vertex AI:** 특정 보안 및 제어 요구 사항을 충족하며 Gemini 모델을 구축, 배포 및 관리하기 위한 엔터프라이즈급 플랫폼입니다.
 
-## Understanding your usage
+## 사용량 이해하기 (Understanding your usage)
 
-A summary of model usage is available through the `/stats` command and presented
-on exit at the end of a session.
+모델 사용량 요약은  명령을 통해 확인할 수 있으며, 세션 종료 시 종료 화면에 표시됩니다.

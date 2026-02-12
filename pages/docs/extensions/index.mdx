@@ -1,45 +1,34 @@
-# Gemini CLI extensions
+# Gemini CLI 확장
 
-Gemini CLI extensions package prompts, MCP servers, custom commands, hooks,
-sub-agents, and agent skills into a familiar and user-friendly format. With
-extensions, you can expand the capabilities of Gemini CLI and share those
-capabilities with others. They are designed to be easily installable and
-shareable.
+Gemini CLI 확장은 프롬프트, MCP 서버, 커스텀 명령, 훅, 서브 에이전트 및 에이전트 기술을 친숙하고 사용자 친화적인 형식으로 패키징합니다. 확장을 사용하면 Gemini CLI의 기능을 확장하고 그 기능을 다른 사람들과 공유할 수 있습니다. 확장은 쉽게 설치하고 공유할 수 있도록 설계되었습니다.
 
-To see examples of extensions, you can browse a gallery of
-[Gemini CLI extensions](https://geminicli.com/extensions/browse/).
+확장의 예시를 보려면 [Gemini CLI 확장](https://geminicli.com/extensions/browse/) 갤러리를 찾아볼 수 있습니다.
 
-## Managing extensions
+## 확장 관리
 
-You can verify your installed extensions and their status using the interactive
-command:
+대화형 명령을 사용하여 설치된 확장과 해당 상태를 확인할 수 있습니다:
 
 ```bash
 /extensions list
 ```
 
-or in noninteractive mode:
+또는 비대화형 모드에서:
 
 ```bash
 gemini extensions list
 ```
 
-## Installation
+## 설치
 
-To install a real extension, you can use the `extensions install` command with a
-GitHub repository URL in noninteractive mode. For example:
+실제 확장을 설치하려면, 비대화형 모드에서 GitHub 저장소 URL과 함께 `extensions install` 명령을 사용할 수 있습니다. 예를 들어:
 
 ```bash
 gemini extensions install https://github.com/gemini-cli-extensions/workspace
 ```
 
-## Next steps
+## 다음 단계
 
-- [Writing extensions](/docs/extensions/writing-extensions): Learn how to create your first
-  extension.
-- [Extensions reference](/docs/extensions/reference): Deeply understand the extension format,
-  commands, and configuration.
-- [Best practices](/docs/extensions/best-practices): Learn strategies for building great
-  extensions.
-- [Extensions releasing](/docs/extensions/releasing): Learn how to share your extensions with
-  the world.
+- [확장 작성](/docs/extensions/writing-extensions): 첫 번째 확장을 만드는 방법을 알아보세요.
+- [확장 레퍼런스](/docs/extensions/reference): 확장 형식, 명령 및 구성에 대해 깊이 이해하세요.
+- [모범 사례](/docs/extensions/best-practices): 훌륭한 확장을 구축하기 위한 전략을 배우세요.
+- [확장 배포](/docs/extensions/releasing): 확장을 전 세계와 공유하는 방법을 알아보세요.
