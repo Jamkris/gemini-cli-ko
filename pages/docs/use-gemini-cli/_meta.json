@@ -1,30 +1,29 @@
 {
-  "index": {
-    "title": "CLI 사용법"
-  },
-  "file-management": {
-    "title": "파일 관리"
-  },
-  "shell-commands": {
-    "title": "셸 명령"
-  },
-  "memory-management": {
-    "title": "메모리 관리"
-  },
-  "project-context": {
-    "title": "프로젝트 컨텍스트 (GEMINI.md)"
-  },
-  "web-search-and-fetch": {
-    "title": "웹 검색 및 가져오기"
-  },
-  "session-management": {
-    "title": "세션 관리"
-  },
-  "plan-mode": {
-    "title": "계획 모드 (실험적 기능)"
-  },
-  "todos": {
-    "title": "할 일 목록"
-  }
+	"index": {
+		"title": "CLI 사용법"
+	},
+	"file-management": {
+		"title": "파일 관리"
+	},
+	"shell-commands": {
+		"title": "셸 명령"
+	},
+	"memory-management": {
+		"title": "메모리 관리"
+	},
+	"project-context": {
+		"title": "프로젝트 컨텍스트 (GEMINI.md)"
+	},
+	"web-search-and-fetch": {
+		"title": "웹 검색 및 가져오기"
+	},
+	"session-management": {
+		"title": "세션 관리"
+	},
+	"plan-mode": {
+		"title": "계획 모드 (실험적 기능)"
+	},
+	"todos": {
+		"title": "할 일 목록"
+	}
 }
-
