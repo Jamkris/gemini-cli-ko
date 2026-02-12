@@ -10,10 +10,5 @@
 	"docs": {
 		"type": "page",
 		"title": "Docs"
-	},
-	"changelog": {
-		"type": "page",
-		"title": "Changelog",
-		"href": "/docs/releases"
 	}
 }

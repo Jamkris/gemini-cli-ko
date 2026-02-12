@@ -28,8 +28,5 @@
 	},
 	"development": {
 		"title": "개발"
-	},
-	"releases": {
-		"title": "릴리스"
 	}
 }
