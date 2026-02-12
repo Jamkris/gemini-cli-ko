@@ -1,0 +1,23 @@
+{
+	"index": {
+		"title": "Agent skills"
+	},
+	"creating-agent-skills": {
+		"title": "Creating Agent skills"
+	},
+	"sub-agents": {
+		"title": "Sub-agents (experimental)"
+	},
+	"remote-subagents": {
+		"title": "Remote subagents (experimental)"
+	},
+	"hooks": {
+		"title": "Hooks"
+	},
+	"ide-integration": {
+		"title": "IDE integration"
+	},
+	"mcp-servers": {
+		"title": "MCP servers"
+	}
+}

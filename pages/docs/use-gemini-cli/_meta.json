@@ -1,0 +1,29 @@
+{
+  "index": {
+    "title": "Using the CLI"
+  },
+  "file-management": {
+    "title": "File management"
+  },
+  "memory-management": {
+    "title": "Memory management"
+  },
+  "project-context": {
+    "title": "Project context (GEMINI.md)"
+  },
+  "shell-commands": {
+    "title": "Shell commands"
+  },
+  "session-management": {
+    "title": "Session management"
+  },
+  "plan-mode": {
+    "title": "Plan mode (experimental)"
+  },
+  "todos": {
+    "title": "Todos"
+  },
+  "web-search-and-fetch": {
+    "title": "Web search and fetch"
+  }
+}

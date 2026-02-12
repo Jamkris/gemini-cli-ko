@@ -1,0 +1,11 @@
+{
+	"index": {
+		"title": "Release notes"
+	},
+	"stable-release": {
+		"title": "Stable release"
+	},
+	"preview-release": {
+		"title": "Preview release"
+	}
+}

@@ -1,0 +1,20 @@
+{
+	"index": {
+		"title": "Ignore files (.geminiignore)"
+	},
+	"model-selection": {
+		"title": "Model selection"
+	},
+	"setting": {
+		"title": "Setting"
+	},
+	"themes": {
+		"title": "Themes"
+	},
+	"token-caching": {
+		"title": "Token caching"
+	},
+	"trusted-folders": {
+		"title": "Trusted folders"
+	}
+}

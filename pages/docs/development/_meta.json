@@ -1,0 +1,17 @@
+{
+	"index": {
+		"title": "Contribution guide"
+	},
+	"integration-testing": {
+		"title": "Integration testing"
+	},
+	"issue-and-pr-automation": {
+		"title": "Issue and PR automation"
+	},
+	"local-development": {
+		"title": "Local development"
+	},
+	"npm-package-structure": {
+		"title": "NPM package structure"
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"index": {
+		"title": "Introduction"
+	},
+	"writing-extensions": {
+		"title": "Writing extensions"
+	},
+	"extensions-reference": {
+		"title": "Extensions reference"
+	},
+	"best-practices": {
+		"title": "Best practices"
+	},
+	"extensions-releasing": {
+		"title": "Extensions releasing"
+	}
+}

@@ -1,0 +1,23 @@
+{
+	"index": {
+		"title": "Checkpointing"
+	},
+	"custom-commands": {
+		"title": "Custom commands"
+	},
+	"enterprise-features": {
+		"title": "Enterprise features"
+	},
+	"headless-mode-and-scripting": {
+		"title": "Headless mode & scripting"
+	},
+	"sandboxing": {
+		"title": "Sandboxing"
+	},
+	"system-prompt-override": {
+		"title": "System prompt override"
+	},
+	"telemetry": {
+		"title": "Telemetry"
+	}
+}

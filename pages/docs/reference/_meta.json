@@ -1,0 +1,23 @@
+{
+	"index": {
+		"title": "Architecture"
+	},
+	"command-reference": {
+		"title": "Command reference"
+	},
+	"configuration": {
+		"title": "Configuration"
+	},
+	"keyboard-shortcuts": {
+		"title": "Keyboard shortcuts"
+	},
+	"memory-import-processor": {
+		"title": "Memory import processor"
+	},
+	"policy-engine": {
+		"title": "Policy engine"
+	},
+	"tools-api": {
+		"title": "Tools API"
+	}
+}

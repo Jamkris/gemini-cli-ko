@@ -1,0 +1,23 @@
+{
+  "index": {
+    "title": "개요"
+  },
+  "quick-start": {
+    "title": "빠른 시작"
+  },
+  "installation": {
+    "title": "설치"
+  },
+  "authentication": {
+    "title": "인증"
+  },
+  "examples": {
+    "title": "예제"
+  },
+  "gemini-3": {
+    "title": "Gemini 3 (미리보기)"
+  },
+  "cli-reference": {
+    "title": "CLI 참조"
+  }
+}

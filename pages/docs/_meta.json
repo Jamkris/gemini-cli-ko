@@ -1,0 +1,32 @@
+{
+	"get-started": {
+		"title": "Get started"
+	},
+	"use-gemini-cli": {
+		"title": "Use Gemini CLI"
+	},
+	"configuration": {
+		"title": "Configuration"
+	},
+	"advanced-features": {
+		"title": "Advanced features"
+	},
+	"extensions": {
+		"title": "Extensions"
+	},
+	"ecosystem-and-extensibility": {
+		"title": "Ecosystem and extensibility"
+	},
+	"tutorials": {
+		"title": "Tutorials"
+	},
+	"resources": {
+		"title": "Resources"
+	},
+	"development": {
+		"title": "Development"
+	},
+	"releases": {
+		"title": "Releases"
+	}
+}
