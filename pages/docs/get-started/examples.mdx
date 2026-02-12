@@ -1,14 +1,12 @@
-# Gemini CLI examples
+# Gemini CLI 예제
 
-Not sure where to get started with Gemini CLI? This document covers examples on
-how to use Gemini CLI for a variety of tasks.
+Gemini CLI를 어디서부터 시작해야 할지 모르시겠나요? 이 문서에서는 다양한 작업에 Gemini CLI를 사용하는 방법에 대한 예제를 다룹니다.
 
-**Note:** Results are examples intended to showcase potential use cases. Your
-results may vary.
+**참고:** 결과는 잠재적인 사용 사례를 보여주기 위한 예시입니다. 실제 결과는 다를 수 있습니다.
 
-## Rename your photographs based on content
+## 내용을 기반으로 사진 이름 바꾸기
 
-Scenario: You have a folder containing the following files:
+시나리오: 다음 파일이 포함된 폴더가 있습니다.
 
 ```bash
 photos/photo1.png
@@ -16,15 +14,15 @@ photos/photo2.png
 photos/photo3.png
 ```
 
-Give Gemini the following prompt:
+Gemini에 다음 프롬프트를 입력하세요.
 
 ```cli
-Rename the photos in my "photos" directory based on their contents.
+"photos" 디렉터리에 있는 사진의 이름을 내용을 기반으로 변경해 주세요.
 ```
 
-Result: Gemini will ask for permission to rename your files.
+결과: Gemini가 파일 이름 변경 권한을 요청합니다.
 
-Select **Allow once** and your files will be renamed:
+**Allow once**를 선택하면 파일 이름이 변경됩니다.
 
 ```bash
 photos/yellow_flowers.png
@@ -32,50 +30,37 @@ photos/antique_dresser.png
 photos/green_android_robot.png
 ```
 
-## Explain a repository by reading its code
+## 코드를 읽어 리포지토리 설명하기
 
-Scenario: You want to understand how a popular open-source utility works by
-inspecting its code, not just its README.
+시나리오: 단순히 README만 보는 것이 아니라 코드를 검사하여 인기 있는 오픈 소스 유틸리티가 어떻게 작동하는지 이해하고 싶습니다.
 
-Give Gemini CLI the following prompt:
+Gemini CLI에 다음 프롬프트를 입력하세요.
 
 ```cli
-Clone the 'chalk' repository from https://github.com/chalk/chalk, read its key source files, and explain how it works.
+https://github.com/chalk/chalk에서 'chalk' 리포지토리를 복제하고, 주요 소스 파일을 읽고, 어떻게 작동하는지 설명해 주세요.
 ```
 
-Result: Gemini will perform a sequence of actions to answer your request.
+결과: Gemini는 요청에 응답하기 위해 일련의 작업을 수행합니다.
 
-1.  First, it will ask for permission to run `git clone` to download the
-    repository.
-2.  Next, it will find the important source files and ask for permission to read
-    them.
-3.  Finally, after analyzing the code, it will provide a summary.
+1.  먼저 `git clone`을 실행하여 리포지토리를 다운로드할 수 있는 권한을 요청합니다.
+2.  다음으로 중요한 소스 파일을 찾고 이를 읽을 수 있는 권한을 요청합니다.
+3.  마지막으로 코드를 분석한 후 요약을 제공합니다.
 
-Gemini CLI will return an explanation based on the actual source code:
+Gemini CLI는 실제 소스 코드를 기반으로 한 설명을 반환합니다.
 
 ```markdown
-The `chalk` library is a popular npm package for styling terminal output with
-colors. After analyzing the source code, here's how it works:
+`chalk` 라이브러리는 색상으로 터미널 출력을 스타일링하기 위한 인기 있는 npm 패키지입니다. 소스 코드를 분석한 결과, 작동 방식은 다음과 같습니다.
 
-- **Core functionality:** The main file sets up a chainable API. Each color or
-  modifier (like `bold` or `italic`) is a getter that appends the corresponding
-  ANSI escape code to an internal stack.
+- **핵심 기능:** 기본 파일은 체인 가능한 API를 설정합니다. 각 색상이나 수정자(예: `bold` 또는 `italic`)는 해당 ANSI 이스케이프 코드를 내부 스택에 추가하는 getter입니다.
 
-- **Chainable API:** When you call `chalk.red.bold('Hello')`, you are accessing
-  getters. The `red` getter adds the red color code, and the `bold` getter adds
-  the bold code.
+- **체인 가능한 API:** `chalk.red.bold('Hello')`를 호출하면 getter에 액세스하는 것입니다. `red` getter는 빨간색 코드를 추가하고 `bold` getter는 굵게 코드를 추가합니다.
 
-- **Output generation:** When the chain is treated as a string (e.g., in
-  `console.log`), a final `toString()` method is called. This method joins all
-  the stored ANSI codes, wraps them around the input string ('Hello'), and adds
-  a reset code at the end. This produces the final, styled string that the
-  terminal can render.
+- **출력 생성:** 체인이 문자열로 처리될 때(예: `console.log`에서) 최종 `toString()` 메서드가 호출됩니다. 이 메서드는 저장된 모든 ANSI 코드를 결합하고 입력 문자열('Hello')을 감싸고 끝에 재설정 코드를 추가합니다. 이렇게 하면 터미널이 렌더링할 수 있는 최종 스타일 문자열이 생성됩니다.
 ```
 
-## Combine two spreadsheets into one spreadsheet
+## 두 개의 스프레드시트를 하나의 스프레드시트로 결합하기
 
-Scenario: You have two .csv files: `Revenue - 2023.csv` and
-`Revenue - 2024.csv`. Each file contains monthly revenue figures, like so:
+시나리오: `Revenue - 2023.csv`와 `Revenue - 2024.csv`라는 두 개의 .csv 파일이 있습니다. 각 파일에는 다음과 같은 월별 수익 수치가 포함되어 있습니다.
 
 ```csv
 January,0
@@ -92,17 +77,15 @@ November,3400
 December,2100
 ```
 
-You want to combine these two .csv files into a single .csv file.
+이 두 개의 .csv 파일을 하나의 .csv 파일로 결합하고 싶습니다.
 
-Give Gemini CLI the following prompt:
+Gemini CLI에 다음 프롬프트를 입력하세요.
 
 ```cli
-Combine the two .csv files into a single .csv file, with each year a different column.
+두 개의 .csv 파일을 하나의 .csv 파일로 결합하고 각 연도를 다른 열로 만드세요.
 ```
 
-Result: Gemini CLI will read each file and then ask for permission to write a
-new file. Provide your permission and Gemini CLI will provide the following
-.csv:
+결과: Gemini CLI가 각 파일을 읽은 다음 새 파일을 쓸 수 있는 권한을 요청합니다. 권한을 제공하면 Gemini CLI가 다음 .csv를 제공합니다.
 
 ```csv
 Month,2023,2024
@@ -120,19 +103,17 @@ November,3400,1800
 December,2100,9000
 ```
 
-## Run unit tests
+## 단위 테스트 실행
 
-Scenario: You've written a simple login page. You wish to write unit tests to
-ensure that your login page has code coverage.
+시나리오: 간단한 로그인 페이지를 작성했습니다. 로그인 페이지에 코드 커버리지가 있는지 확인하기 위해 단위 테스트를 작성하려고 합니다.
 
-Give Gemini CLI the following prompt:
+Gemini CLI에 다음 프롬프트를 입력하세요.
 
 ```cli
-Write unit tests for Login.js.
+Login.js에 대한 단위 테스트를 작성해 주세요.
 ```
 
-Result: Gemini CLI will ask for permission to write a new file and create a test
-for your login page
+결과: Gemini CLI가 새 파일을 쓸 수 있는 권한을 요청하고 로그인 페이지에 대한 테스트를 만듭니다.
 
 ```javascript
 import React from 'react';

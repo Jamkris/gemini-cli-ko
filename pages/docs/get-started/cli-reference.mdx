@@ -4,112 +4,112 @@
 
 ## CLI 명령
 
-| 명령                            | 설명                        | 예시                                             |
-| ---------------------------------- | ---------------------------------- | --------------------------------------------------- |
-| `gemini`                           | 대화형 REPL 시작             | `gemini`                                            |
-| `gemini "query"`                   | 비대화형으로 쿼리 후 종료 | `gemini "explain this project"`                     |
-| `gemini -p "query"`                | SDK를 통해 쿼리 후 종료           | `gemini -p "explain this function"`                 |
-| `cat file \| gemini -p "query"`    | 파이프된 콘텐츠 처리              | `cat logs.txt \| gemini -p "explain"`               |
-| `gemini -i "query"`                | 실행 후 대화형으로 계속 | `gemini -i "What is the purpose of this project?"`  |
-| `gemini -r "latest"`               | 가장 최근 세션 계속       | `gemini -r "latest"`                                |
-| `gemini -r "latest" "query"`       | 새 프롬프트로 세션 계속 | `gemini -r "latest" "Check for type errors"`        |
-| `gemini -r "<session-id>" "query"` | ID로 세션 재개               | `gemini -r "abc123" "Finish this PR"`               |
-| `gemini update`                    | 최신 버전으로 업데이트           | `gemini update`                                     |
-| `gemini extensions`                | 확장 프로그램 관리                  | [확장 프로그램 관리](#extensions-management) 참조 |
-| `gemini mcp`                       | MCP 서버 구성              | [MCP 서버 관리](#mcp-server-management) 참조 |
+| 명령                               | 설명                      | 예시                                               |
+| ---------------------------------- | ------------------------- | -------------------------------------------------- |
+| `gemini`                           | 대화형 REPL 시작          | `gemini`                                           |
+| `gemini "query"`                   | 비대화형으로 쿼리 후 종료 | `gemini "explain this project"`                    |
+| `gemini -p "query"`                | SDK를 통해 쿼리 후 종료   | `gemini -p "explain this function"`                |
+| `cat file \| gemini -p "query"`    | 파이프된 콘텐츠 처리      | `cat logs.txt \| gemini -p "explain"`              |
+| `gemini -i "query"`                | 실행 후 대화형으로 계속   | `gemini -i "What is the purpose of this project?"` |
+| `gemini -r "latest"`               | 가장 최근 세션 계속       | `gemini -r "latest"`                               |
+| `gemini -r "latest" "query"`       | 새 프롬프트로 세션 계속   | `gemini -r "latest" "Check for type errors"`       |
+| `gemini -r "<session-id>" "query"` | ID로 세션 재개            | `gemini -r "abc123" "Finish this PR"`              |
+| `gemini update`                    | 최신 버전으로 업데이트    | `gemini update`                                    |
+| `gemini extensions`                | 확장 프로그램 관리        | [확장 프로그램 관리](#extensions-management) 참조  |
+| `gemini mcp`                       | MCP 서버 구성             | [MCP 서버 관리](#mcp-server-management) 참조       |
 
 ### 위치 인수
 
-| 인수 | 유형              | 설명                                                                                                        |
-| -------- | ----------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `query`  | 문자열 (가변) | 위치 프롬프트입니다. 기본값은 일회성 모드입니다. 실행 후 대화형으로 계속하려면 `-i/--prompt-interactive`를 사용하세요. |
+| 인수    | 유형          | 설명                                                                                                                   |
+| ------- | ------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `query` | 문자열 (가변) | 위치 프롬프트입니다. 기본값은 일회성 모드입니다. 실행 후 대화형으로 계속하려면 `-i/--prompt-interactive`를 사용하세요. |
 
-## CLI Options
+## CLI 옵션
 
-| Option                           | Alias | Type    | Default   | Description                                                                                                |
-| -------------------------------- | ----- | ------- | --------- | ---------------------------------------------------------------------------------------------------------- |
-| `--debug`                        | `-d`  | boolean | `false`   | Run in debug mode with verbose logging                                                                     |
-| `--version`                      | `-v`  | -       | -         | Show CLI version number and exit                                                                           |
-| `--help`                         | `-h`  | -       | -         | Show help information                                                                                      |
-| `--model`                        | `-m`  | string  | `auto`    | Model to use. See [Model Selection](#model-selection) for available values.                                |
-| `--prompt`                       | `-p`  | string  | -         | Prompt text. Appended to stdin input if provided. **Deprecated:** Use positional arguments instead.        |
-| `--prompt-interactive`           | `-i`  | string  | -         | Execute prompt and continue in interactive mode                                                            |
-| `--sandbox`                      | `-s`  | boolean | `false`   | Run in a sandboxed environment for safer execution                                                         |
-| `--approval-mode`                | -     | string  | `default` | Approval mode for tool execution. Choices: `default`, `auto_edit`, `yolo`                                  |
-| `--yolo`                         | `-y`  | boolean | `false`   | **Deprecated.** Auto-approve all actions. Use `--approval-mode=yolo` instead.                              |
-| `--experimental-acp`             | -     | boolean | -         | Start in ACP (Agent Code Pilot) mode. **Experimental feature.**                                            |
-| `--experimental-zed-integration` | -     | boolean | -         | Run in Zed editor integration mode. **Experimental feature.**                                              |
-| `--allowed-mcp-server-names`     | -     | array   | -         | Allowed MCP server names (comma-separated or multiple flags)                                               |
-| `--allowed-tools`                | -     | array   | -         | Tools that are allowed to run without confirmation (comma-separated or multiple flags)                     |
-| `--extensions`                   | `-e`  | array   | -         | List of extensions to use. If not provided, all extensions are enabled (comma-separated or multiple flags) |
-| `--list-extensions`              | `-l`  | boolean | -         | List all available extensions and exit                                                                     |
-| `--resume`                       | `-r`  | string  | -         | Resume a previous session. Use `"latest"` for most recent or index number (e.g. `--resume 5`)              |
-| `--list-sessions`                | -     | boolean | -         | List available sessions for the current project and exit                                                   |
-| `--delete-session`               | -     | string  | -         | Delete a session by index number (use `--list-sessions` to see available sessions)                         |
-| `--include-directories`          | -     | array   | -         | Additional directories to include in the workspace (comma-separated or multiple flags)                     |
-| `--screen-reader`                | -     | boolean | -         | Enable screen reader mode for accessibility                                                                |
-| `--output-format`                | `-o`  | string  | `text`    | The format of the CLI output. Choices: `text`, `json`, `stream-json`                                       |
+| 옵션                             | 별칭 | 유형    | 기본값    | 설명                                                                                                                  |
+| -------------------------------- | ---- | ------- | --------- | --------------------------------------------------------------------------------------------------------------------- |
+| `--debug`                        | `-d` | boolean | `false`   | 자세한 로깅이 있는 디버그 모드로 실행                                                                                 |
+| `--version`                      | `-v` | -       | -         | CLI 버전 번호를 표시하고 종료                                                                                         |
+| `--help`                         | `-h` | -       | -         | 도움말 정보 표시                                                                                                      |
+| `--model`                        | `-m` | string  | `auto`    | 사용할 모델입니다. 사용 가능한 값은 [모델 선택](#model-selection)을 참조하세요.                                       |
+| `--prompt`                       | `-p` | string  | -         | 프롬프트 텍스트입니다. 제공된 경우 stdin 입력에 추가됩니다. **사용 중단됨:** 대신 위치 인수를 사용하세요.             |
+| `--prompt-interactive`           | `-i` | string  | -         | 프롬프트를 실행하고 대화형 모드로 계속합니다.                                                                         |
+| `--sandbox`                      | `-s` | boolean | `false`   | 더 안전한 실행을 위해 샌드박스 환경에서 실행합니다.                                                                   |
+| `--approval-mode`                | -    | string  | `default` | 도구 실행에 대한 승인 모드입니다. 선택: `default`, `auto_edit`, `yolo`                                                |
+| `--yolo`                         | `-y` | boolean | `false`   | **사용 중단됨.** 모든 작업을 자동 승인합니다. 대신 `--approval-mode=yolo`를 사용하세요.                               |
+| `--experimental-acp`             | -    | boolean | -         | ACP(Agent Code Pilot) 모드로 시작합니다. **실험적 기능입니다.**                                                       |
+| `--experimental-zed-integration` | -    | boolean | -         | Zed 편집기 통합 모드로 실행합니다. **실험적 기능입니다.**                                                             |
+| `--allowed-mcp-server-names`     | -    | array   | -         | 허용된 MCP 서버 이름(쉼표로 구분되거나 다중 플래그)                                                                   |
+| `--allowed-tools`                | -    | array   | -         | 확인 없이 실행이 허용되는 도구(쉼표로 구분되거나 다중 플래그)                                                         |
+| `--extensions`                   | `-e` | array   | -         | 사용할 확장 프로그램 목록입니다. 제공하지 않으면 모든 확장 프로그램이 활성화됩니다(쉼표로 구분되거나 다중 플래그).    |
+| `--list-extensions`              | `-l` | boolean | -         | 사용 가능한 모든 확장 프로그램을 나열하고 종료합니다.                                                                 |
+| `--resume`                       | `-r` | string  | -         | 이전 세션을 재개합니다. `"latest"`를 사용하여 가장 최근 세션을 사용하거나 인덱스 번호를 사용하세요(예: `--resume 5`). |
+| `--list-sessions`                | -    | boolean | -         | 현재 프로젝트의 사용 가능한 세션을 나열하고 종료합니다.                                                               |
+| `--delete-session`               | -    | string  | -         | 인덱스 번호로 세션을 삭제합니다(사용 가능한 세션을 보려면 `--list-sessions` 사용).                                    |
+| `--include-directories`          | -    | array   | -         | 작업 공간에 포함할 추가 디렉터리(쉼표로 구분되거나 다중 플래그)                                                       |
+| `--screen-reader`                | -    | boolean | -         | 접근성을 위해 스크린 리더 모드를 활성화합니다.                                                                        |
+| `--output-format`                | `-o` | string  | `text`    | CLI 출력 형식입니다. 선택: `text`, `json`, `stream-json`                                                              |
 
-## Model selection
+## 모델 선택
 
-The `--model` (or `-m`) flag allows you to specify which Gemini model to use.
-You can use either model aliases (user-friendly names) or concrete model names.
+`--model` (또는 `-m`) 플래그를 사용하여 사용할 Gemini 모델을 지정할 수 있습니다.
+모델 별칭(사용자 친화적인 이름) 또는 구체적인 모델 이름을 사용할 수 있습니다.
 
-### Model aliases
+### 모델 별칭
 
-These are convenient shortcuts that map to specific models:
+특정 모델에 매핑되는 편리한 단축키입니다:
 
-| Alias        | Resolves To                                | Description                                                                                                               |
-| ------------ | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| `auto`       | `gemini-2.5-pro` or `gemini-3-pro-preview` | **Default.** Resolves to the preview model if preview features are enabled, otherwise resolves to the standard pro model. |
-| `pro`        | `gemini-2.5-pro` or `gemini-3-pro-preview` | For complex reasoning tasks. Uses preview model if enabled.                                                               |
-| `flash`      | `gemini-2.5-flash`                         | Fast, balanced model for most tasks.                                                                                      |
-| `flash-lite` | `gemini-2.5-flash-lite`                    | Fastest model for simple tasks.                                                                                           |
+| 별칭         | 해결 대상                                    | 설명                                                                                                           |
+| ------------ | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `auto`       | `gemini-2.5-pro` 또는 `gemini-3-pro-preview` | **기본값.** 미리보기 기능이 활성화된 경우 미리보기 모델로 확인되고, 그렇지 않으면 표준 프로 모델로 확인됩니다. |
+| `pro`        | `gemini-2.5-pro` 또는 `gemini-3-pro-preview` | 복잡한 추론 작업용입니다. 활성화된 경우 미리보기 모델을 사용합니다.                                            |
+| `flash`      | `gemini-2.5-flash`                           | 대부분의 작업에 적합한 빠르고 균형 잡힌 모델입니다.                                                            |
+| `flash-lite` | `gemini-2.5-flash-lite`                      | 간단한 작업에 가장 빠른 모델입니다.                                                                            |
 
-## Extensions management
+## 확장 프로그램 관리
 
-| Command                                            | Description                                  | Example                                                                        |
-| -------------------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------ |
-| `gemini extensions install <source>`               | Install extension from Git URL or local path | `gemini extensions install https://github.com/user/my-extension`               |
-| `gemini extensions install <source> --ref <ref>`   | Install from specific branch/tag/commit      | `gemini extensions install https://github.com/user/my-extension --ref develop` |
-| `gemini extensions install <source> --auto-update` | Install with auto-update enabled             | `gemini extensions install https://github.com/user/my-extension --auto-update` |
-| `gemini extensions uninstall <name>`               | Uninstall one or more extensions             | `gemini extensions uninstall my-extension`                                     |
-| `gemini extensions list`                           | List all installed extensions                | `gemini extensions list`                                                       |
-| `gemini extensions update <name>`                  | Update a specific extension                  | `gemini extensions update my-extension`                                        |
-| `gemini extensions update --all`                   | Update all extensions                        | `gemini extensions update --all`                                               |
-| `gemini extensions enable <name>`                  | Enable an extension                          | `gemini extensions enable my-extension`                                        |
-| `gemini extensions disable <name>`                 | Disable an extension                         | `gemini extensions disable my-extension`                                       |
-| `gemini extensions link <path>`                    | Link local extension for development         | `gemini extensions link /path/to/extension`                                    |
-| `gemini extensions new <path>`                     | Create new extension from template           | `gemini extensions new ./my-extension`                                         |
-| `gemini extensions validate <path>`                | Validate extension structure                 | `gemini extensions validate ./my-extension`                                    |
+| 명령                                               | 설명                                          | 예시                                                                           |
+| -------------------------------------------------- | --------------------------------------------- | ------------------------------------------------------------------------------ |
+| `gemini extensions install <source>`               | Git URL 또는 로컬 경로에서 확장 프로그램 설치 | `gemini extensions install https://github.com/user/my-extension`               |
+| `gemini extensions install <source> --ref <ref>`   | 특정 브랜치/태그/커밋에서 설치                | `gemini extensions install https://github.com/user/my-extension --ref develop` |
+| `gemini extensions install <source> --auto-update` | 자동 업데이트가 활성화된 상태로 설치          | `gemini extensions install https://github.com/user/my-extension --auto-update` |
+| `gemini extensions uninstall <name>`               | 하나 이상의 확장 프로그램 제거                | `gemini extensions uninstall my-extension`                                     |
+| `gemini extensions list`                           | 설치된 모든 확장 프로그램 나열                | `gemini extensions list`                                                       |
+| `gemini extensions update <name>`                  | 특정 확장 프로그램 업데이트                   | `gemini extensions update my-extension`                                        |
+| `gemini extensions update --all`                   | 모든 확장 프로그램 업데이트                   | `gemini extensions update --all`                                               |
+| `gemini extensions enable <name>`                  | 확장 프로그램 활성화                          | `gemini extensions enable my-extension`                                        |
+| `gemini extensions disable <name>`                 | 확장 프로그램 비활성화                        | `gemini extensions disable my-extension`                                       |
+| `gemini extensions link <path>`                    | 개발용 로컬 확장 프로그램 연결                | `gemini extensions link /path/to/extension`                                    |
+| `gemini extensions new <path>`                     | 템플릿에서 새 확장 프로그램 생성              | `gemini extensions new ./my-extension`                                         |
+| `gemini extensions validate <path>`                | 확장 프로그램 구조 검증                       | `gemini extensions validate ./my-extension`                                    |
 
-See [Extensions Documentation](/docs/extensions) for more details.
+자세한 내용은 [확장 프로그램 문서](/docs/extensions)를 참조하세요.
 
-## MCP server management
+## MCP 서버 관리
 
-| Command                                                       | Description                     | Example                                                                                              |
-| ------------------------------------------------------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `gemini mcp add <name> <command>`                             | Add stdio-based MCP server      | `gemini mcp add github npx -y @modelcontextprotocol/server-github`                                   |
-| `gemini mcp add <name> <url> --transport http`                | Add HTTP-based MCP server       | `gemini mcp add api-server http://localhost:3000 --transport http`                                   |
-| `gemini mcp add <name> <command> --env KEY=value`             | Add with environment variables  | `gemini mcp add slack node server.js --env SLACK_TOKEN=xoxb-xxx`                                     |
-| `gemini mcp add <name> <command> --scope user`                | Add with user scope             | `gemini mcp add db node db-server.js --scope user`                                                   |
-| `gemini mcp add <name> <command> --include-tools tool1,tool2` | Add with specific tools         | `gemini mcp add github npx -y @modelcontextprotocol/server-github --include-tools list_repos,get_pr` |
-| `gemini mcp remove <name>`                                    | Remove an MCP server            | `gemini mcp remove github`                                                                           |
-| `gemini mcp list`                                             | List all configured MCP servers | `gemini mcp list`                                                                                    |
+| 명령                                                          | 설명                      | 예시                                                                                                 |
+| ------------------------------------------------------------- | ------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `gemini mcp add <name> <command>`                             | stdio 기반 MCP 서버 추가  | `gemini mcp add github npx -y @modelcontextprotocol/server-github`                                   |
+| `gemini mcp add <name> <url> --transport http`                | HTTP 기반 MCP 서버 추가   | `gemini mcp add api-server http://localhost:3000 --transport http`                                   |
+| `gemini mcp add <name> <command> --env KEY=value`             | 환경 변수 포함하여 추가   | `gemini mcp add slack node server.js --env SLACK_TOKEN=xoxb-xxx`                                     |
+| `gemini mcp add <name> <command> --scope user`                | 사용자 범위로 추가        | `gemini mcp add db node db-server.js --scope user`                                                   |
+| `gemini mcp add <name> <command> --include-tools tool1,tool2` | 특정 도구 포함하여 추가   | `gemini mcp add github npx -y @modelcontextprotocol/server-github --include-tools list_repos,get_pr` |
+| `gemini mcp remove <name>`                                    | MCP 서버 제거             | `gemini mcp remove github`                                                                           |
+| `gemini mcp list`                                             | 구성된 모든 MCP 서버 나열 | `gemini mcp list`                                                                                    |
 
-See [MCP Server Integration](/docs/tools/mcp-server) for more details.
+자세한 내용은 [MCP 서버 통합](/docs/tools/mcp-server)을 참조하세요.
 
-## Skills management
+## 기술 관리
 
-| Command                          | Description                           | Example                                           |
-| -------------------------------- | ------------------------------------- | ------------------------------------------------- |
-| `gemini skills list`             | List all discovered agent skills      | `gemini skills list`                              |
-| `gemini skills install <source>` | Install skill from Git, path, or file | `gemini skills install https://github.com/u/repo` |
-| `gemini skills link <path>`      | Link local agent skills via symlink   | `gemini skills link /path/to/my-skills`           |
-| `gemini skills uninstall <name>` | Uninstall an agent skill              | `gemini skills uninstall my-skill`                |
-| `gemini skills enable <name>`    | Enable an agent skill                 | `gemini skills enable my-skill`                   |
-| `gemini skills disable <name>`   | Disable an agent skill                | `gemini skills disable my-skill`                  |
-| `gemini skills enable --all`     | Enable all skills                     | `gemini skills enable --all`                      |
-| `gemini skills disable --all`    | Disable all skills                    | `gemini skills disable --all`                     |
+| 명령                             | 설명                                       | 예시                                              |
+| -------------------------------- | ------------------------------------------ | ------------------------------------------------- |
+| `gemini skills list`             | 발견된 모든 에이전트 기술 나열             | `gemini skills list`                              |
+| `gemini skills install <source>` | Git, 경로 또는 파일에서 기술 설치          | `gemini skills install https://github.com/u/repo` |
+| `gemini skills link <path>`      | 심볼릭 링크를 통해 로컬 에이전트 기술 연결 | `gemini skills link /path/to/my-skills`           |
+| `gemini skills uninstall <name>` | 에이전트 기술 제거                         | `gemini skills uninstall my-skill`                |
+| `gemini skills enable <name>`    | 에이전트 기술 활성화                       | `gemini skills enable my-skill`                   |
+| `gemini skills disable <name>`   | 에이전트 기술 비활성화                     | `gemini skills disable my-skill`                  |
+| `gemini skills enable --all`     | 모든 기술 활성화                           | `gemini skills enable --all`                      |
+| `gemini skills disable --all`    | 모든 기술 비활성화                         | `gemini skills disable --all`                     |
 
-See [Agent Skills Documentation](/docs/cli/skills) for more details.
+자세한 내용은 [에이전트 기술 문서](/docs/cli/skills)를 참조하세요.

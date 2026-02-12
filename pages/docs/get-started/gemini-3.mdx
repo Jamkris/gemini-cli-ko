@@ -1,101 +1,77 @@
-# Gemini 3 Pro and Gemini 3 Flash on Gemini CLI
+# Gemini CLI의 Gemini 3 Pro 및 Gemini 3 Flash
 
-Gemini 3 Pro and Gemini 3 Flash are available on Gemini CLI for all users!
+Gemini 3 Pro 및 Gemini 3 Flash를 이제 모든 사용자가 Gemini CLI에서 사용할 수 있습니다!
 
-## How to get started with Gemini 3 on Gemini CLI
+## Gemini CLI에서 Gemini 3 시작하기
 
-Get started by upgrading Gemini CLI to the latest version:
+Gemini CLI를 최신 버전으로 업그레이드하여 시작하세요.
 
 ```bash
 npm install -g @google/gemini-cli@latest
 ```
 
-After you’ve confirmed your version is 0.21.1 or later:
+버전이 0.21.1 이상인지 확인한 후:
 
-1. Use the `/settings` command in Gemini CLI.
-2. Toggle **Preview Features** to `true`.
-3. Run `/model` and select **Auto (Gemini 3)**.
+1. Gemini CLI에서 `/settings` 명령을 사용합니다.
+2. **Preview Features**를 `true`로 전환합니다.
+3. `/model`을 실행하고 **Auto (Gemini 3)**를 선택합니다.
 
-For more information, see [Gemini CLI model selection](/docs/cli/model).
+자세한 내용은 [Gemini CLI 모델 선택](/docs/cli/model)을 참조하세요.
 
-### Usage limits and fallback
+### 사용 한도 및 대체(fallback)
 
-Gemini CLI will tell you when you reach your Gemini 3 Pro daily usage limit.
-When you encounter that limit, you’ll be given the option to switch to Gemini
-2.5 Pro, upgrade for higher limits, or stop. You’ll also be told when your usage
-limit resets and Gemini 3 Pro can be used again.
+Gemini CLI는 Gemini 3 Pro 일일 사용 한도에 도달하면 알려줍니다.
+한도에 도달하면 Gemini 2.5 Pro로 전환하거나, 더 높은 한도로 업그레이드하거나, 중지할 수 있는 옵션이 제공됩니다. 또한 사용 한도가 재설정되고 Gemini 3 Pro를 다시 사용할 수 있는 시점도 알려줍니다.
 
-Similarly, when you reach your daily usage limit for Gemini 2.5 Pro, you’ll see
-a message prompting fallback to Gemini 2.5 Flash.
+마찬가지로 Gemini 2.5 Pro의 일일 사용 한도에 도달하면 Gemini 2.5 Flash로 대체를 묻는 메시지가 표시됩니다.
 
-### Capacity errors
+### 용량 오류
 
-There may be times when the Gemini 3 Pro model is overloaded. When that happens,
-Gemini CLI will ask you to decide whether you want to keep trying Gemini 3 Pro
-or fallback to Gemini 2.5 Pro.
+Gemini 3 Pro 모델이 과부하되는 경우가 있을 수 있습니다. 이런 경우,
+Gemini CLI는 Gemini 3 Pro를 계속 시도할지 아니면 Gemini 2.5 Pro로 대체할지 결정하도록 요청합니다.
 
-> **Note:** The **Keep trying** option uses exponential backoff, in which Gemini
-> CLI waits longer between each retry, when the system is busy. If the retry
-> doesn't happen immediately, please wait a few minutes for the request to
-> process.
+> **참고:** **Keep trying** 옵션은 시스템이 사용 중일 때 각 재시도 사이에 대기 시간을 늘리는 지수 백오프를 사용합니다. 재시도가 즉시 발생하지 않는 경우 요청이 처리될 때까지 몇 분 정도 기다리세요.
 
-### Model selection and routing types
+### 모델 선택 및 라우팅 유형
 
-When using Gemini CLI, you may want to control how your requests are routed
-between models. By default, Gemini CLI uses **Auto** routing.
+Gemini CLI를 사용할 때 요청이 모델 간에 라우팅되는 방식을 제어하고 싶을 수 있습니다. 기본적으로 Gemini CLI는 **Auto** 라우팅을 사용합니다.
 
-When using Gemini 3 Pro, you may want to use Auto routing or Pro routing to
-manage your usage limits:
+Gemini 3 Pro를 사용할 때 사용 한도를 관리하기 위해 Auto 라우팅 또는 Pro 라우팅을 사용할 수 있습니다.
 
-- **Auto routing:** Auto routing first determines whether a prompt involves a
-  complex or simple operation. For simple prompts, it will automatically use
-  Gemini 2.5 Flash. For complex prompts, if Gemini 3 Pro is enabled, it will use
-  Gemini 3 Pro; otherwise, it will use Gemini 2.5 Pro.
-- **Pro routing:** If you want to ensure your task is processed by the most
-  capable model, use `/model` and select **Pro**. Gemini CLI will prioritize the
-  most capable model available, including Gemini 3 Pro if it has been enabled.
+- **Auto 라우팅:** Auto 라우팅은 먼저 프롬프트에 복잡한 작업이 포함되는지 아니면 간단한 작업이 포함되는지 결정합니다. 간단한 프롬프트의 경우 자동으로 Gemini 2.5 Flash를 사용합니다. 복잡한 프롬프트의 경우 Gemini 3 Pro가 활성화되어 있으면 Gemini 3 Pro를 사용하고, 그렇지 않으면 Gemini 2.5 Pro를 사용합니다.
+- **Pro 라우팅:** 작업이 가장 유능한 모델에서 처리되도록 하려면 `/model`을 사용하고 **Pro**를 선택하세요. Gemini CLI는 활성화된 경우 Gemini 3 Pro를 포함하여 사용 가능한 가장 유능한 모델을 우선시합니다.
 
-To learn more about selecting a model and routing, refer to
-[Gemini CLI Model Selection](/docs/cli/model).
+모델 선택 및 라우팅에 대해 자세히 알아보려면 [Gemini CLI 모델 선택](/docs/cli/model)을 참조하세요.
 
-## How to enable Gemini 3 with Gemini CLI on Gemini Code Assist
+## Gemini Code Assist에서 Gemini CLI로 Gemini 3 활성화하기
 
-If you're using Gemini Code Assist Standard or Gemini Code Assist Enterprise,
-enabling Gemini 3 Pro on Gemini CLI requires configuring your release channels.
-Using Gemini 3 Pro will require two steps: administrative enablement and user
-enablement.
+Gemini Code Assist Standard 또는 Gemini Code Assist Enterprise를 사용하는 경우, Gemini CLI에서 Gemini 3 Pro를 활성화하려면 출시 채널을 구성해야 합니다.
+Gemini 3 Pro를 사용하려면 관리자 활성화와 사용자 활성화라는 두 단계를 거쳐야 합니다.
 
-To learn more about these settings, refer to
-[Configure Gemini Code Assist release channels](https://developers.google.com/gemini-code-assist/docs/configure-release-channels).
+이러한 설정에 대해 자세히 알아보려면 [Gemini Code Assist 출시 채널 구성](https://developers.google.com/gemini-code-assist/docs/configure-release-channels)을 참조하세요.
 
-### Administrator instructions
+### 관리자 지침
 
-An administrator with **Google Cloud Settings Admin** permissions must follow
-these directions:
+**Google Cloud Settings Admin** 권한이 있는 관리자는 다음 지침을 따라야 합니다.
 
-- Navigate to the Google Cloud Project you're using with Gemini CLI for Code
-  Assist.
-- Go to **Admin for Gemini** > **Settings**.
-- Under **Release channels for Gemini Code Assist in local IDEs** select
-  **Preview**.
-- Click **Save changes**.
+- Gemini CLI for Code Assist와 함께 사용 중인 Google Cloud 프로젝트로 이동합니다.
+- **Admin for Gemini** > **Settings**로 이동합니다.
+- **Release channels for Gemini Code Assist in local IDEs**에서 **Preview**를 선택합니다.
+- **Save changes**를 클릭합니다.
 
-### User instructions
+### 사용자 지침
 
-Wait for two to three minutes after your administrator has enabled **Preview**,
-then:
+관리자가 **Preview**를 활성화한 후 2~3분 정도 기다렸다가 다음을 수행합니다.
 
-- Open Gemini CLI.
-- Use the `/settings` command.
-- Set **Preview Features** to `true`.
+- Gemini CLI를 엽니다.
+- `/settings` 명령을 사용합니다.
+- **Preview Features**를 `true`로 설정합니다.
 
-Restart Gemini CLI and you should have access to Gemini 3.
+Gemini CLI를 다시 시작하면 Gemini 3에 액세스할 수 있습니다.
 
-## Need help?
+## 도움이 필요하신가요?
 
-If you need help, we recommend searching for an existing
-[GitHub issue](https://github.com/google-gemini/gemini-cli/issues). If you
-cannot find a GitHub issue that matches your concern, you can
-[create a new issue](https://github.com/google-gemini/gemini-cli/issues/new/choose).
-For comments and feedback, consider opening a
+도움이 필요하면 기존 [GitHub 이슈](https://github.com/google-gemini/gemini-cli/issues)를 검색하는 것이 좋습니다.
+문제가 되는 GitHub 이슈를 찾을 수 없는 경우 [새 이슈를 생성](https://github.com/google-gemini/gemini-cli/issues/new/choose)할 수 있습니다.
+의견이나 피드백이 있는 경우
 [GitHub discussion](https://github.com/google-gemini/gemini-cli/discussions).
